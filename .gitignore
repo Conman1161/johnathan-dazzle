@@ -117,18 +117,8 @@ dist
 .pnp.*
 
 #configs
-commmands/git/config/config.json
 config.json
-
-#temp folder
-/temp
 
 #vscode
 /vscode
 /.vscode
-
-#example command
-example.js
-
-#characters
-/commands/characters/sheets/
