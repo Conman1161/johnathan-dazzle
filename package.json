@@ -10,7 +10,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "-": "0.0.1",
     "@pm2/io": "^4.3.5",
     "dice-expression-evaluator": "^0.1.2",
     "discord.js": "^12.4.0",
