@@ -2,6 +2,8 @@
 
 Welcome to the repository for Johnathan Dazzle, written by [@Conman1161](https://twitter.com/conman1161)! Dazzle is a Discord bot focused on rolling dice for tabletop RPGs.
 
+You can join the support server, which has the bot invite link, [here](https://discord.gg/ZUJAMnh)
+
 # Table of Contents
 
 - [Commands](#Commands)
