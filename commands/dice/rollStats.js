@@ -55,11 +55,6 @@ class RollStatsCommand extends commando.Command {
         .attachFiles([attachment])
         .setThumbnail("attachment://4d6.png");
 
-      embed.addField(
-        `Argument Effects`,
-        `70: Sets the minimum threshold for the sum of your statblock to 70\nd20: Rolls 6d20 for your statblock\ncth: Rolls a statblock for Call of Cthulhu`
-      );
-
       if (message.channel.type == "dm") {
         embed.setAuthor(`${message.author.username}'s Stat Block`, message.author.displayAvatarURL({ dynamic: true }));
       } else {
