@@ -1,6 +1,6 @@
 {
   "name": "johnathan-dazzle",
-  "version": "1.7.5",
+  "version": "1.7.6",
   "description": "A Discord bot for rolling dice",
   "main": "index.js",
   "scripts": {
@@ -15,6 +15,7 @@
     "discord.js": "^12.4.0",
     "discord.js-commando": "github:discordjs/Commando",
     "fs-extra": "^9.0.0",
+    "owoifyx": "^1.0.1",
     "request": "^2.88.2",
     "underscore": "^1.9.1"
   }
