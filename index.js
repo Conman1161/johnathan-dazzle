@@ -1,28 +1,46 @@
 const Commando = require("discord.js-commando");
 const Config = require("./config.json");
+const Discord = require('discord.js');
+const Client = new Discord.Client();
 const Bot = new Commando.Client({
   owner: Config.owner
 });
 
 const io = require('@pm2/io');
+const { GatewayServer, SlashCreator } = require("slash-create");
 var guildCount = io.metric({
   name: 'Guild count: '
 });
 
-Bot.registry.registerDefaultTypes();
 
-Bot.registry.registerGroup("characters", "Characters");
-Bot.registry.registerGroup("dice", "Dice");
-Bot.registry.registerGroup("dnd", "DnD");
-Bot.registry.registerGroup("general", "General");
-Bot.registry.registerCommandsIn(__dirname + "/commands");
-
-Bot.registry.registerDefaultGroups();
-Bot.registry.registerDefaultCommands({
-  help: false,
-  unknownCommand: false,
-  eval: false,
+const Creator = new SlashCreator({
+  applicationID: Config.appID,
+  publicKey: Config.publicKey,
+  token: Config.token
 });
+Creator.registerCommandsIn(`${__dirname}/commands/temp`).syncCommands();
+
+Creator.withServer(
+  new GatewayServer(
+    (handler) => Bot.ws.on('INTERACTION_CREATE', handler)
+  )
+);
+
+
+// Bot.registry.registerDefaultTypes(`${__dirname}/commands"`);
+
+// Bot.registry.registerGroup("characters", "Characters");
+// Bot.registry.registerGroup("dice", "Dice");
+// Bot.registry.registerGroup("dnd", "DnD");
+// Bot.registry.registerGroup("general", "General");
+// //Bot.registry.registerCommandsIn(`${__dirname}/commands`);
+
+// Bot.registry.registerDefaultGroups();
+// Bot.registry.registerDefaultCommands({
+//   help: false,
+//   unknownCommand: false,
+//   eval: false,
+// });
 
 
 Bot.on("ready", function () {

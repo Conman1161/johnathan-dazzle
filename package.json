@@ -17,6 +17,7 @@
     "fs-extra": "^9.0.0",
     "owoifyx": "^1.0.1",
     "request": "^2.88.2",
+    "slash-create": "^2.1.0",
     "underscore": "^1.9.1"
   }
 }

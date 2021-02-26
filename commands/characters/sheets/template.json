@@ -1,0 +1,136 @@
+{
+   "Name": "",
+   "Race": "",
+   "Speed": 0,
+   "Flight": 0,
+   "Swim": 0,
+   "Classes": [],
+   "Alignment": "",
+   "TotalLevel": 0,
+   "MaxHealth": 0,
+   "Strength": 0,
+   "Dexterity": 0,
+   "Intelligence": 0,
+   "Constitution": 0,
+   "Wisdom": 0,
+   "Charisma": 0,
+   "NaturalAC": 10,
+   "Saves":
+   {
+      "Strength": false,
+      "Dexterity": false,
+      "Constitution": false,
+      "Intelligence": false,
+      "Wisdom": false,
+      "Charisma": false
+   },
+   "Skills":
+   {
+      "Acrobatics": {
+         "Half": false,
+         "Proficient": false, 
+         "Expertise": false
+      },
+      "Animal Handling": {
+         "Half": false,
+         "Proficient": false, 
+         "Expertise": false
+      },
+      "Arcana": {
+         "Half": false,
+         "Proficient": false, 
+         "Expertise": false
+      },
+      "Athletics": {
+         "Half": false,
+         "Proficient": false, 
+         "Expertise": false
+      },
+      "Deception": {
+         "Half": false,
+         "Proficient": false, 
+         "Expertise": false
+      },
+      "History": {
+         "Half": false,
+         "Proficient": false, 
+         "Expertise": false
+      },
+      "Insight": {
+         "Half": false,
+         "Proficient": false, 
+         "Expertise": false
+      },
+      "Intimidation": {
+         "Half": false,
+         "Proficient": false, 
+         "Expertise": false
+      },
+      "Investigation": {
+         "Half": false,
+         "Proficient": false, 
+         "Expertise": false
+      },
+      "Medicine": {
+         "Half": false,
+         "Proficient": false, 
+         "Expertise": false
+      },
+      "Nature": {
+         "Half": false,
+         "Proficient": false, 
+         "Expertise": false
+      },
+      "Perception": {
+         "Half": false,
+         "Proficient": false, 
+         "Expertise": false
+      },
+      "Performance": {
+         "Half": false,
+         "Proficient": false, 
+         "Expertise": false
+      },
+      "Persuasion": {
+         "Half": false,
+         "Proficient": false, 
+         "Expertise": false
+      },
+      "Religion": {
+         "Half": false,
+         "Proficient": false, 
+         "Expertise": false
+      },
+      "Sleight of Hand": {
+         "Half": false,
+         "Proficient": false, 
+         "Expertise": false
+      },
+      "Stealth": {
+         "Half": false,
+         "Proficient": false, 
+         "Expertise": false
+      },
+      "Survival": {
+         "Half": false,
+         "Proficient": false, 
+         "Expertise": false
+      }
+   },
+   "Proficiencies":{
+      "Armor":[],
+      "Weapons":[],
+      "Tools":[]
+   },
+   "Languages":[],
+   "RaceFeatures":[],
+   "ClassFeatures":[],
+   "PassivePerception": 0,
+   "EmbedColor": "",
+   "tashaASI": [],
+   "tashaLanguage": 0,
+   "XP": 0,
+   "default": false,
+   "owner": "",
+   "completed": false
+}
