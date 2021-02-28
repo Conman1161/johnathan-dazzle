@@ -22,7 +22,6 @@ class RollCommand extends SlashCommand {
   }
 
   async run(ctx) {
-    console.log(ctx);
     //return `Hello, ${ctx.user.username}`;
     //message.channel.startTyping();
     var args = ctx.options.dice || "d20";
@@ -88,7 +87,6 @@ class RollCommand extends SlashCommand {
           `You rolled **${diceRoll.roll}**`
         );
       }
-      console.log(embed);
       ctx.send({
         embeds: [embed],
         includeSource: true
