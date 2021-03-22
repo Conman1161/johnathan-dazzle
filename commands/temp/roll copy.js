@@ -4,7 +4,7 @@ const dice = require("dice-expression-evaluator");
 const errorMod = require("../modules/error-slash");
 const attachPath = `${process.cwd()}/images/d20s/non-transp/`;
 
-const { SlashCommand, CommandOptionType, Message } = require('slash-create');
+const { SlashCommand, CommandOptionType } = require('slash-create');
 
 class RollCommand extends SlashCommand {
   constructor(creator) {

@@ -39,6 +39,12 @@ class CharacterCommand extends SlashCommand {
                required: true
             },
             {
+               name: 'subclass',
+               description: 'If you character is high enough level, what is the subclass for their primary class?',
+               type: CommandOptionType.STRING,
+               required: false
+            },
+            {
                name: 'strength',
                description: 'What is your character\'s Strength score before ANY modifiers?',
                type: CommandOptionType.INTEGER,
@@ -74,6 +80,60 @@ class CharacterCommand extends SlashCommand {
                type: CommandOptionType.INTEGER,
                required: true
             },
+            {
+               name: 'second_class',
+               description: 'What is your character\'s secondary class, if they have one?',
+               type: CommandOptionType.STRING,
+               required: false
+            },
+            {
+               name: 'second_class_level',
+               description: 'What is your character\'s level in their secondary class, if they have one?',
+               type: CommandOptionType.INTEGER,
+               required: false
+            },
+            {
+               name: 'second_subclass',
+               description: 'What is your character\'s subclass for their second class, if they have one.',
+               type: CommandOptionType.STRING,
+               required: false
+            },
+            {
+               name: 'racial_features',
+               description: 'List any racial features here if you are using a homebrew or non-supported race.',
+               type: CommandOptionType.STRING,
+               required: false
+            },
+            {
+               name: 'class_features',
+               description: 'List any class features here if you are using a homebrew or non-supported class.',
+               type: CommandOptionType.STRING,
+               required: false
+            },
+            {
+               name: 'tool_proficiencies',
+               description: 'List any additional tool proficiencies here or if you are using homebrew or non-supported content.',
+               type: CommandOptionType.STRING,
+               required: false
+            },
+            {
+               name: 'languages',
+               description: 'List any languages your character knows here if you are using homebrew or non-supported content.',
+               type: CommandOptionType.STRING,
+               required: false
+            },
+            {
+               name: 'alignments',
+               description: 'What is your character\'s alignment?',
+               type: CommandOptionType.STRING,
+               required: false
+            },
+            {
+               name: 'background',
+               description: 'What is your character\'s background?',
+               type: CommandOptionType.STRING,
+               required: false
+            },
             ]
          },
          {
@@ -100,6 +160,8 @@ class CharacterCommand extends SlashCommand {
 
    async run(ctx) {
       console.log(ctx);
+      let test = 1 + 2333;
+      console.log(test);
    }
 }
 
