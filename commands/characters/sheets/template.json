@@ -4,9 +4,14 @@
    "Speed": 0,
    "Flight": 0,
    "Swim": 0,
-   "Classes": [],
+   "Classes": [
+      {
+         "name": "",
+         "level":"",
+         "subclass":""
+      }
+],
    "Alignment": "",
-   "TotalLevel": 0,
    "MaxHealth": 0,
    "Strength": 0,
    "Dexterity": 0,
@@ -117,7 +122,8 @@
          "Expertise": false
       }
    },
-   "Proficiencies":{
+   "Proficiencies":
+   {
       "Armor":[],
       "Weapons":[],
       "Tools":[]
@@ -131,6 +137,5 @@
    "tashaLanguage": 0,
    "XP": 0,
    "default": false,
-   "owner": "",
-   "completed": false
+   "owner": ""
 }
