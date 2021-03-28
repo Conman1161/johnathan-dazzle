@@ -4,13 +4,7 @@
    "Speed": 0,
    "Flight": 0,
    "Swim": 0,
-   "Classes": [
-      {
-         "name": "",
-         "level":"",
-         "subclass":""
-      }
-],
+   "Classes": [],
    "Alignment": "",
    "MaxHealth": 0,
    "Strength": 0,
@@ -133,9 +127,6 @@
    "ClassFeatures":[],
    "PassivePerception": 0,
    "EmbedColor": "",
-   "tashaASI": [],
-   "tashaLanguage": 0,
-   "XP": 0,
    "default": false,
    "owner": ""
 }

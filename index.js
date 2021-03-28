@@ -28,6 +28,7 @@ Creator.withServer(
 
 Creator.on('debug', m => console.log('slash-create debug:', m));
 Creator.on('warn', m => console.log('slash-create warn:', m));
+Creator.on('error', m => console.error('slash-create error: ', m));
 
 
 // Bot.registry.registerDefaultTypes(`${__dirname}/commands"`);
