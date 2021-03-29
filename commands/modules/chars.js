@@ -1911,12 +1911,12 @@ function setSubclassFeatures(sheet) {
    return sheet;
 }
 
-function setFeatFeatures() {
-
+function setFeatFeatures(sheet) {
+   return sheet;
 }
 
-function setBackgroundFeatures() {
-
+function setBackgroundFeatures(sheet) {
+   return sheet;
 }
 
 function setAllFeatures(sheet) {

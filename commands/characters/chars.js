@@ -1,4 +1,4 @@
-const { MessageEmbed, ColorResolvable } = require("discord.js");
+const { MessageEmbed, resolveColor } = require("discord.js");
 const { SlashCommand, CommandOptionType } = require("slash-create");
 const fs = require('fs');
 const errorMod = require("../modules/error");
@@ -211,11 +211,10 @@ class CharacterCommand extends SlashCommand {
           newSheet.Wisdom = ctx.options.add.wisdom;
           newSheet.Charisma = ctx.options.add.charisma;
           newSheet.owner = ctx.user.id;
-          newSheet.EmbedColor = ColorResolvable(ctx.options.add.embed_color);
-          newSheet.Alignment = ctx.options.add.alignment;
-          newSheet.Languages.push(ctx.options.add.languages.split(',').forEach(element => {
-            return element;
-          }) || "");
+          newSheet.EmbedColor = resolveColor(ctx.options.add.embed_color) || "";
+          newSheet.Alignment = ctx.options.add.alignment || "";
+          newSheet.Languages = ctx.options.add.languages ? newSheet.Languages.concat(ctx.options.add.languages.split(',')) : [];
+          // download linked image 
           newSheet = charMod.setAllFeatures(newSheet); // Race, Class, Subclass, Background, Feats(?)
           break;
       }
