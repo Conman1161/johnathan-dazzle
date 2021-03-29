@@ -40,4 +40,4 @@ class BotInfoCommand extends commando.Command {
   }
 }
 
-module.exports = BotInfoCommand;
+// module.exports = BotInfoCommand;

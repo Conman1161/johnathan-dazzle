@@ -88,4 +88,4 @@ class MinCommand extends commando.Command {
   }
 }
 
-module.exports = MinCommand;
+// module.exports = MinCommand;

@@ -56,4 +56,4 @@ class EncounterCommand extends commando.Command {
    }
 }
 
-module.exports = EncounterCommand;
+// module.exports = EncounterCommand;

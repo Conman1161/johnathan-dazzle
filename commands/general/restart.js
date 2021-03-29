@@ -23,4 +23,4 @@ class RestartCommand extends commando.Command {
   }
 }
 
-module.exports = RestartCommand;
+// module.exports = RestartCommand;

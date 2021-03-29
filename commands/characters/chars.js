@@ -1,5 +1,6 @@
-const { MessageEmbed } = require("discord.js");
+const { MessageEmbed, ColorResolvable } = require("discord.js");
 const { SlashCommand, CommandOptionType } = require("slash-create");
+const fs = require('fs');
 const errorMod = require("../modules/error");
 const charMod = require("../modules/chars");
 const template = require("../characters/sheets/template.json");
@@ -84,6 +85,18 @@ class CharacterCommand extends SlashCommand {
             },
             {
               type: CommandOptionType.STRING,
+              name: "avatar",
+              description: "A link to your character's portrait. MUST BE A URL TO AN IMAGE TO BE ACCEPTED",
+              required: false
+            },
+            {
+              type: CommandOptionType.STRING,
+              name: "embed_color",
+              description: "What color do you want your embeds to be?",
+              required: false
+            },
+            {
+              type: CommandOptionType.STRING,
               name: "background",
               description: "Your character's background",
               required: false,
@@ -138,6 +151,40 @@ class CharacterCommand extends SlashCommand {
             },
           ],
         },
+        {
+          type: CommandOptionType.SUB_COMMAND,
+          name: "list",
+          description: "Get a list of all the characters you currently have!",
+          required: false
+        },
+        {
+          type: CommandOptionType.SUB_COMMAND,
+          name: "delete",
+          description: "Delete one of your characters. CANNOT BE UNDONE!",
+          required: false,
+          options: [
+            {
+              type: CommandOptionType.STRING,
+              name: "name",
+              description: "Name of the character you want to delete. CANNOT BE UNDONE!",
+              required: true
+            }
+          ]
+        },
+        {
+          type: CommandOptionType.SUB_COMMAND,
+          name: "edit",
+          description: "Edit one of your characters",
+          required: false,
+          options: [
+            {
+              type: CommandOptionType.STRING,
+              name: "name",
+              description: "Name of the character you want to edit.",
+              required: true
+            }
+          ]
+        }
       ],
     });
     this.filePath = __filename;
@@ -145,6 +192,7 @@ class CharacterCommand extends SlashCommand {
 
   async run(ctx) {
     try {
+      await ctx.defer();
       let subCommand = Object.entries(ctx.options)[0][0];
       switch (subCommand) {
         case "add":
@@ -160,14 +208,20 @@ class CharacterCommand extends SlashCommand {
           newSheet.Dexterity = ctx.options.add.dexterity;
           newSheet.Intelligence = ctx.options.add.intelligence;
           newSheet.Constitution = ctx.options.add.constitution;
+          newSheet.Wisdom = ctx.options.add.wisdom;
           newSheet.Charisma = ctx.options.add.charisma;
           newSheet.owner = ctx.user.id;
-          newSheet = charMod.setAllFeatures(newSheet);
+          newSheet.EmbedColor = ColorResolvable(ctx.options.add.embed_color);
+          newSheet.Alignment = ctx.options.add.alignment;
+          newSheet.Languages.push(ctx.options.add.languages.split(',').forEach(element => {
+            return element;
+          }) || "");
+          newSheet = charMod.setAllFeatures(newSheet); // Race, Class, Subclass, Background, Feats(?)
           break;
       }
       return "finished!";
     } catch (err) {
-      console.error(err);
+      console.log(err);
     }
   }
 }

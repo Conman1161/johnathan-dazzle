@@ -70,7 +70,7 @@ function getSheetEmbed(sheet) {
       )
       .attachFiles([
          new MessageAttachment(
-            `${sheetsPath}/${sheet.owner}/${sheet.name.toLowerCase()}/icon.png`,
+            `${sheetsPath}/${sheet.owner}/${sheet.Name.toLowerCase()}/icon.png`,
             "icon.png"
          ),
       ])
@@ -1908,11 +1908,22 @@ function setSubclassFeatures(sheet) {
             break;
       }
    }
+   return sheet;
+}
+
+function setFeatFeatures() {
+
+}
+
+function setBackgroundFeatures() {
+
 }
 
 function setAllFeatures(sheet) {
    sheet = setClassFeatures(sheet);
    sheet = setSubclassFeatures(sheet);
+   sheet = setFeatFeatures(sheet);
+   sheet = setBackgroundFeatures(sheet);
    return setRaceFeatures(sheet);
 }
 

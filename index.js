@@ -18,7 +18,11 @@ const Creator = new SlashCreator({
   publicKey: Config.publicKey,
   token: Config.token
 });
-Creator.registerCommandsIn(`${__dirname}/commands/temp`).syncCommands();
+Creator.registerCommandsIn(`${__dirname}/commands/characters`).syncCommands();
+Creator.registerCommandsIn(`${__dirname}/commands/dice`).syncCommands();
+Creator.registerCommandsIn(`${__dirname}/commands/dnd`).syncCommands();
+Creator.registerCommandsIn(`${__dirname}/commands/general`).syncCommands();
+
 
 Creator.withServer(
   new GatewayServer(

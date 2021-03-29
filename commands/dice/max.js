@@ -87,4 +87,4 @@ class MaxCommand extends commando.Command {
   }
 }
 
-module.exports = MaxCommand;
+// module.exports = MaxCommand;

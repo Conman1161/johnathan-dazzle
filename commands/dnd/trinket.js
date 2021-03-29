@@ -51,4 +51,4 @@ class TrinketCommand extends commando.Command {
   }
 }
 
-module.exports = TrinketCommand;
+// module.exports = TrinketCommand;

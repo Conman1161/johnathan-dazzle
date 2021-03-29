@@ -55,4 +55,4 @@ class WildCommand extends commando.Command {
     }
   }
 }
-module.exports = WildCommand;
+// module.exports = WildCommand;

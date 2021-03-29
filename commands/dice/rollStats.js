@@ -97,4 +97,4 @@ class RollStatsCommand extends commando.Command {
     }
   }
 }
-module.exports = RollStatsCommand;
+// module.exports = RollStatsCommand;

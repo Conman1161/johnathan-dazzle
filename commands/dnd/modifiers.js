@@ -36,4 +36,4 @@ class ModifierKeyCommand extends commando.Command {
   }
 }
 
-module.exports = ModifierKeyCommand;
+// module.exports = ModifierKeyCommand;

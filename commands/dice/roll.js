@@ -1,26 +1,30 @@
 const commando = require("discord.js-commando");
 const discord = require("discord.js");
 const dice = require("dice-expression-evaluator");
-const errorMod = require("../modules/error");
+const fs = require('fs');
+const errorMod = require("../modules/error-slash");
 const attachPath = `${process.cwd()}/images/d20s/non-transp/`;
 
-class RollCommand extends commando.Command {
-  constructor(client) {
-    super(client, {
-      aliases: ["r"],
-      description: "Roll some dice. Capable of rolling complex dice arguments. The largest total roll allowed is 1,000,000 due to memory constraints",
-      examples: ["!roll", "!r d20", "!r 4d6", "!r d20+d4"].sort(),
-      format: "{Dice Arguments}",
-      group: "dice",
-      memberName: "roll",
-      name: "roll",
+const { SlashCommand, CommandOptionType } = require('slash-create');
+
+class RollCommand extends SlashCommand {
+  constructor(creator) {
+    super(creator, {
+      name: 'roll',
+      description: 'Roll some dice. Use the XdY+Z format',
+      options: [{
+        type: CommandOptionType.STRING,
+        name: "dice",
+        description: 'What dice are you rolling? Accepts the XdY+Z dice format.',
+        required: false
+      }]
     });
+    this.filePath = __filename;
   }
 
-  async run(message, args) {
-    message.channel.startTyping();
-    args = args.toLowerCase();
-    args = args == "" ? "d20" : args;
+  async run(ctx) {
+    await ctx.defer();
+    var args = ctx.options.dice || "d20";
 
     try {
       if (args < 1 || args == "" || parseInt(args) > Number.MAX_SAFE_INTEGER) {
@@ -28,7 +32,7 @@ class RollCommand extends commando.Command {
       }
       const diceObj = new dice(args);
 
-      for (var i = 0; i < diceObj.dice.length; i++) {
+      for (let i = 0; i < diceObj.dice.length; i++) {
         if (diceObj.dice[i].diceCount >= 1000000) throw 20;
       }
 
@@ -41,15 +45,16 @@ class RollCommand extends commando.Command {
       var embed = new discord.MessageEmbed()
         .setColor("RANDOM")
         .attachFiles([attachment])
-        .setThumbnail(`attachment://d20${diceRoll.roll < 21 && diceRoll.roll > 0 ? `-${diceRoll.roll}.png` : `.png`}`);
+        .setThumbnail(`attachment://d20${diceRoll.roll <= 20 && diceRoll.roll >= 1 ? `-${diceRoll.roll}.png` : `.png`}`);
 
-      if (message.channel.type == "dm") {
-        embed.setAuthor(`${message.author.username}'s Die Roll`, message.author.displayAvatarURL({ dynamic: true }));
+      //https://cdn.discordapp.com/avatars/{USERID}/{TOKENID}.png
+      if (ctx.guildID) {
+        embed.setAuthor(`${ctx.data.member.nick || ctx.data.member.user.username}'s Die Roll`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`);
       } else {
-        embed.setAuthor(`${message.member.nickname == null ? `${message.author.username}` : `${message.member.nickname}`}'s Die Roll`, message.author.displayAvatarURL({ dynamic: true }));
+        embed.setAuthor(`${ctx.data.user.username}'s Die Roll`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`);
       }
 
-      for (var i = 0; i < diceRoll.diceSums.length; i++) {
+      for (let i = 0; i < diceRoll.diceSums.length; i++) {
         var currentRaw = diceRoll.diceRaw[i];
         var rawString = currentRaw.join(', ');
         var currentSum = diceRoll.diceSums[i];
@@ -82,11 +87,21 @@ class RollCommand extends commando.Command {
           `You rolled **${diceRoll.roll}**`
         );
       }
-      message.channel.send(embed);
+
+      return {
+        embeds: [embed],
+        file: {
+          name: `d20${diceRoll.roll <= 20 && diceRoll.roll >= 1 ? `-${diceRoll.roll}.png` : `.png`}`,
+          file: fs.readFileSync(attachment.attachment)
+        }
+      };
     } catch (err) {
-      message.channel.send(errorMod.errorMessage(err, message));
+      ctx.send({
+        embeds: [errorMod.errorMessage(err, ctx)],
+        filePath: attachment
+      });
     } finally {
-      message.channel.stopTyping();
+      //message.channel.stopTyping();
     }
   }
 }

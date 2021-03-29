@@ -70,4 +70,4 @@ class DoMTCommand extends commando.Command {
   }
 }
 
-module.exports = DoMTCommand;
+// module.exports = DoMTCommand;
