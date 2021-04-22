@@ -1,27 +1,22 @@
-const commando = require("discord.js-commando");
 const discord = require("discord.js");
+const { readFileSync } = require("fs");
+const { SlashCommand } = require("slash-create");
 const attachment = new discord.MessageAttachment(
   "./images/lookup.png",
   "lookup.png"
 );
 
-class ModifierKeyCommand extends commando.Command {
+class ModifierKeyCommand extends SlashCommand {
   constructor(client) {
     super(client, {
-      aliases: [],
-      description: "A legend for Ability Score Modifiers",
-      examples: ["!modifiers"].sort(),
-      format: "",
       name: "modifiers",
-      group: "dnd",
-      memberName: "modifiers",
+      description: "A legend for Ability Score Modifiers"
     });
   }
 
-  async run(message) {
-    message.channel.startTyping();
-    var modEmbed = new discord.MessageEmbed()
-      .setAuthor("Modifier Chart", message.client.user.displayAvatarURL({ dynamic: true }))
+  async run(ctx) {
+    await ctx.defer();
+    let modEmbed = new discord.MessageEmbed()
       .addField("Format: ", "**Ability Score:** (Modifier)")
       .addField(
         "**Ability Score Modifier**",
@@ -31,9 +26,14 @@ class ModifierKeyCommand extends commando.Command {
       .attachFiles([attachment])
       .setThumbnail("attachment://lookup.png");
 
-    message.channel.send(modEmbed);
-    message.channel.stopTyping();
+    ctx.send({
+      embeds: [modEmbed],
+      file: {
+        name: `lookup.png`,
+        file: readFileSync(`./images/lookup.png`)
+      }
+    });
   }
 }
 
-// module.exports = ModifierKeyCommand;
+module.exports = ModifierKeyCommand;

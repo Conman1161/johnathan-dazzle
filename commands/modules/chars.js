@@ -36,8 +36,8 @@ function getSheetEmbed(sheet) {
    var returnEmbed = new MessageEmbed()
       .setTitle(sheet.Name)
       .addField("Race:", sheet.Race, true)
-      .addField("Class: ", sheet.Class, true)
-      .addField("Level: ", sheet.Level, true)
+      .addField("Class: ", sheet.Classes[0].name, true)
+      .addField("Level: ", sheet.Classes[0].level, true)
       .addField(
          "Strength: ",
          `__**${stats.getMod(sheet.Strength)}**__ (${sheet.Strength})`,
@@ -68,26 +68,20 @@ function getSheetEmbed(sheet) {
          `__**${stats.getMod(sheet.Charisma)}**__ (${sheet.Charisma})`,
          true
       )
-      .attachFiles([
-         new MessageAttachment(
-            `${sheetsPath}/${sheet.owner}/${sheet.Name.toLowerCase()}/icon.png`,
-            "icon.png"
-         ),
-      ])
-      .setThumbnail("attachment://icon.png")
-      .setColor(sheet.embedColor.toUpperCase());
+      // .attachFiles([
+      //    new MessageAttachment(
+      //       `${sheetsPath}/${sheet.owner}/${sheet.Name.toLowerCase()}/icon.png`,
+      //       "icon.png"
+      //    ),
+      // ])
+      // .setThumbnail("attachment://icon.png")
+      .setColor(`${typeof sheet.EmbedColor === 'string' ? sheet.EmbedColor.toUpperCase() : sheet.EmbedColor}` || "");
 
    var throwString = "";
    var savesString = "";
    for (let i = 0; i < Object.keys(sheet.Saves).length; i++) {
       let keys = Object.keys(sheet.Saves);
-      throwString += `${sheet.Saves[keys[i]] == true
-         ? `${keys[i]} (${getSaveBonus(keys[i], sheet) > 0
-            ? "+"
-            : `${getSaveBonus(keys[i], sheet) < 0 ? "-" : ""}`
-         }${getSaveBonus(keys[i], sheet)})\n`
-         : ""
-         }`;
+      throwString += `${sheet.Saves[keys[i]] == true ? `${keys[i]} (${getSaveBonus(keys[i], sheet) > 0 ? "+" : `${getSaveBonus(keys[i], sheet) < 0 ? "-" : ""}`}${getSaveBonus(keys[i], sheet)})\n` : ""}`;
    }
 
    for (let i = 0; i < Object.keys(sheet.Skills).length; i++) {
@@ -240,7 +234,7 @@ function getCheckBonus(checkType, check, sheet) {
 
 function getSaveBonus(saveType, sheet) {
    let index = saves.indexOf(saveType.toLowerCase());
-   let values = Object.values(sheet.throws);
+   let values = Object.values(sheet.Saves);
    switch (saveType.toLowerCase()) {
       case "str":
       case "strength":
@@ -1566,7 +1560,80 @@ function setClassFeatures(sheet) {
 
 function setRaceFeatures(sheet) {
    sheet.RaceFeatures = [];
+   sheet.Speed = 0;
+   sheet.Flight = 0;
+   sheet.Swin = 0;
    switch (sheet.Race.toLowerCase()) {
+      case 'dragonborn':
+         sheet.Speed = 30;
+         sheet.RaceFeatures.push('Draconic Ancestry', 'Breath Weapon', 'Damage Resistance');
+         sheet.Languages.push('Common', 'Draconic');
+         sheet.Strength += 2;
+         sheet.Charisma += 1;
+         break;
+      case 'draconblood':
+         sheet.Speed = 30;
+         sheet.RaceFeatures.push('Draconic Ancestry', 'Breath Weapon', 'Darkvision', 'Forceful Presence');
+         sheet.Languages.push('Common', 'Draconic');
+         sheet.Intelligence += 2;
+         sheet.Charisma += 1;
+         break;
+      case 'racenite':
+         sheet.Speed = 30;
+         sheet.RaceFeatures.push('Draconic Ancestry', 'Breath Weapon', 'Darkvision', 'Vengeful Assault');
+         sheet.Languages.push('Common', 'Draconic');
+         sheet.Strength += 2;
+         sheet.Constitution += 1;
+         break;
+      case 'dwarf':
+         sheet.Constitution += 2;
+         sheet.Speed = 25;
+         sheet.RaceFeatures.push('Darkvision', 'Dwarven Resilience', 'Dwarven Combat Training', 'Tool Proficiency', 'Stonecunning');
+         sheet.Proficiencies.Weapons.push('Battleaxe', 'Handaxe', 'Light Hammer', 'Warhammer');
+         sheet.Languages.push('Common', 'Dwarvish');
+         break;
+      case 'hill dwarf':
+         sheet.Constitution += 2;
+         sheet.Wisdom += 1;
+         sheet.Speed = 25;
+         sheet.RaceFeatures.push('Darkvision', 'Dwarven Resilience', 'Dwarven Combat Training', 'Tool Proficiency', 'Stonecunning', 'Dwarven Toughness');
+         sheet.Proficiencies.Weapons.push('Battleaxe', 'Handaxe', 'Light Hammer', 'Warhammer');
+         sheet.Languages.push('Common', 'Dwarvish');
+         break;
+      case 'mountain dwarf':
+         sheet.Constitution += 2;
+         sheet.Strength += 2;
+         sheet.Speed = 25;
+         sheet.RaceFeatures.push('Darkvision', 'Dwarven Resilience', 'Dwarven Combat Training', 'Tool Proficiency', 'Stonecunning', 'Dwarven Armor Training');
+         sheet.Proficiencies.Weapons.push('Battleaxe', 'Handaxe', 'Light Hammer', 'Warhammer');
+         sheet.Proficiencies.Armor.push('Light', 'Medium');
+         sheet.Languages.push('Common', 'Dwarvish');
+         break;
+      case 'gray dwarf':
+      case 'duergar':
+         sheet.Constitution += 2;
+         sheet.Strength += 1;
+         sheet.Speed = 25;
+         sheet.RaceFeatures.push('Superior Darkvision', 'Dwarven Resilience', 'Dwarven Combat Training', 'Tool Proficiency', 'Stonecunning', 'Dueragar Resilience', 'Sunlight Sensitivity', 'Duergar Magic');
+         sheet.Proficiencies.Weapons.push('Battleaxe', 'Handaxe', 'Light Hammer', 'Warhammer');
+         sheet.Languages.push('Common', 'Dwarvish');
+         break;
+      case 'mark of warding dwarf':
+         sheet.Constitution += 2;
+         sheet.Intelligence += 1;
+         sheet.Speed = 25;
+         sheet.RaceFeatures.push('Darkvision', 'Dwarven Resilience', 'Dwarven Combat Training', 'Tool Proficiency', 'Stonecunning', 'Warder\'s Intuition', 'Wards and Seals', 'Spells of the Mark');
+         sheet.Proficiencies.Weapons.push('Battleaxe', 'Handaxe', 'Light Hammer', 'Warhammer');
+         sheet.Languages.push('Common', 'Dwarvish');
+         break;
+      case 'kaladesh dwarf':
+         sheet.Constitution += 2;
+         sheet.Wisdom += 1;
+         sheet.Speed = 25;
+         sheet.RaceFeatures.push('Darkvision', 'Dwarven Resilience', 'Dwarven Toughness', 'Artisan\'s Expertise');
+         sheet.Proficiencies.Weapons.push('Battleaxe', 'Handaxe', 'Light Hammer', 'Warhammer');
+         sheet.Languages.push('Common', 'Dwarvish');
+         break;
    }
    return sheet;
 }
@@ -1920,11 +1987,11 @@ function setBackgroundFeatures(sheet) {
 }
 
 function setAllFeatures(sheet) {
-   sheet = setClassFeatures(sheet);
+   sheet = setRaceFeatures(sheet);
    sheet = setSubclassFeatures(sheet);
    sheet = setFeatFeatures(sheet);
    sheet = setBackgroundFeatures(sheet);
-   return setRaceFeatures(sheet);
+   return setClassFeatures(sheet);
 }
 
 module.exports = {

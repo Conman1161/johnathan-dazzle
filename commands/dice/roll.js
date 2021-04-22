@@ -1,4 +1,3 @@
-const commando = require("discord.js-commando");
 const discord = require("discord.js");
 const dice = require("dice-expression-evaluator");
 const fs = require('fs');
@@ -23,10 +22,9 @@ class RollCommand extends SlashCommand {
   }
 
   async run(ctx) {
-    await ctx.defer();
-    var args = ctx.options.dice || "d20";
-
     try {
+      await ctx.defer();
+      var args = ctx.options.dice || "d20";
       if (args < 1 || args == "" || parseInt(args) > Number.MAX_SAFE_INTEGER) {
         throw 1;
       }
@@ -103,6 +101,10 @@ class RollCommand extends SlashCommand {
     } finally {
       //message.channel.stopTyping();
     }
+  }
+
+  async onError(err, ctx) {
+    ctx.send(`An error occurred! Here is the message: \`${err}\``);
   }
 }
 

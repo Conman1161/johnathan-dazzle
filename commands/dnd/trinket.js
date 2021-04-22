@@ -1,28 +1,68 @@
-const commando = require("discord.js-commando");
 const discord = require("discord.js");
 const trinketMod = require("../modules/trinket");
 const errorMod = require("../modules/error");
+const { SlashCommand, CommandOptionType } = require("slash-create");
+const Config = require('../../config.json');
+const { readFileSync } = require("fs");
 
 const attachment = new discord.MessageAttachment("./images/bag.png", "bag.png");
 
-class TrinketCommand extends commando.Command {
+class TrinketCommand extends SlashCommand {
   constructor(client) {
     super(client, {
-      aliases: ["t"],
-      description: `Rolls on a random trinket chart for a random trinket. There are currently __**${trinketMod.getChartCount()}**__ charts.`,
-      examples: ["!trinket", `!trinket 1-${trinketMod.getChartCount()}`].sort(),
-      format: "{Chart number}",
-      group: "dnd",
-      memberName: "trinket",
+      description: `Rolls on a random trinket chart for a random trinket. There are currently ${trinketMod.getChartCount()} charts.`,
       name: "trinket",
+      options: [{
+        type: CommandOptionType.INTEGER,
+        name: 'chart',
+        description: 'Do you want to use a specific chart?',
+        required: false,
+        choices: [{
+          name: '1',
+          value: 1
+        }, {
+          name: '2',
+          value: 2
+        }, {
+          name: '3',
+          value: 3
+        }, {
+          name: '4',
+          value: 4
+        }, {
+          name: '5',
+          value: 5
+        }, {
+          name: '6',
+          value: 6
+        }, {
+          name: '7',
+          value: 7
+        }, {
+          name: '8',
+          value: 8
+        }, {
+          name: '9',
+          value: 9
+        }, {
+          name: '10',
+          value: 10
+        }, {
+          name: '11',
+          value: 11
+        }, {
+          name: '12',
+          value: 12
+        }].sort((a, b) => (a.name > b.name) ? 1 : -1)
+      }]
     });
   }
 
-  async run(message, args) {
-    message.channel.startTyping();
+  async run(ctx) {
     //put args in var, see if(!args) to roll for table
     try {
-      var trinket = trinketMod.getTrinketInfo(args);
+      await ctx.defer();
+      var trinket = trinketMod.getTrinketInfo(ctx.options.chart);
       if (trinket[1] == "") {
         throw 7;
       }
@@ -32,23 +72,37 @@ class TrinketCommand extends commando.Command {
         .attachFiles([attachment])
         .setThumbnail("attachment://bag.png")
         .setFooter(
-          `If you think anything has an error, message ${message.client.owners[0].tag} with a screenshot and indicate what the error is.`
+          `If you think anything has an error, message ${Config.ownerTag} with a screenshot and indicate what the error is.`
         )
         .setColor("RANDOM");
-      if (message.channel.type == "dm") {
-        embed.setAuthor(`${message.author.username}'s Trinket`, message.author.displayAvatarURL({ dynamic: true }));
+      if (ctx.guildID) {
+        embed.setAuthor(`${ctx.member.displayName}'s Trinket`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`);
       } else {
-        embed.setAuthor(`${message.member.nickname == null ? `${message.author.username}` : `${message.member.nickname}`}'s Trinket`, message.author.displayAvatarURL({ dynamic: true }));
+        embed.setAuthor(`${ctx.user.username}'s Trinket`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`);
       }
 
-      message.channel.send(embed);
+      ctx.send({
+        embeds: [embed],
+        file: {
+          name: `bag.png`,
+          file: readFileSync(attachment.attachment)
+        }
+      });
     } catch (err) {
-      // Invalid chart
-      message.channel.send(errorMod.errorMessage(err, message));
+      ctx.send({
+        embeds: [errorMod.errorMessage(err, ctx)],
+        file: {
+          name: `error.png`,
+          file: readFileSync(`./images/error.png`)
+        }
+      });
     } finally {
-      message.channel.stopTyping();
+      // message.channel.stopTyping();
     }
+  }
+  async onError(err, ctx) {
+    ctx.send(`An error occurred! Here is the message: \`${err}\``);
   }
 }
 
-// module.exports = TrinketCommand;
+module.exports = TrinketCommand;

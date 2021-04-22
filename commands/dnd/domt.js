@@ -1,73 +1,168 @@
-const commando = require("discord.js-commando");
-const dice = require('dice-expression-evaluator');
 const errorMod = require('../modules/error');
 const domtMod = require('../modules/domt');
-const deckThirteen = ["Sun", "Moon", "Star", "Throne", "Key", "Knight", "The Void", "Flames", "Skull", "Ruin", "Euryale", "Rogue", "Jester"].sort();
-const deckTwentyTwo = ["Vizier", "Comet", "The Fates", "Gem", "Talons", "Idiot", "Donjon", "Balance", "Fool"].sort();
-const deckMaster = deckThirteen.concat(deckTwentyTwo);
 const imageDir = `${process.cwd()}/images/domt/`;
-const cards = require('./charts/domt/cards.json');
 const { MessageEmbed, MessageAttachment } = require("discord.js");
+const { SlashCommand, CommandOptionType } = require("slash-create");
+const { readFileSync } = require('fs');
 
-class DoMTCommand extends commando.Command {
+class DoMTCommand extends SlashCommand {
   constructor(client) {
     super(client, {
-      aliases: [],
-      description: "Draws a card from the Deck of Many Things. Draws from the 13 card list by default. Enter a card name to get the effect.",
-      examples: ["!domt", "!domt", "!domt 22", "!domt {card name}"].sort(),
-      format: "",
-      group: "dnd",
-      memberName: "domt",
-      name: "domt"
+      description: "Draws a card from the Deck of Many Things",
+      name: "domt",
+      options: [{
+        type: CommandOptionType.SUB_COMMAND,
+        name: 'draw',
+        description: 'Draw a card from the Deck of Many Things',
+        required: false,
+        options: [{
+          type: CommandOptionType.STRING,
+          name: 'deck',
+          description: 'Which deck do you want to draw from?',
+          required: true,
+          choices: [{
+            name: '13 Card Deck',
+            value: '13'
+          }, {
+            name: '22 Card Deck',
+            value: '22'
+          }].sort((a, b) => (a.name > b.name) ? 1 : -1)
+        }]
+      }, {
+        type: CommandOptionType.SUB_COMMAND,
+        name: 'lookup',
+        description: 'Lookup one of the cards in the Deck of Many Things',
+        required: false,
+        options: [{
+          type: CommandOptionType.STRING,
+          name: 'card',
+          description: 'Which card are you looking for?',
+          required: true,
+          choices: [{
+            name: 'Euryale',
+            value: 'Euryale'
+          }, {
+            name: 'Flames',
+            value: 'Flames'
+          }, {
+            name: 'Jester',
+            value: 'Jester'
+          }, {
+            name: 'Key',
+            value: 'Key'
+          }, {
+            name: 'Knight',
+            value: 'Knight'
+          }, {
+            name: 'Moon',
+            value: 'Moon'
+          }, {
+            name: 'Rogue',
+            value: 'Rogue'
+          }, {
+            name: 'Ruin',
+            value: 'Ruin'
+          }, {
+            name: 'Skull',
+            value: 'Skull'
+          }, {
+            name: 'Star',
+            value: 'Star'
+          }, {
+            name: 'Sun',
+            value: 'Sun'
+          }, {
+            name: 'The Void',
+            value: 'The Void'
+          }, {
+            name: 'Throne',
+            value: 'Throne'
+          }, {
+            name: 'Balance',
+            value: 'Balance'
+          }, {
+            name: 'Comet',
+            value: 'Comet'
+          }, {
+            name: 'Donjon',
+            value: 'Donjon'
+          }, {
+            name: 'Fool',
+            value: 'Fool'
+          }, {
+            name: 'Gem',
+            value: 'Gem'
+          }, {
+            name: 'Idiot',
+            value: 'Idiot'
+          }, {
+            name: 'Talons',
+            value: 'Talons'
+          }, {
+            name: 'The Fates',
+            value: 'The Fates'
+          }, {
+            name: 'Vizier',
+            value: 'Vizier'
+          }].sort((a, b) => (a.name > b.name) ? 1 : -1)
+        }]
+      }]
     });
   }
 
-  async run(message, args) {
-    message.channel.startTyping();
+  async run(ctx) {
     try {
-      args = args.toLowerCase();
-      var pool = [];
-      pool = pool.concat(deckThirteen);
-      if (args == "22") {
-        pool = pool.concat(deckTwentyTwo);
-      }
+      await ctx.defer();
 
       var embed = new MessageEmbed().setColor('RANDOM');
-      if (message.channel.type == "dm") {
-        embed.setAuthor(`${message.author.username}'s Draw`, message.author.displayAvatarURL({ dynamic: true }));
+      if (ctx.guildID) {
+        embed.setAuthor(`${ctx.member.displayName}'s Card`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`);
       } else {
-        embed.setAuthor(`${message.member.nickname == null ? `${message.author.username}` : `${message.member.nickname}`}'s Draw`, message.author.displayAvatarURL({ dynamic: true }));
+        embed.setAuthor(`${ctx.user.username}'s Card`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`);
       }
 
-      // if default or 22, roll for card
-      if (args == "" || args == "22") {
-        const card = domtMod.roll(pool);
-        const attachment = new MessageAttachment(`${imageDir}${card[0].replace(' ', '')}.png`, `${card[0].replace(' ', '')}.png`);
-        embed.attachFiles(attachment);
-        embed.addField('Card: ', deckMaster[card[1]]);
-        embed.setImage(`attachment://${card[0].replace(' ', '')}.png`);
-        if (card[0] == "Fool" || card[0] == "Jester") {
-          embed.setFooter('If you\'ve already drawn this card, draw again');
+      // subcommand switch statement
+      switch (Object.keys(ctx.options)[0]) {
+        case 'draw':
+          let card = domtMod.draw(ctx.options.draw.deck);
+          let attachmentDraw = new MessageAttachment(`${imageDir}${card.replace(' ', '')}.png`, `${card.replace(' ', '')}.png`);
+          embed.attachFiles(attachmentDraw);
+          embed.addField('Card: ', card);
+          embed.setImage(`attachment://${card.replace(' ', '')}.png`);
+          console.log(card);
+          break;
+        case 'lookup':
+          let effect = domtMod.lookup(ctx.options.lookup.card);
+          let attachmentLookup = new MessageAttachment(`${imageDir}${ctx.options.lookup.card.replace(' ', '')}.png`, `${ctx.options.lookup.card.replace(' ', '')}.png`);
+          embed.attachFiles(attachmentLookup);
+          embed.addField('Card: ', ctx.options.lookup.card);
+          embed.addField('Effect: ', effect);
+          embed.setImage(`attachment://${ctx.options.lookup.card.replace(' ', '')}.png`);
+          break;
+      }
+
+      ctx.send({
+        embeds: [embed],
+        file: {
+          name: `${embed.image.url.replace('attachment://', '')}`,
+          file: readFileSync(`./images/domt/${embed.image.url.replace('attachment://', '')}`)
         }
-      }
-      // if card in all cards, send effect
-      else if (args in cards) {
-        const card = domtMod.lookup(args);
-        const attachment = new MessageAttachment(`${imageDir}${deckMaster[card[1]].replace(' ', '')}.png`, `${deckMaster[card[1]].replace(' ', '')}.png`);
-        embed.attachFiles(attachment);
-        embed.addField('Card: ', deckMaster[card[1]]);
-        embed.addField('Effect: ', card[0]);
-        embed.setImage(`attachment://${deckMaster[card[1]].replace(' ', '')}.png`);
-      } else {
-        throw 22;
-      }
-      message.channel.send(embed);
-    } catch (error) {
-      message.channel.send(errorMod.errorMessage(error, message));
+      });
+    } catch (err) {
+      ctx.send({
+        embeds: [errorMod.errorMessage(err, ctx)],
+        file: {
+          name: `error.png`,
+          file: readFileSync(`./images/error.png`)
+        }
+      });
     } finally {
-      message.channel.stopTyping();
+      // message.channel.stopTyping();
     }
+  }
+  async onError(err, ctx) {
+    ctx.send(`An error occurred! Here is the message: \`${err}\``);
   }
 }
 
-// module.exports = DoMTCommand;
+module.exports = DoMTCommand;

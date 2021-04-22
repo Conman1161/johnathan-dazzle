@@ -216,9 +216,14 @@ class CharacterCommand extends SlashCommand {
           newSheet.Languages = ctx.options.add.languages ? newSheet.Languages.concat(ctx.options.add.languages.split(',')) : [];
           // download linked image 
           newSheet = charMod.setAllFeatures(newSheet); // Race, Class, Subclass, Background, Feats(?)
-          break;
+          let sheetEmbed = charMod.getSheetEmbed(newSheet);
+          ctx.send({
+            embeds: [sheetEmbed]
+          });
+        // return {
+        //   embed: [charMod.getSheetEmbed(newSheet)]
+        // };
       }
-      return "finished!";
     } catch (err) {
       console.log(err);
     }

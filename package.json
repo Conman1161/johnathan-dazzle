@@ -12,12 +12,12 @@
   "dependencies": {
     "@pm2/io": "^4.3.5",
     "dice-expression-evaluator": "^0.1.2",
-    "discord.js": "^12.5.1",
+    "discord.js": "^12.5.3",
     "discord.js-commando": "github:discordjs/Commando",
     "fs-extra": "^9.1.0",
     "owoifyx": "^1.0.1",
     "request": "^2.88.2",
-    "slash-create": "^3.0.0",
-    "underscore": "^1.12.1"
+    "slash-create": "^3.1.0",
+    "underscore": "^1.13.1"
   }
 }

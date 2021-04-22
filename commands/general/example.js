@@ -1,26 +1,40 @@
-const commando = require("discord.js-commando");
+const { SlashCommand, CommandOptionType } = require("slash-create");
 const errorMod = require('../modules/error');
 
-class ExampleCommand extends commando.Command {
+class ExampleCommand extends SlashCommand {
    constructor(client) {
       super(client, {
-         aliases: [],
          description: "A template for commands",
-         examples: ["!example"].sort(),
-         format: "",
-         group: "Example",
-         memberName: "Example",
-         name: "Example",
+         name: "example",
+         options: [{
+            name: 'exampleOne',
+            description: `Here's an example option with choices`,
+            type: CommandOptionType.STRING,
+            choices: [{
+               name: 'Choice One',
+               description: 'My name can be capitalized and have spaces!'
+            }]
+         }]
       });
    }
 
-   async run(message) {
-      message.channel.startTyping();
+   async run(ctx) {
       try {
-
+         await ctx.defer();
       } catch (err) {
-         message.channel.send(errorMod.errorMessage(err, message));
-      } finally { message.channel.stopTyping(); }
+         ctx.send({
+            embeds: [errorMod.errorMessage(err, ctx)],
+            file: {
+               name: `error.png`,
+               file: readFileSync(`./images/error.png`)
+            }
+         });
+      } finally {
+
+      }
+   }
+   async onError(err, ctx) {
+      ctx.send(`An error occurred! Here is the message: \`${err}\``);
    }
 }
 
