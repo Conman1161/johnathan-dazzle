@@ -12,7 +12,7 @@ const attachment = new MessageAttachment(
 class BotInfoCommand extends SlashCommand {
   constructor(client) {
     super(client, {
-      description: "A little information Johnathon Dazzle.",
+      description: "A little information Johnathon Dazzle",
       name: "info",
     });
   }

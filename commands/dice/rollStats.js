@@ -11,7 +11,7 @@ class RollStatsCommand extends SlashCommand {
     super(client, {
       name: "rollstats",
       description:
-        "Roll 4d6 and drop the lowest roll for a new character's statblock.",
+        "Roll 4d6 and drop the lowest roll for a new character's statblock",
       options: [{
         type: CommandOptionType.STRING,
         name: "modifier",

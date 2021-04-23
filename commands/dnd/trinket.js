@@ -10,7 +10,7 @@ const attachment = new MessageAttachment("./images/bag.png", "bag.png");
 class TrinketCommand extends SlashCommand {
   constructor(client) {
     super(client, {
-      description: `Rolls on a random trinket chart for a random trinket. There are currently ${trinketMod.getChartCount()} charts.`,
+      description: `Rolls on a random trinket chart for a random trinket. There are currently ${trinketMod.getChartCount()} charts`,
       name: "trinket",
       options: [{
         type: CommandOptionType.INTEGER,

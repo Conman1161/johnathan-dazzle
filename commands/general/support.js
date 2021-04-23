@@ -7,7 +7,7 @@ const attachment = new MessageAttachment(
   "support.png"
 );
 
-class BotInfoCommand extends SlashCommand {
+class SupportCommand extends SlashCommand {
   constructor(client) {
     super(client, {
       description: "Support information for Dazzle",
@@ -25,7 +25,7 @@ class BotInfoCommand extends SlashCommand {
       )
       .addField(
         "Need more help?",
-        `Contact ${ownerTag} if you have any further questions`
+        `Contact \`${ownerTag}\` if you have any further questions`
       )
       .setColor("#fe00ff")
       .attachFiles([attachment])
@@ -38,8 +38,8 @@ class BotInfoCommand extends SlashCommand {
         name: 'support.png',
         file: readFileSync(attachment.attachment)
       }
-    })
+    });
   }
 }
 
-module.exports = BotInfoCommand;
+module.exports = SupportCommand;

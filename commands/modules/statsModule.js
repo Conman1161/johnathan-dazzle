@@ -11,7 +11,7 @@ function rollStats(args) {
 
   do {
     diceRoll = diceObj.roll();
-    let statsCheck = diceRoll.roll;
+    var statsCheck = diceRoll.roll;
     for (let i = 0; i < diceRoll.diceRaw.length; i++) {
       let currentRolls = diceRoll.diceRaw[i];
       statsCheck -= Math.min.apply(Math, currentRolls);

@@ -17,10 +17,10 @@ const Creator = new SlashCreator({
   token: token
 });
 // Creator.registerCommandsIn(`${__dirname}/commands/characters`).syncCommands();
-Creator.registerCommandsIn(`${__dirname}/commands/dice`).syncCommands();
-Creator.registerCommandsIn(`${__dirname}/commands/dnd`).syncCommands();
-Creator.registerCommandsIn(`${__dirname}/commands/general`).syncCommands();
-
+Creator.registerCommandsIn(`${__dirname}/commands/dice`);
+Creator.registerCommandsIn(`${__dirname}/commands/dnd`);
+Creator.registerCommandsIn(`${__dirname}/commands/general`);
+Creator.syncCommands();
 
 Creator.withServer(
   new GatewayServer(

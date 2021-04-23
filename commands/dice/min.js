@@ -11,7 +11,7 @@ const attachment = new MessageAttachment(
 class MinCommand extends SlashCommand {
   constructor(client) {
     super(client, {
-      description: "Find the lowest possible result from a given die argument.",
+      description: "Find the lowest possible result from a given die argument",
       name: "min",
       options: [{
         type: CommandOptionType.STRING,

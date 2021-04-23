@@ -1,5 +1,5 @@
 const { MessageAttachment, MessageEmbed } = require("discord.js");
-const wild = require("../modules/wildModule");
+const { getEmbedInfo } = require("../modules/wildModule");
 const errorMod = require("../modules/error");
 const { ownerTag } = require('../../config.json');
 const { SlashCommand, CommandOptionType } = require("slash-create");
@@ -14,7 +14,7 @@ class WildCommand extends SlashCommand {
   constructor(client) {
     super(client, {
       description:
-        "Roll on one of the wild magic charts to get a wild magic effect. The default chart is 1.2.",
+        "Roll on one of the wild magic charts to get a wild magic effect. The default chart is 1.2",
       name: "wild",
       options: [{
         type: CommandOptionType.SUB_COMMAND,
@@ -72,7 +72,7 @@ class WildCommand extends SlashCommand {
       await ctx.defer();
       const embedInfo = getEmbedInfo(Object.keys(ctx.options)[0] === 'roll' ? ctx.options.roll.chart : ctx.options.lookup.chart, Object.keys(ctx.options)[0] === 'lookup' ? ctx.options.lookup.effect_number : null);
 
-      let embed = new discord.MessageEmbed()
+      let embed = new MessageEmbed()
         .addField("Chart Name: ", `**${embedInfo.name}**`)
         .addField("**Die Roll**", `You rolled **${embedInfo.effectNumber}**`)
         .addField("**Effect**", `**||${embedInfo.text}||**`)
