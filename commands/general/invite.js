@@ -1,39 +1,39 @@
-const commando = require("discord.js-commando");
 const discord = require("discord.js");
+const { readFileSync } = require("fs");
+const { SlashCommand } = require("slash-create");
 const attachment = new discord.MessageAttachment(
    "./images/support.png",
    "support.png"
 );
 
-class BotInfoCommand extends commando.Command {
+class InviteBotCommand extends SlashCommand {
    constructor(client) {
       super(client, {
-         aliases: [],
          description: "Get a link to invite Dazzle to your server",
-         examples: ["!invite"].sort(),
-         format: "",
-         group: "general",
-         memberName: "invite",
          name: "invite",
       });
    }
 
-   async run(message) {
-      message.channel.startTyping();
+   async run(ctx) {
       var embed = new discord.MessageEmbed()
-         .setAuthor("Invite", message.client.user.displayAvatarURL({ dynamic: true }))
+         .setAuthor("Invite", `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`)
          .addField(
             `Link`,
-            `The invite for Dazzle can be found [here](https://discord.com/oauth2/authorize?client_id=484780670556831763&permissions=117760&scope=bot "Click me, I invite Dazzle!")!`
+            `The invite for Dazzle can be found [here](https://discord.com/api/oauth2/authorize?client_id=484780670556831763&permissions=2147535872&scope=bot%20applications.commands "Click me, I invite Dazzle!")!`
          )
          .setColor("#fe00ff")
          .attachFiles([attachment])
          .setURL("https://discord.gg/ZUJAMnh")
          .setThumbnail("attachment://support.png");
 
-      message.channel.send(embed);
-      message.channel.stopTyping();
+      ctx.send({
+         embeds: [embed],
+         file: {
+            name: 'support.png',
+            file: readFileSync(attachment.attachment)
+         }
+      });
    }
 }
 
-// module.exports = BotInfoCommand;
+module.exports = InviteBotCommand;
