@@ -4,9 +4,9 @@ const Bot = new Client({
   owner: owner
 });
 
-const io = require('@pm2/io');
+const { metric } = require('@pm2/io');
 const { GatewayServer, SlashCreator } = require("slash-create");
-var guildCount = io.metric({
+var guildCount = metric({
   name: 'Guild count: '
 });
 
