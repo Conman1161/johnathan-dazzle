@@ -1,30 +1,26 @@
-const commando = require("discord.js-commando");
 const discord = require("discord.js");
 const { version } = require("../../package.json");
-const { catboy } = require('../../config.json');
+const { catboy, ownerTag } = require('../../config.json');
 const owoify = require('owoifyx');
+const { SlashCommand } = require("slash-create");
+const { readFileSync } = require("fs");
 const attachment = new discord.MessageAttachment(
   catboy ? "./images/catboy/Background.png" : "./images/icon.png",
   "icon.png"
 );
 
-class BotInfoCommand extends commando.Command {
+class BotInfoCommand extends SlashCommand {
   constructor(client) {
     super(client, {
-      aliases: [],
       description: "A little information Johnathon Dazzle.",
-      examples: ["!info"].sort(),
-      format: "",
-      group: "general",
-      memberName: "info",
       name: "info",
     });
   }
 
-  async run(message) {
-    message.channel.startTyping();
+  async run(ctx) {
+    await ctx.defer();
     var myInfo = new discord.MessageEmbed()
-      .setAuthor(`${catboy ? owoify('Johnathan Dazzle') : 'Johnathan Dazzle'}`, message.client.user.displayAvatarURL({ dynamic: true }))
+      .setAuthor(`${catboy ? owoify('Johnathan Dazzle') : 'Johnathan Dazzle'}`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`)
       .addField(
         `${catboy ? `${owoify('Bot Info')}` : `Bot Info`}`,
         `${catboy ? `${owoify(`Hello, I'm Johnathon Dazzle! I roll the dice around here. I've got a few tricks up my sleeve, so check them out with`)}` : `Hello, I'm Johnathon Dazzle! I roll the dice around here. I've got a few tricks up my sleeve, so check them out with`} \`!help\`!`
@@ -35,12 +31,12 @@ class BotInfoCommand extends commando.Command {
       )
       .addField(
         `${catboy ? `${owoify(`Bot Support`)}` : `Bot Support`}`,
-        `${catboy ? `${owoify(`If you find an issue, message __**${message.client.owners[0].tag}**__ with a screenshot and a short description of the issue`)}` : `If you find an issue, message __**${message.client.owners[0].tag}**__ with a screenshot and a short description of the issue`}`,
+        `${catboy ? `${owoify(`If you find an issue, message __**${ownerTag}**__ with a screenshot and a short description of the issue`)}` : `If you find an issue, message __**${ownerTag}**__ with a screenshot and a short description of the issue`}`,
         true
       )
       .addField(
         `${catboy ? `${owoify(`Command Ideas`)}` : `Command Ideas`}`,
-        `${catboy ? `${owoify(`If you have any ideas for commands, message __**${message.client.owners[0].tag}**__ with them`)}` : `If you have any ideas for commands, message __**${message.client.owners[0].tag}**__ with them`}`,
+        `${catboy ? `${owoify(`If you have any ideas for commands, message __**${ownerTag}**__ with them`)}` : `If you have any ideas for commands, message __**${ownerTag}**__ with them`}`,
         true
       )
       .addField(
@@ -54,9 +50,14 @@ class BotInfoCommand extends commando.Command {
       .attachFiles([attachment])
       .setThumbnail("attachment://icon.png");
 
-    message.channel.send(myInfo);
-    message.channel.stopTyping();
+    ctx.send({
+      embeds: [myInfo],
+      file: {
+        name: `${catboy ? 'Background.png' : 'icon.png'}`,
+        file: readFileSync(attachment.attachment)
+      }
+    });
   }
 }
 
-// module.exports = BotInfoCommand;
+module.exports = BotInfoCommand;
