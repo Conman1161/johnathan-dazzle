@@ -114,7 +114,7 @@ class DoMTCommand extends SlashCommand {
     try {
       await ctx.defer();
 
-      var embed = new MessageEmbed().setColor('RANDOM');
+      let embed = new MessageEmbed().setColor('RANDOM');
       if (ctx.guildID) {
         embed.setAuthor(`${ctx.member.displayName}'s Card`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`);
       } else {

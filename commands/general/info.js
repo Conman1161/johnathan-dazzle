@@ -19,7 +19,7 @@ class BotInfoCommand extends SlashCommand {
 
   async run(ctx) {
     await ctx.defer();
-    var myInfo = new MessageEmbed()
+    let myInfo = new MessageEmbed()
       .setAuthor(`${catboy ? owoify('Johnathan Dazzle') : 'Johnathan Dazzle'}`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`)
       .addField(
         `${catboy ? `${owoify('Bot Info')}` : `Bot Info`}`,

@@ -1,8 +1,8 @@
 const dice = require("dice-expression-evaluator");
 
 function rollStats(args) {
-  var diceRoll;
-  var statThreshold = 1;
+  let diceRoll;
+  let statThreshold = 1;
 
   if (args == "70") {
     statThreshold = 70;
@@ -11,9 +11,9 @@ function rollStats(args) {
 
   do {
     diceRoll = diceObj.roll();
-    var statsCheck = diceRoll.roll;
+    let statsCheck = diceRoll.roll;
     for (let i = 0; i < diceRoll.diceRaw.length; i++) {
-      var currentRolls = diceRoll.diceRaw[i];
+      let currentRolls = diceRoll.diceRaw[i];
       statsCheck -= Math.min.apply(Math, currentRolls);
     }
   } while (statsCheck < statThreshold);
@@ -26,14 +26,14 @@ function rollStats20() {
 }
 
 function rollcth() {
-  var str = dice('3d6').roll();
-  var con = dice('3d6').roll();
-  var siz = dice('2d6').roll();
-  var dex = dice('3d6').roll();
-  var app = dice('3d6').roll();
-  var int = dice('2d6').roll();
-  var pow = dice('3d6').roll();
-  var edu = dice('2d6').roll();
+  let str = dice('3d6').roll();
+  let con = dice('3d6').roll();
+  let siz = dice('2d6').roll();
+  let dex = dice('3d6').roll();
+  let app = dice('3d6').roll();
+  let int = dice('2d6').roll();
+  let pow = dice('3d6').roll();
+  let edu = dice('2d6').roll();
   return [str, con, siz, dex, app, int, pow, edu];
 }
 

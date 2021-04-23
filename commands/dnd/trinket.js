@@ -59,14 +59,13 @@ class TrinketCommand extends SlashCommand {
   }
 
   async run(ctx) {
-    //put args in var, see if(!args) to roll for table
     try {
       await ctx.defer();
-      var trinket = trinketMod.getTrinketInfo(ctx.options.chart);
+      let trinket = trinketMod.getTrinketInfo(ctx.options.chart);
       if (trinket[1] == "") {
         throw 7;
       }
-      var embed = new MessageEmbed()
+      let embed = new MessageEmbed()
         .addField("**Chart Number:**", `**${trinket[0]}**`)
         .addField("**Trinket**", `**||${trinket[1]}||**`)
         .attachFiles([attachment])

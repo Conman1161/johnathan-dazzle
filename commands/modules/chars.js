@@ -33,7 +33,7 @@ const saves = [
 ];
 
 function getSheetEmbed(sheet) {
-   var returnEmbed = new MessageEmbed()
+   let returnEmbed = new MessageEmbed()
       .setTitle(sheet.Name)
       .addField("Race:", sheet.Race, true)
       .addField("Class: ", sheet.Classes[0].name, true)
@@ -77,8 +77,8 @@ function getSheetEmbed(sheet) {
       // .setThumbnail("attachment://icon.png")
       .setColor(`${typeof sheet.EmbedColor === 'string' ? sheet.EmbedColor.toUpperCase() : sheet.EmbedColor}` || "");
 
-   var throwString = "";
-   var savesString = "";
+   let throwString = "";
+   let savesString = "";
    for (let i = 0; i < Object.keys(sheet.Saves).length; i++) {
       let keys = Object.keys(sheet.Saves);
       throwString += `${sheet.Saves[keys[i]] == true ? `${keys[i]} (${getSaveBonus(keys[i], sheet) > 0 ? "+" : `${getSaveBonus(keys[i], sheet) < 0 ? "-" : ""}`}${getSaveBonus(keys[i], sheet)})\n` : ""}`;
@@ -116,11 +116,11 @@ function getSheetEmbed(sheet) {
 }
 
 function getDefault(sheetDir) {
-   var currentDir = fs.readdirSync(sheetDir, (err) => {
+   let currentDir = fs.readdirSync(sheetDir, (err) => {
       throw err;
    });
-   for (var i = 0; i < currentDir.length; i++) {
-      var currentSheet = require(`${sheetDir}/${currentDir[i]}/sheet.json`);
+   for (let i = 0; i < currentDir.length; i++) {
+      let currentSheet = require(`${sheetDir}/${currentDir[i]}/sheet.json`);
       if (currentSheet.default) {
          return currentSheet;
       }
@@ -129,11 +129,11 @@ function getDefault(sheetDir) {
 }
 
 function setDefault(newDefault, sheetDir) {
-   var currentDir = fs.readdirSync(sheetDir, (err) => {
+   let currentDir = fs.readdirSync(sheetDir, (err) => {
       throw err;
    });
-   for (var i = 0; i < currentDir.length; i++) {
-      var currentSheet = require(`${sheetDir}/${currentDir[i]}/sheet.json`);
+   for (let i = 0; i < currentDir.length; i++) {
+      let currentSheet = require(`${sheetDir}/${currentDir[i]}/sheet.json`);
       if (currentSheet.Name.toLowerCase() != newDefault.Name.toLowerCase()) {
          currentSheet.default = false;
          fs.writeFileSync(

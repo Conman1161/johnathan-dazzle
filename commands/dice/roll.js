@@ -24,7 +24,7 @@ class RollCommand extends SlashCommand {
   async run(ctx) {
     try {
       await ctx.defer();
-      var args = ctx.options.dice || "d20";
+      let args = ctx.options.dice || "d20";
       if (args < 1 || args == "" || parseInt(args) > Number.MAX_SAFE_INTEGER) {
         throw 1;
       }
@@ -40,7 +40,7 @@ class RollCommand extends SlashCommand {
       }
       const attachment = new MessageAttachment(`${attachPath}${diceRoll.roll < 21 && diceRoll.roll > 0 ? `d20-${diceRoll.roll}.png` : `d20.png`}`);
 
-      var embed = new MessageEmbed()
+      let embed = new MessageEmbed()
         .setColor("RANDOM")
         .attachFiles([attachment])
         .setThumbnail(`attachment://d20${diceRoll.roll <= 20 && diceRoll.roll >= 1 ? `-${diceRoll.roll}.png` : `.png`}`);
@@ -53,10 +53,10 @@ class RollCommand extends SlashCommand {
       }
 
       for (let i = 0; i < diceRoll.diceSums.length; i++) {
-        var currentRaw = diceRoll.diceRaw[i];
-        var rawString = currentRaw.join(', ');
-        var currentSum = diceRoll.diceSums[i];
-        var currentDice = diceObj.dice[i];
+        let currentRaw = diceRoll.diceRaw[i];
+        let rawString = currentRaw.join(', ');
+        let currentSum = diceRoll.diceSums[i];
+        let currentDice = diceObj.dice[i];
 
         if (
           `You rolled **${diceRoll.roll}**[ ${rawString} ]\n`.length > 1023 ||

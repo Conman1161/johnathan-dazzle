@@ -13,7 +13,7 @@ const chartTen = require("../dnd/charts/trinket/10.json");
 const chartEleven = require("../dnd/charts/trinket/11.json");
 const chartTwelve = require("../dnd/charts/trinket/12.json");
 
-var allCharts = [
+let allCharts = [
   chartOne,
   chartTwo,
   chartThree,

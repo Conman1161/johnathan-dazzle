@@ -15,7 +15,7 @@ class InviteBotCommand extends SlashCommand {
    }
 
    async run(ctx) {
-      var embed = new MessageEmbed()
+      let embed = new MessageEmbed()
          .setAuthor("Invite", `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`)
          .addField(
             `Link`,

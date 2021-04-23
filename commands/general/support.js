@@ -17,7 +17,7 @@ class BotInfoCommand extends SlashCommand {
 
   async run(ctx) {
     await ctx.defer();
-    var embed = new MessageEmbed()
+    let embed = new MessageEmbed()
       .setAuthor("Support Information", `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`)
       .addField(
         "Support Server",

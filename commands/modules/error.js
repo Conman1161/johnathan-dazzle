@@ -7,7 +7,7 @@ const config = require('../../config.json');
 
 // Return an embed with information on what the error is and how to fix it
 function errorMessage(errorCode, ctx) {
-  var embed = new discord.MessageEmbed()
+  let embed = new discord.MessageEmbed()
     .setTitle("**Oh no, you encountered an error!**")
     .attachFiles([attachment])
     .setThumbnail("attachment://error.png")

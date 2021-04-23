@@ -30,9 +30,9 @@ class AvgCommand extends SlashCommand {
         ctx.options.dice = ctx.options.dice.replace(" ", "");
       } while (ctx.options.dice.includes(" "));
 
-      var allDice = new dice(ctx.options.dice);
+      let allDice = new dice(ctx.options.dice);
 
-      var embed = new MessageEmbed()
+      let embed = new MessageEmbed()
         .attachFiles([attachment])
         .setThumbnail("attachment://d20.png")
         .setColor("RANDOM");
@@ -42,7 +42,7 @@ class AvgCommand extends SlashCommand {
         embed.setAuthor(`${ctx.user.username}'s Die Averages`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`);
       }
 
-      var finalString = [];
+      let finalString = [];
       for (let i = 0; i < allDice.dice.length; i++) {
         const currentDie = allDice.dice[i];
         switch (currentDie.constructor.name) {
@@ -66,7 +66,7 @@ class AvgCommand extends SlashCommand {
         }
       }
 
-      var finalSum = finalString.reduce((a, b) => parseFloat(a) + parseFloat(b));
+      let finalSum = finalString.reduce((a, b) => parseFloat(a) + parseFloat(b));
       finalString = finalString.toString();
       do {
         finalString = finalString.replace(",-", " - ").replace(",", " + ");

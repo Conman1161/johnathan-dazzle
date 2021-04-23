@@ -30,13 +30,13 @@ class HelpCommand extends commando.Command {
     try {
       args = args.toLowerCase();
       const commandGroups = this.client.registry.groups;
-      var currentCommands = [];
-      var poppedCommands = [];
-      var hasRun = false;
-      var isMod = message.author.presence.member.permissions.has(
+      let currentCommands = [];
+      let poppedCommands = [];
+      let hasRun = false;
+      let isMod = message.author.presence.member.permissions.has(
         "ADMINISTRATOR"
       );
-      var helpEmbed = new discord.MessageEmbed()
+      let helpEmbed = new discord.MessageEmbed()
         .setAuthor("Help", message.client.user.displayAvatarURL({ dynamic: true }))
         .attachFiles(attachment)
         .setColor("#fe00ff")
@@ -67,7 +67,7 @@ class HelpCommand extends commando.Command {
             );
           }
           if (currentCommands.toString() != "") {
-            for (var i = 0; i < currentCommands.length; i++) {
+            for (let i = 0; i < currentCommands.length; i++) {
               currentCommands[i] = ` ${currentCommands[i]}`;
             }
             if (currentCommands.toString().length >= 1024) {
@@ -101,7 +101,7 @@ class HelpCommand extends commando.Command {
         if (hiddenGroups.includes(args) && !isMod) {
           throw 13;
         }
-        var currentCommandsMap = commandGroups.get(args).commands;
+        let currentCommandsMap = commandGroups.get(args).commands;
         for (let [commandName, commandObject] of currentCommandsMap) {
           if (hiddenCommands.includes(commandName.toLowerCase()) && !isMod) {
             continue;
@@ -124,8 +124,8 @@ class HelpCommand extends commando.Command {
             }
           }
 
-          var outputString = "";
-          for (var i = 0; i < currentCommands.length; i++) {
+          let outputString = "";
+          for (let i = 0; i < currentCommands.length; i++) {
             outputString += `${currentCommands[i]}`;
           }
 
@@ -144,7 +144,7 @@ class HelpCommand extends commando.Command {
         }
         // determine if given command exists, else throw
       } else {
-        var currentExamples = [];
+        let currentExamples = [];
         for (let [groupKey, groupObject] of commandGroups) {
           for (let [commandKey, commandObject] of groupObject.commands) {
             if (commandKey == args) {
@@ -170,8 +170,8 @@ class HelpCommand extends commando.Command {
                 commandObject.aliases.length != 0 &&
                 commandObject.aliases[0] != ""
               ) {
-                var aliasesString = "";
-                for (var i = 0; i < commandObject.aliases.length; i++) {
+                let aliasesString = "";
+                for (let i = 0; i < commandObject.aliases.length; i++) {
                   aliasesString += `${commandObject.aliases[i]} \n`;
                 }
                 helpEmbed.addField("Aliases:", `${aliasesString} `);
@@ -206,8 +206,8 @@ class HelpCommand extends commando.Command {
                 commandObject.examples[0] != ""
               ) {
                 currentExamples = commandObject.examples;
-                var currentExamplesString = "";
-                for (var x = 0; x < commandObject.examples.length; x++) {
+                let currentExamplesString = "";
+                for (let x = 0; x < commandObject.examples.length; x++) {
                   currentExamplesString += `${currentExamples[x]} \n`;
                 }
                 helpEmbed.addField(

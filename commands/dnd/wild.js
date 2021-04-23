@@ -72,7 +72,7 @@ class WildCommand extends SlashCommand {
       await ctx.defer();
       const embedInfo = getEmbedInfo(Object.keys(ctx.options)[0] === 'roll' ? ctx.options.roll.chart : ctx.options.lookup.chart, Object.keys(ctx.options)[0] === 'lookup' ? ctx.options.lookup.effect_number : null);
 
-      var embed = new discord.MessageEmbed()
+      let embed = new discord.MessageEmbed()
         .addField("Chart Name: ", `**${embedInfo.name}**`)
         .addField("**Die Roll**", `You rolled **${embedInfo.effectNumber}**`)
         .addField("**Effect**", `**||${embedInfo.text}||**`)

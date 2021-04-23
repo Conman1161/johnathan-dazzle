@@ -36,9 +36,9 @@ class RollStatsCommand extends SlashCommand {
   }
   async run(ctx) {
     await ctx.defer();
-    var intStrings = ["One", "Two", "Three", "Four", "Five", "Six"];
+    let intStrings = ["One", "Two", "Three", "Four", "Five", "Six"];
 
-    var statBlock, embed;
+    let statBlock, embed;
 
     try {
       switch (ctx.options.modifier) {
@@ -68,10 +68,10 @@ class RollStatsCommand extends SlashCommand {
       }
 
       if (ctx.options.modifier != "cth") {
-        var totalSum = 0;
+        let totalSum = 0;
         for (let i = 0; i < statBlock.diceRaw.length; i++) {
-          var currentStat = statBlock.diceRaw[i];
-          var currentSum = statBlock.diceSums[i] - (ctx.options.modifier == "d20" ? 0 : Math.min.apply(Math, currentStat));
+          let currentStat = statBlock.diceRaw[i];
+          let currentSum = statBlock.diceSums[i] - (ctx.options.modifier == "d20" ? 0 : Math.min.apply(Math, currentStat));
           totalSum += currentSum;
           embed.addField(
             `__Stat ${intStrings[i]}__`,

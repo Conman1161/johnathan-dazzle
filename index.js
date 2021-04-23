@@ -6,7 +6,7 @@ const Bot = new Client({
 
 const { metric } = require('@pm2/io');
 const { GatewayServer, SlashCreator } = require("slash-create");
-var guildCount = metric({
+let guildCount = metric({
   name: 'Guild count: '
 });
 
@@ -44,8 +44,8 @@ Bot.on("ready", function () {
 
   console.log(`${Bot.settings.client.user.username} live on ${process.env.USERDOMAIN}`);
   console.log(`Currently live in ${Bot.guilds.cache.size} guilds: `);
-  var allGuilds = Bot.guilds.cache.entries();
-  for (var i = 0; i < Bot.guilds.cache.size; i++) {
+  let allGuilds = Bot.guilds.cache.entries();
+  for (let i = 0; i < Bot.guilds.cache.size; i++) {
     console.log(`- ${allGuilds.next().value[1].name}`);
   }
   guildCount.set(Bot.guilds.cache.size);
