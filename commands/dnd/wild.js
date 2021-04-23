@@ -1,12 +1,11 @@
-const commando = require("discord.js-commando");
-const discord = require("discord.js");
+const { MessageAttachment, MessageEmbed } = require("discord.js");
 const wild = require("../modules/wildModule");
 const errorMod = require("../modules/error");
 const { ownerTag } = require('../../config.json');
 const { SlashCommand, CommandOptionType } = require("slash-create");
 const { readFileSync } = require("fs");
 
-const attachment = new discord.MessageAttachment(
+const attachment = new MessageAttachment(
   "./images/wild.png",
   "wild.png"
 );
@@ -36,7 +35,7 @@ class WildCommand extends SlashCommand {
           }, {
             name: 'D&D 5e',
             value: '5e'
-          }]
+          }].sort((a, b) => (a.name > b.name) ? 1 : -1)
         }]
       }, {
         type: CommandOptionType.SUB_COMMAND,
@@ -57,21 +56,21 @@ class WildCommand extends SlashCommand {
           }, {
             name: 'D&D 5e',
             value: '5e'
-          }]
+          }].sort((a, b) => (a.name > b.name) ? 1 : -1)
         }, {
           type: CommandOptionType.INTEGER,
           name: 'effect_number',
           description: 'Which effect are you looking up?',
           required: true
         }]
-      }]
+      }].sort((a, b) => (a.name > b.name) ? 1 : -1)
     });
   }
 
   async run(ctx) {
     try {
       await ctx.defer();
-      const embedInfo = wild.getEmbedInfo(Object.keys(ctx.options)[0] === 'roll' ? ctx.options.roll.chart : ctx.options.lookup.chart, Object.keys(ctx.options)[0] === 'lookup' ? ctx.options.lookup.effect_number : null);
+      const embedInfo = getEmbedInfo(Object.keys(ctx.options)[0] === 'roll' ? ctx.options.roll.chart : ctx.options.lookup.chart, Object.keys(ctx.options)[0] === 'lookup' ? ctx.options.lookup.effect_number : null);
 
       var embed = new discord.MessageEmbed()
         .addField("Chart Name: ", `**${embedInfo.name}**`)

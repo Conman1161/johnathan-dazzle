@@ -1,7 +1,7 @@
-const discord = require("discord.js");
+const { MessageAttachment, MessageEmbed } = require("discord.js");
 const { readFileSync } = require("fs");
 const { SlashCommand } = require("slash-create");
-const attachment = new discord.MessageAttachment(
+const attachment = new MessageAttachment(
    "./images/support.png",
    "support.png"
 );
@@ -15,7 +15,7 @@ class InviteBotCommand extends SlashCommand {
    }
 
    async run(ctx) {
-      var embed = new discord.MessageEmbed()
+      var embed = new MessageEmbed()
          .setAuthor("Invite", `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`)
          .addField(
             `Link`,

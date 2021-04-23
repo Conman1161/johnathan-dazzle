@@ -1,11 +1,11 @@
-const discord = require("discord.js");
+const { MessageAttachment, MessageEmbed } = require("discord.js");
 const trinketMod = require("../modules/trinket");
 const errorMod = require("../modules/error");
 const { SlashCommand, CommandOptionType } = require("slash-create");
-const Config = require('../../config.json');
+const { ownerTag } = require('../../config.json');
 const { readFileSync } = require("fs");
 
-const attachment = new discord.MessageAttachment("./images/bag.png", "bag.png");
+const attachment = new MessageAttachment("./images/bag.png", "bag.png");
 
 class TrinketCommand extends SlashCommand {
   constructor(client) {
@@ -66,13 +66,13 @@ class TrinketCommand extends SlashCommand {
       if (trinket[1] == "") {
         throw 7;
       }
-      var embed = new discord.MessageEmbed()
+      var embed = new MessageEmbed()
         .addField("**Chart Number:**", `**${trinket[0]}**`)
         .addField("**Trinket**", `**||${trinket[1]}||**`)
         .attachFiles([attachment])
         .setThumbnail("attachment://bag.png")
         .setFooter(
-          `If you think anything has an error, message ${Config.ownerTag} with a screenshot and indicate what the error is.`
+          `If you think anything has an error, message ${ownerTag} with a screenshot and indicate what the error is.`
         )
         .setColor("RANDOM");
       if (ctx.guildID) {

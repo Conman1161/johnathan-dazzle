@@ -1,4 +1,4 @@
-const discord = require("discord.js");
+const { MessageAttachment, MessageEmbed } = require("discord.js");
 const dice = require("dice-expression-evaluator");
 const fs = require('fs');
 const errorMod = require("../modules/error-slash");
@@ -38,9 +38,9 @@ class RollCommand extends SlashCommand {
       if (diceRoll.roll.length > 1023) {
         throw 9;
       }
-      const attachment = new discord.MessageAttachment(`${attachPath}${diceRoll.roll < 21 && diceRoll.roll > 0 ? `d20-${diceRoll.roll}.png` : `d20.png`}`);
+      const attachment = new MessageAttachment(`${attachPath}${diceRoll.roll < 21 && diceRoll.roll > 0 ? `d20-${diceRoll.roll}.png` : `d20.png`}`);
 
-      var embed = new discord.MessageEmbed()
+      var embed = new MessageEmbed()
         .setColor("RANDOM")
         .attachFiles([attachment])
         .setThumbnail(`attachment://d20${diceRoll.roll <= 20 && diceRoll.roll >= 1 ? `-${diceRoll.roll}.png` : `.png`}`);

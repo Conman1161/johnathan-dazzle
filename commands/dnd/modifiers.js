@@ -1,7 +1,7 @@
-const discord = require("discord.js");
+const { MessageAttachment, MessageEmbed } = require("discord.js");
 const { readFileSync } = require("fs");
 const { SlashCommand } = require("slash-create");
-const attachment = new discord.MessageAttachment(
+const attachment = new MessageAttachment(
   "./images/lookup.png",
   "lookup.png"
 );
@@ -16,7 +16,7 @@ class ModifierKeyCommand extends SlashCommand {
 
   async run(ctx) {
     await ctx.defer();
-    let modEmbed = new discord.MessageEmbed()
+    let modEmbed = new MessageEmbed()
       .addField("Format: ", "**Ability Score:** (Modifier)")
       .addField(
         "**Ability Score Modifier**",

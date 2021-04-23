@@ -1,24 +1,16 @@
-const commando = require("discord.js-commando");
+const { SlashCommand } = require("slash-create");
 
-class RestartCommand extends commando.Command {
+class RestartCommand extends SlashCommand {
   constructor(client) {
     super(client, {
-      aliases: [],
-      description: "Restart the bot. Only works if bot owner ",
-      examples: ["!restart"].sort(),
-      format: "",
-      group: "general",
-      memberName: "restart",
+      description: "Restart the bot. Only available to the bot owner",
       name: "restart",
-      ownerOnly: true,
     });
   }
 
-  async run(message) {
-    message.channel.startTyping();
-    await message.channel.send("Restarting...");
+  async run(ctx) {
+    await ctx.send("Restarting...");
     //pm2 on host machine to auto-restart, this will simply end the bot process otherwise
-    message.channel.stopTyping();
     process.exit(0);
   }
 }

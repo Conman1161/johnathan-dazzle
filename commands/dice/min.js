@@ -1,9 +1,9 @@
-const discord = require("discord.js");
+const { MessageAttachment, MessageEmbed } = require("discord.js");
 const errorMod = require("../modules/error");
 const dice = require("dice-expression-evaluator");
 const { SlashCommand, CommandOptionType } = require("slash-create");
 const { readFileSync } = require("fs");
-const attachment = new discord.MessageAttachment(
+const attachment = new MessageAttachment(
   "./images/d20s/non-transp/d20.png",
   "d20.png"
 );
@@ -32,7 +32,7 @@ class MinCommand extends SlashCommand {
 
       var allDice = new dice(ctx.options.dice);
 
-      var embed = new discord.MessageEmbed()
+      var embed = new MessageEmbed()
         .attachFiles([attachment])
         .setThumbnail("attachment://d20.png")
         .setColor("RANDOM");

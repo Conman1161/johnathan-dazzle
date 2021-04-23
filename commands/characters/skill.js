@@ -29,7 +29,7 @@ class SkillCheck extends SlashCommand {
                { name: "Sleight of Hand", value: "sleight_of_hand" },
                { name: "Stealth", value: "stealth" },
                { name: "Survival", value: "survival" },
-            ]
+            ].sort((a, b) => (a.name > b.name) ? 1 : -1)
          },
          {
             type: CommandOptionType.STRING,

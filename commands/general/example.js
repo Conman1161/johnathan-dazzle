@@ -13,7 +13,7 @@ class ExampleCommand extends SlashCommand {
             choices: [{
                name: 'Choice One',
                description: 'My name can be capitalized and have spaces!'
-            }]
+            }].sort((a, b) => (a.name > b.name) ? 1 : -1)
          }]
       });
    }

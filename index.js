@@ -1,9 +1,7 @@
-const Commando = require("discord.js-commando");
-const Config = require("./config.json");
-const Discord = require('discord.js');
-const Client = new Discord.Client();
-const Bot = new Commando.Client({
-  owner: Config.owner
+const { Client } = require("discord.js-commando");
+let { owner, appID, publicKey, token, presenceStatus, presenceText } = require('./config.json');
+const Bot = new Client({
+  owner: owner
 });
 
 const io = require('@pm2/io');
@@ -14,9 +12,9 @@ var guildCount = io.metric({
 
 
 const Creator = new SlashCreator({
-  applicationID: Config.appID,
-  publicKey: Config.publicKey,
-  token: Config.token
+  applicationID: appID,
+  publicKey: publicKey,
+  token: token
 });
 // Creator.registerCommandsIn(`${__dirname}/commands/characters`).syncCommands();
 Creator.registerCommandsIn(`${__dirname}/commands/dice`).syncCommands();
@@ -35,29 +33,13 @@ Creator.on('warn', m => console.log('slash-create warn:', m));
 Creator.on('error', m => console.error('slash-create error: ', m));
 
 
-// Bot.registry.registerDefaultTypes(`${__dirname}/commands"`);
-
-// Bot.registry.registerGroup("characters", "Characters");
-// Bot.registry.registerGroup("dice", "Dice");
-// Bot.registry.registerGroup("dnd", "DnD");
-// Bot.registry.registerGroup("general", "General");
-// //Bot.registry.registerCommandsIn(`${__dirname}/commands`);
-
-// Bot.registry.registerDefaultGroups();
-// Bot.registry.registerDefaultCommands({
-//   help: false,
-//   unknownCommand: false,
-//   eval: false,
-// });
-
-
 Bot.on("ready", function () {
   Bot.user.setPresence({
     activity: {
-      name: `${Config.presenceText}`,
+      name: `${presenceText}`,
       type: "PLAYING"
     },
-    status: `${Config.presenceStatus}`
+    status: `${presenceStatus}`
   });
 
   console.log(`${Bot.settings.client.user.username} live on ${process.env.USERDOMAIN}`);
@@ -80,4 +62,4 @@ Bot.on("guildDelete", guild => {
   guildCount.set(Bot.guilds.cache.size);
 });
 
-Bot.login(Config.token);
+Bot.login(token);

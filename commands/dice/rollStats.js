@@ -1,11 +1,10 @@
-const commando = require("discord.js-commando");
-const discord = require("discord.js");
+const { MessageAttachment, MessageEmbed } = require("discord.js");
 const stats = require("../modules/statsModule");
 const errorMod = require("../modules/error");
 const { SlashCommand, CommandOptionType } = require("slash-create");
 const { readFileSync } = require("fs");
 
-const attachment = new discord.MessageAttachment("./images/4d6.png", "4d6.png");
+const attachment = new MessageAttachment("./images/4d6.png", "4d6.png");
 
 class RollStatsCommand extends SlashCommand {
   constructor(client) {
@@ -30,7 +29,7 @@ class RollStatsCommand extends SlashCommand {
             name: 'Call of Cthulhu',
             value: 'cth'
           }
-        ],
+        ].sort((a, b) => (a.name > b.name) ? 1 : -1),
         required: false
       }]
     });
@@ -57,7 +56,7 @@ class RollStatsCommand extends SlashCommand {
           break;
       }
 
-      embed = new discord.MessageEmbed()
+      embed = new MessageEmbed()
         .setColor("RANDOM")
         .attachFiles([attachment])
         .setThumbnail("attachment://4d6.png");

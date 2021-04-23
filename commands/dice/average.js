@@ -1,9 +1,9 @@
 const { SlashCommand, CommandOptionType } = require('slash-create');
-const discord = require("discord.js");
+const { MessageEmbed, MessageAttachment } = require("discord.js");
 const errorMod = require("../modules/error");
 const dice = require("dice-expression-evaluator");
 const { readFileSync } = require('fs');
-const attachment = new discord.MessageAttachment(
+const attachment = new MessageAttachment(
   "./images/d20s/non-transp/d20.png",
   "d20.png"
 );
@@ -32,7 +32,7 @@ class AvgCommand extends SlashCommand {
 
       var allDice = new dice(ctx.options.dice);
 
-      var embed = new discord.MessageEmbed()
+      var embed = new MessageEmbed()
         .attachFiles([attachment])
         .setThumbnail("attachment://d20.png")
         .setColor("RANDOM");

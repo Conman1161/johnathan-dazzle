@@ -1,10 +1,10 @@
-const discord = require("discord.js");
+const { MessageAttachment, MessageEmbed } = require("discord.js");
 const { version } = require("../../package.json");
 const { catboy, ownerTag } = require('../../config.json');
 const owoify = require('owoifyx');
 const { SlashCommand } = require("slash-create");
 const { readFileSync } = require("fs");
-const attachment = new discord.MessageAttachment(
+const attachment = new MessageAttachment(
   catboy ? "./images/catboy/Background.png" : "./images/icon.png",
   "icon.png"
 );
@@ -19,7 +19,7 @@ class BotInfoCommand extends SlashCommand {
 
   async run(ctx) {
     await ctx.defer();
-    var myInfo = new discord.MessageEmbed()
+    var myInfo = new MessageEmbed()
       .setAuthor(`${catboy ? owoify('Johnathan Dazzle') : 'Johnathan Dazzle'}`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`)
       .addField(
         `${catboy ? `${owoify('Bot Info')}` : `Bot Info`}`,

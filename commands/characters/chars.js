@@ -1,6 +1,5 @@
 const { MessageEmbed, resolveColor } = require("discord.js");
 const { SlashCommand, CommandOptionType } = require("slash-create");
-const fs = require('fs');
 const errorMod = require("../modules/error");
 const charMod = require("../modules/chars");
 const template = require("../characters/sheets/template.json");
@@ -185,7 +184,7 @@ class CharacterCommand extends SlashCommand {
             }
           ]
         }
-      ],
+      ].sort((a, b) => (a.name > b.name) ? 1 : -1),
     });
     this.filePath = __filename;
   }
