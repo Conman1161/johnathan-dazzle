@@ -1,0 +1,9 @@
+{
+  "token": "YourBotToken",
+  "appID": "YourAppID",
+  "owner": "YourOwnerID",
+  "ownerTag": "Someone#1234",
+  "presenceText": "with the code!",
+  "presenceStatus": "dnd",
+  "catboy": false
+}
