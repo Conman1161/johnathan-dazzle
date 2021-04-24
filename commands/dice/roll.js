@@ -1,10 +1,9 @@
-const { MessageAttachment, MessageEmbed } = require("discord.js");
+const { MessageEmbed } = require("discord.js");
 const dice = require("dice-expression-evaluator");
-const fs = require('fs');
 const errorMod = require("../modules/error-slash");
 const attachPath = `${process.cwd()}/images/d20s/non-transp/`;
-
 const { SlashCommand, CommandOptionType } = require('slash-create');
+const { readFileSync } = require("fs");
 
 class RollCommand extends SlashCommand {
   constructor(creator) {
@@ -38,11 +37,10 @@ class RollCommand extends SlashCommand {
       if (diceRoll.roll.length > 1023) {
         throw 9;
       }
-      const attachment = new MessageAttachment(`${attachPath}${diceRoll.roll < 21 && diceRoll.roll > 0 ? `d20-${diceRoll.roll}.png` : `d20.png`}`);
 
       let embed = new MessageEmbed()
         .setColor("RANDOM")
-        .attachFiles([attachment])
+        .attachFiles([`${attachPath}${diceRoll.roll < 21 && diceRoll.roll > 0 ? `d20-${diceRoll.roll}.png` : `d20.png`}`])
         .setThumbnail(`attachment://d20${diceRoll.roll <= 20 && diceRoll.roll >= 1 ? `-${diceRoll.roll}.png` : `.png`}`);
 
       //https://cdn.discordapp.com/avatars/{USERID}/{TOKENID}.png
@@ -90,21 +88,20 @@ class RollCommand extends SlashCommand {
         embeds: [embed],
         file: {
           name: `d20${diceRoll.roll <= 20 && diceRoll.roll >= 1 ? `-${diceRoll.roll}.png` : `.png`}`,
-          file: fs.readFileSync(attachment.attachment)
+          file: readFileSync(`${attachPath}${diceRoll.roll < 21 && diceRoll.roll > 0 ? `d20-${diceRoll.roll}.png` : `d20.png`}`)
         }
       };
     } catch (err) {
       ctx.send({
         embeds: [errorMod.errorMessage(err, ctx)],
-        filePath: attachment
+        file: readFileSync(`${attachPath}${diceRoll.roll < 21 && diceRoll.roll > 0 ? `d20-${diceRoll.roll}.png` : `d20.png`}`)
       });
     } finally {
-      //message.channel.stopTyping();
     }
   }
 
   async onError(err, ctx) {
-    ctx.send(`An error occurred! Here is the message: \`${err}\``);
+    await ctx.send(`An error occurred! Here is the message: \`${err}\``);
   }
 }
 

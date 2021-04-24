@@ -1,10 +1,8 @@
-const { MessageAttachment, MessageEmbed } = require("discord.js");
+const { MessageEmbed } = require("discord.js");
 const stats = require("../modules/statsModule");
 const errorMod = require("../modules/error");
 const { SlashCommand, CommandOptionType } = require("slash-create");
 const { readFileSync } = require("fs");
-
-const attachment = new MessageAttachment("./images/4d6.png", "4d6.png");
 
 class RollStatsCommand extends SlashCommand {
   constructor(client) {
@@ -58,8 +56,8 @@ class RollStatsCommand extends SlashCommand {
 
       embed = new MessageEmbed()
         .setColor("RANDOM")
-        .attachFiles([attachment])
-        .setThumbnail("attachment://4d6.png");
+        .attachFiles([`./images/4d6.png`])
+        .setThumbnail(`attachment://4d6.png`);
 
       if (ctx.guildID) {
         embed.setAuthor(`${ctx.data.member.nick || ctx.data.member.user.username}'s Stat Block`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`);
@@ -95,24 +93,26 @@ class RollStatsCommand extends SlashCommand {
         embed.addField('__Education__', `**${(statBlock[7].roll + 6) * 5}**\nFrom: [${statBlock[7].diceRaw[0].join(' + ')} **+ 6**] * 5`, true);
       }
 
-      ctx.send({
+      return {
         embeds: [embed],
         file: {
           name: `4d6.png`,
-          file: readFileSync(attachment.attachment)
+          file: readFileSync(`./images/4d6.png`)
+        }
+      };
+    } catch (err) {
+      await ctx.send({
+        embeds: [errorMod.errorMessage(err, ctx)],
+        file: {
+          name: `error.png`,
+          file: readFileSync(`./images/error.png`)
         }
       });
-    } catch (err) {
-      ctx.send({
-        embeds: [errorMod.errorMessage(err, ctx)],
-        filePath: attachment
-      });
     } finally {
-      // message.channel.stopTyping();
     }
   }
   async onError(err, ctx) {
-    ctx.send(`An error occurred! Here is the message: \`${err}\``);
+    await ctx.send(`An error occurred! Here is the message: \`${err}\``);
   }
 }
 module.exports = RollStatsCommand;

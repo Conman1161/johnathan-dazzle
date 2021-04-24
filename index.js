@@ -1,5 +1,5 @@
 const { Client } = require("discord.js-commando");
-let { owner, appID, publicKey, token, presenceStatus, presenceText } = require('./config.json');
+let { owner, appID, token, presenceStatus, presenceText } = require('./config.json');
 const Bot = new Client({
   owner: owner
 });
@@ -13,7 +13,6 @@ let guildCount = io.metric({
 
 const Creator = new SlashCreator({
   applicationID: appID,
-  publicKey: publicKey,
   token: token
 });
 // Creator.registerCommandsIn(`${__dirname}/commands/characters`).syncCommands();

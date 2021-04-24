@@ -1,7 +1,7 @@
 const errorMod = require('../modules/error');
 const domtMod = require('../modules/domt');
 const imageDir = `${process.cwd()}/images/domt/`;
-const { MessageEmbed, MessageAttachment } = require("discord.js");
+const { MessageEmbed } = require("discord.js");
 const { SlashCommand, CommandOptionType } = require("slash-create");
 const { readFileSync } = require('fs');
 
@@ -125,31 +125,28 @@ class DoMTCommand extends SlashCommand {
       switch (Object.keys(ctx.options)[0]) {
         case 'draw':
           let card = domtMod.draw(ctx.options.draw.deck);
-          let attachmentDraw = new MessageAttachment(`${imageDir}${card.replace(' ', '')}.png`, `${card.replace(' ', '')}.png`);
-          embed.attachFiles(attachmentDraw);
+          embed.attachFiles(`${imageDir}${card.replace(' ', '')}.png`);
           embed.addField('Card: ', card);
           embed.setImage(`attachment://${card.replace(' ', '')}.png`);
-          console.log(card);
           break;
         case 'lookup':
           let effect = domtMod.lookup(ctx.options.lookup.card);
-          let attachmentLookup = new MessageAttachment(`${imageDir}${ctx.options.lookup.card.replace(' ', '')}.png`, `${ctx.options.lookup.card.replace(' ', '')}.png`);
-          embed.attachFiles(attachmentLookup);
+          embed.attachFiles(`${imageDir}${ctx.options.lookup.card.replace(' ', '')}.png`);
           embed.addField('Card: ', ctx.options.lookup.card);
           embed.addField('Effect: ', effect);
           embed.setImage(`attachment://${ctx.options.lookup.card.replace(' ', '')}.png`);
           break;
       }
 
-      ctx.send({
+      return {
         embeds: [embed],
         file: {
           name: `${embed.image.url.replace('attachment://', '')}`,
           file: readFileSync(`./images/domt/${embed.image.url.replace('attachment://', '')}`)
         }
-      });
+      };
     } catch (err) {
-      ctx.send({
+      await ctx.send({
         embeds: [errorMod.errorMessage(err, ctx)],
         file: {
           name: `error.png`,
@@ -157,11 +154,10 @@ class DoMTCommand extends SlashCommand {
         }
       });
     } finally {
-      // message.channel.stopTyping();
     }
   }
   async onError(err, ctx) {
-    ctx.send(`An error occurred! Here is the message: \`${err}\``);
+    await ctx.send(`An error occurred! Here is the message: \`${err}\``);
   }
 }
 

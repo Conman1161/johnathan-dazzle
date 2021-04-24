@@ -1,11 +1,8 @@
-const { MessageEmbed, MessageAttachment } = require("discord.js");
+const { MessageEmbed } = require("discord.js");
 const { readFileSync } = require("fs");
 const { SlashCommand } = require("slash-create");
 const { ownerTag } = require('../../config.json');
-const attachment = new MessageAttachment(
-  "./images/support.png",
-  "support.png"
-);
+
 
 class SupportCommand extends SlashCommand {
   constructor(client) {
@@ -28,17 +25,17 @@ class SupportCommand extends SlashCommand {
         `Contact \`${ownerTag}\` if you have any further questions`
       )
       .setColor("#fe00ff")
-      .attachFiles([attachment])
-      .setURL("https://discord.gg/ZUJAMnh")
-      .setThumbnail("attachment://support.png");
+      .attachFiles([`./images/support.png`])
+      .setURL(`https://discord.gg/ZUJAMnh`)
+      .setThumbnail(`attachment://support.png`);
 
-    ctx.send({
+    return {
       embeds: [embed],
       file: {
         name: 'support.png',
-        file: readFileSync(attachment.attachment)
+        file: readFileSync(`./images/support.png`)
       }
-    });
+    };
   }
 }
 

@@ -1,13 +1,9 @@
-const { MessageAttachment, MessageEmbed } = require("discord.js");
+const { MessageEmbed } = require("discord.js");
 const { version } = require("../../package.json");
 const { catboy, ownerTag } = require('../../config.json');
 const owoify = require('owoifyx');
 const { SlashCommand } = require("slash-create");
 const { readFileSync } = require("fs");
-const attachment = new MessageAttachment(
-  catboy ? "./images/catboy/Background.png" : "./images/icon.png",
-  "icon.png"
-);
 
 class BotInfoCommand extends SlashCommand {
   constructor(client) {
@@ -47,16 +43,16 @@ class BotInfoCommand extends SlashCommand {
         'All artwork has been commissioned and made by **Kai**. They can be found on [`Twitter`](https://twitter.com/ckttle_ "@ckttle_") and [`Instagram`](https://instagram.com/ckttle "@ckttle").'
       )
       .setColor(catboy ? "#e073c1" : "#fe00ff")
-      .attachFiles([attachment])
-      .setThumbnail("attachment://icon.png");
+      .attachFiles([catboy ? "./images/catboy/Background.png" : "./images/icon.png"])
+      .setThumbnail(`attachment://${catboy ? "Background.png" : "icon.png"}`);
 
-    ctx.send({
+    return {
       embeds: [myInfo],
       file: {
         name: `${catboy ? 'Background.png' : 'icon.png'}`,
-        file: readFileSync(attachment.attachment)
+        file: readFileSync(catboy ? `./images/catboy/Background.png` : `./images/icon.png`)
       }
-    });
+    };
   }
 }
 

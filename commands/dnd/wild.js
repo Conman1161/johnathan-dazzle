@@ -1,14 +1,9 @@
-const { MessageAttachment, MessageEmbed } = require("discord.js");
+const { MessageEmbed } = require("discord.js");
 const { getEmbedInfo } = require("../modules/wildModule");
 const errorMod = require("../modules/error");
 const { ownerTag } = require('../../config.json');
 const { SlashCommand, CommandOptionType } = require("slash-create");
 const { readFileSync } = require("fs");
-
-const attachment = new MessageAttachment(
-  "./images/wild.png",
-  "wild.png"
-);
 
 class WildCommand extends SlashCommand {
   constructor(client) {
@@ -76,8 +71,8 @@ class WildCommand extends SlashCommand {
         .addField("Chart Name: ", `**${embedInfo.name}**`)
         .addField("**Die Roll**", `You rolled **${embedInfo.effectNumber}**`)
         .addField("**Effect**", `**||${embedInfo.text}||**`)
-        .attachFiles([attachment])
-        .setThumbnail("attachment://wild.png")
+        .attachFiles([`./images/wild.png`])
+        .setThumbnail(`attachment://wild.png`)
         .setFooter(
           `If you think the roll has an error, message ${ownerTag} with the roll number and what the error is.`
         )
@@ -88,15 +83,15 @@ class WildCommand extends SlashCommand {
       } else {
         embed.setAuthor(`${ctx.user.username}'s Wild Magic ${Object.keys(ctx.options).length < 2 ? 'Surge' : 'Lookup'}`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`);
       }
-      ctx.send({
+      return {
         embeds: [embed],
         file: {
           name: `wild.png`,
-          file: readFileSync(attachment.attachment)
+          file: readFileSync(`./images/wild.png`)
         }
-      });
+      };
     } catch (err) {
-      ctx.send({
+      await ctx.send({
         embeds: [errorMod.errorMessage(err, ctx)],
         file: {
           name: `error.png`,
@@ -104,11 +99,10 @@ class WildCommand extends SlashCommand {
         }
       });
     } finally {
-      // message.channel.stopTyping();
     }
   }
   async onError(err, ctx) {
-    ctx.send(`An error occurred! Here is the message: \`${err}\``);
+    await ctx.send(`An error occurred! Here is the message: \`${err}\``);
   }
 }
 module.exports = WildCommand;

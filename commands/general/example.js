@@ -1,3 +1,5 @@
+const { MessageEmbed } = require("discord.js");
+const { readFileSync } = require("fs");
 const { SlashCommand, CommandOptionType } = require("slash-create");
 const errorMod = require('../modules/error');
 
@@ -21,8 +23,17 @@ class ExampleCommand extends SlashCommand {
    async run(ctx) {
       try {
          await ctx.defer();
+         let embed = new MessageEmbed().setColor('RANDOM');
+         embed.setTitle(`An example title!`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`);
+         return {
+            embeds: [embed],
+            file: {
+               name: `fileName.png`,
+               file: readFileSync(`filePath`)
+            }
+         };
       } catch (err) {
-         ctx.send({
+         await ctx.send({
             embeds: [errorMod.errorMessage(err, ctx)],
             file: {
                name: `error.png`,
@@ -30,11 +41,10 @@ class ExampleCommand extends SlashCommand {
             }
          });
       } finally {
-
       }
    }
    async onError(err, ctx) {
-      ctx.send(`An error occurred! Here is the message: \`${err}\``);
+      await ctx.send(`An error occurred! Here is the message: \`${err}\``);
    }
 }
 

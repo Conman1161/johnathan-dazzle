@@ -1,12 +1,8 @@
-const { MessageAttachment, MessageEmbed } = require("discord.js");
+const { MessageEmbed } = require("discord.js");
 const errorMod = require("../modules/error");
 const dice = require("dice-expression-evaluator");
 const { SlashCommand, CommandOptionType } = require("slash-create");
 const { readFileSync } = require("fs");
-const attachment = new MessageAttachment(
-  "./images/d20s/non-transp/d20.png",
-  "d20.png"
-);
 
 class MinCommand extends SlashCommand {
   constructor(client) {
@@ -33,8 +29,8 @@ class MinCommand extends SlashCommand {
       let allDice = new dice(ctx.options.dice);
 
       let embed = new MessageEmbed()
-        .attachFiles([attachment])
-        .setThumbnail("attachment://d20.png")
+        .attachFiles([`./images/d20s/non-transp/d20.png`])
+        .setThumbnail(`attachment://d20.png`)
         .setColor("RANDOM");
       if (ctx.guildID) {
         embed.setAuthor(`${ctx.member.displayName}'s Die Minimums`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`);
@@ -79,15 +75,15 @@ class MinCommand extends SlashCommand {
         `${finalString} = __**${allDice.min()}**__`
       );
 
-      ctx.send({
+      return {
         embeds: [embed],
         file: {
           name: `d20.png`,
-          file: readFileSync(attachment.attachment)
+          file: readFileSync(`./images/d20s/non-transp/d20.png`)
         }
-      });
+      };
     } catch (err) {
-      ctx.send({
+      await ctx.send({
         embeds: [errorMod.errorMessage(err, ctx)],
         file: {
           name: `error.png`,
@@ -95,12 +91,11 @@ class MinCommand extends SlashCommand {
         }
       });
     } finally {
-      // message.channel.stopTyping();
     }
   }
 
   async onError(err, ctx) {
-    ctx.send(`An error occurred! Here is the message: \`${err}\``);
+    await ctx.send(`An error occurred! Here is the message: \`${err}\``);
   }
 }
 

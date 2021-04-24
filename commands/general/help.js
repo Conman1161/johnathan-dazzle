@@ -1,11 +1,7 @@
-const { MessageAttachment, MessageEmbed } = require("discord.js");
+const { MessageEmbed } = require("discord.js");
 const errorMod = require("../modules/error");
 const { SlashCommand } = require("slash-create");
 const { readFileSync } = require("fs");
-const attachment = new MessageAttachment(
-  "./images/help.png",
-  "help.png"
-);
 
 class HelpCommand extends SlashCommand {
   constructor(client) {
@@ -26,18 +22,18 @@ class HelpCommand extends SlashCommand {
 
       let helpEmbed = new MessageEmbed()
         .setAuthor("Help", `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`)
-        .attachFiles(attachment)
+        .attachFiles(`./images/help.png`)
         .addField(`Command Name - Description`, lines.sort().join('\n'))
         .setColor("#fe00ff")
         .setThumbnail("attachment://help.png");
 
-      ctx.send({
+      return {
         embeds: [helpEmbed],
         file: {
-          name: 'help.png',
-          file: readFileSync(attachment.attachment)
+          name: `help.png`,
+          file: readFileSync(`./images/help.png`)
         }
-      });
+      };
     } catch (err) {
       ctx.send({
         embeds: [errorMod.errorMessage(err, ctx)],
@@ -47,7 +43,6 @@ class HelpCommand extends SlashCommand {
         }
       });
     } finally {
-
     }
   }
 }
