@@ -1,13 +1,13 @@
 {
   "name": "johnathan-dazzle",
-  "version": "1.7.6",
+  "version": "2.0.0",
   "description": "A Discord bot for rolling dice",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "Conman",
   "license": "ISC",
   "dependencies": {
     "@pm2/io": "^4.3.5",
