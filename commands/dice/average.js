@@ -3,6 +3,7 @@ const { MessageEmbed } = require("discord.js");
 const errorMod = require("../modules/error");
 const dice = require("dice-expression-evaluator");
 const { readFileSync } = require('fs');
+// const { hostGuildID } = require('../../config.json');
 
 class AvgCommand extends SlashCommand {
   constructor(client) {
@@ -14,8 +15,10 @@ class AvgCommand extends SlashCommand {
         name: "dice",
         description: 'What dice expression do you need the average of? Accepts the XdY+Z dice format',
         required: true
-      }]
+      }],
+      // guildIDs: [hostGuildID]
     });
+    this.filePath = __filename;
   }
 
   async run(ctx) {

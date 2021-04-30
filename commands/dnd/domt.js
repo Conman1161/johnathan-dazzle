@@ -4,6 +4,7 @@ const imageDir = `${process.cwd()}/images/domt/`;
 const { MessageEmbed } = require("discord.js");
 const { SlashCommand, CommandOptionType } = require("slash-create");
 const { readFileSync } = require('fs');
+// const { hostGuildID } = require('../../config.json');
 
 class DoMTCommand extends SlashCommand {
   constructor(client) {
@@ -106,8 +107,10 @@ class DoMTCommand extends SlashCommand {
             value: 'Vizier'
           }].sort((a, b) => (a.name > b.name) ? 1 : -1)
         }]
-      }]
+      }],
+      // guildIDs: [hostGuildID]
     });
+    this.filePath = __filename;
   }
 
   async run(ctx) {

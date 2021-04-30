@@ -1,6 +1,6 @@
 const { MessageEmbed } = require("discord.js");
 const { version } = require("../../package.json");
-const { catboy, ownerTag } = require('../../config.json');
+const { catboy, ownerTag, /* hostGuildID */ } = require('../../config.json');
 const owoify = require('owoifyx');
 const { SlashCommand } = require("slash-create");
 const { readFileSync } = require("fs");
@@ -10,6 +10,7 @@ class BotInfoCommand extends SlashCommand {
     super(client, {
       description: "A little information Johnathon Dazzle",
       name: "info",
+      // guildIDs: [hostGuildID]
     });
   }
 
@@ -23,7 +24,7 @@ class BotInfoCommand extends SlashCommand {
       )
       .addField(
         `${catboy ? `${owoify(`__**WORK IN PROGRESS**__`)}` : `__**WORK IN PROGRESS**__`}`,
-        `${catboy ? `${owoify(`Dazzle is currently in a **Work in Progress** state, meaning some functions and features are not finished or completely implemented yet. Please keep this in mind when using Dazzle`)}` : `Dazzle is currently in a **Work in Progress** state, meaning some functions and features are not finished or completely implemented yet. Please keep this in mind when using Dazzle`}`
+        `${catboy ? `${owoify(`Dazzle is currently in development, meaning some functions and features are not finished or completely implemented yet. Please keep this in mind when using Dazzle`)}` : `Dazzle is currently in development, meaning some functions and features are not finished or completely implemented yet. Please keep this in mind when using Dazzle`}`
       )
       .addField(
         `${catboy ? `${owoify(`Bot Support`)}` : `Bot Support`}`,

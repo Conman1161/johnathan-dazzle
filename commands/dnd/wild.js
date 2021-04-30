@@ -1,7 +1,7 @@
 const { MessageEmbed } = require("discord.js");
 const { getEmbedInfo } = require("../modules/wildModule");
 const errorMod = require("../modules/error");
-const { ownerTag } = require('../../config.json');
+const { ownerTag, /* hostGuildID */ } = require('../../config.json');
 const { SlashCommand, CommandOptionType } = require("slash-create");
 const { readFileSync } = require("fs");
 
@@ -58,8 +58,10 @@ class WildCommand extends SlashCommand {
           description: 'Which effect are you looking up?',
           required: true
         }]
-      }].sort((a, b) => (a.name > b.name) ? 1 : -1)
+      }].sort((a, b) => (a.name > b.name) ? 1 : -1),
+      // guildIDs: [hostGuildID]
     });
+    this.filePath = __filename;
   }
 
   async run(ctx) {

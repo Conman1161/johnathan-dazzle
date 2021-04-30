@@ -3,6 +3,7 @@ const stats = require("../modules/statsModule");
 const errorMod = require("../modules/error");
 const { SlashCommand, CommandOptionType } = require("slash-create");
 const { readFileSync } = require("fs");
+// const { hostGuildID } = require('../../config.json');
 
 class RollStatsCommand extends SlashCommand {
   constructor(client) {
@@ -29,8 +30,10 @@ class RollStatsCommand extends SlashCommand {
           }
         ].sort((a, b) => (a.name > b.name) ? 1 : -1),
         required: false
-      }]
+      }],
+      // guildIDs: [hostGuildID]
     });
+    this.filePath = __filename;
   }
   async run(ctx) {
     await ctx.defer();
@@ -85,12 +88,12 @@ class RollStatsCommand extends SlashCommand {
       } else {
         embed.addField('__Strength__', `**${(statBlock[0].roll) * 5}**\nFrom: [${statBlock[0].diceRaw[0].join(' + ')}] * 5`, true);
         embed.addField('__Constitution__', `**${(statBlock[1].roll) * 5}**\nFrom: [${statBlock[1].diceRaw[0].join(' + ')}] * 5`, true);
-        embed.addField('__Size__', `**${(statBlock[2].roll + 6) * 5}**\nFrom: [${statBlock[2].diceRaw[0].join(' + ')} **+ 6**] * 5`, true);
+        embed.addField('__Size__', `**${(statBlock[2].roll + 6) * 5}**\nFrom: [${statBlock[2].diceRaw[0].join(' + ')} + **6**] * 5`, true);
         embed.addField('__Dexterity__', `**${(statBlock[3].roll) * 5}**\nFrom: [${statBlock[3].diceRaw[0].join(' + ')}] * 5`, true);
         embed.addField('__Appearance__', `**${(statBlock[4].roll) * 5}**\nFrom: [${statBlock[4].diceRaw[0].join(' + ')}] * 5`, true);
-        embed.addField('__Intelligence__', `**${(statBlock[5].roll + 6) * 5}**\nFrom: [${statBlock[5].diceRaw[0].join(' + ')} **+ 6**] * 5`, true);
+        embed.addField('__Intelligence__', `**${(statBlock[5].roll + 6) * 5}**\nFrom: [${statBlock[5].diceRaw[0].join(' + ')} + **6**] * 5`, true);
         embed.addField('__Power__', `**${(statBlock[6].roll) * 5}**\nFrom: [${statBlock[6].diceRaw[0].join(' + ')}] * 5`, true);
-        embed.addField('__Education__', `**${(statBlock[7].roll + 6) * 5}**\nFrom: [${statBlock[7].diceRaw[0].join(' + ')} **+ 6**] * 5`, true);
+        embed.addField('__Education__', `**${(statBlock[7].roll + 6) * 5}**\nFrom: [${statBlock[7].diceRaw[0].join(' + ')} + **6**] * 5`, true);
       }
 
       return {

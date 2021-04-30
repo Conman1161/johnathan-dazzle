@@ -2,6 +2,7 @@ const { MessageEmbed } = require("discord.js");
 const { readFileSync } = require("fs");
 const { SlashCommand, CommandOptionType } = require("slash-create");
 const errorMod = require('../modules/error');
+// const { hostGuildID } = require('../../config.json');
 
 class ExampleCommand extends SlashCommand {
    constructor(client) {
@@ -15,9 +16,11 @@ class ExampleCommand extends SlashCommand {
             choices: [{
                name: 'Choice One',
                description: 'My name can be capitalized and have spaces!'
-            }].sort((a, b) => (a.name > b.name) ? 1 : -1)
+            }].sort((a, b) => (a.name > b.name) ? 1 : -1),
+            // guildIDs: [hostGuildID]
          }]
       });
+      this.filePath = __filename;
    }
 
    async run(ctx) {

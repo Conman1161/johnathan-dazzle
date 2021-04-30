@@ -2,7 +2,7 @@ const { MessageEmbed } = require("discord.js");
 const trinketMod = require("../modules/trinket");
 const errorMod = require("../modules/error");
 const { SlashCommand, CommandOptionType } = require("slash-create");
-const { ownerTag } = require('../../config.json');
+const { ownerTag, /*hostGuildID */ } = require('../../config.json');
 const { readFileSync } = require("fs");
 
 class TrinketCommand extends SlashCommand {
@@ -51,9 +51,11 @@ class TrinketCommand extends SlashCommand {
         }, {
           name: '12',
           value: 12
-        }].sort((a, b) => (a.name > b.name) ? 1 : -1)
-      }]
+        }]
+      }],
+      // guildIDs: [hostGuildID]
     });
+    this.filePath = __filename;
   }
 
   async run(ctx) {

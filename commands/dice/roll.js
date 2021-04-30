@@ -4,6 +4,7 @@ const errorMod = require("../modules/error-slash");
 const attachPath = `${process.cwd()}/images/d20s/non-transp/`;
 const { SlashCommand, CommandOptionType } = require('slash-create');
 const { readFileSync } = require("fs");
+// const { hostGuildID } = require('../../config.json');
 
 class RollCommand extends SlashCommand {
   constructor(creator) {
@@ -15,7 +16,8 @@ class RollCommand extends SlashCommand {
         name: "dice",
         description: 'What dice are you rolling? Accepts the XdY+Z dice format.',
         required: false
-      }]
+      }],
+      // guildIDs: [hostGuildID]
     });
     this.filePath = __filename;
   }
@@ -94,7 +96,10 @@ class RollCommand extends SlashCommand {
     } catch (err) {
       ctx.send({
         embeds: [errorMod.errorMessage(err, ctx)],
-        file: readFileSync(`${attachPath}${diceRoll.roll < 21 && diceRoll.roll > 0 ? `d20-${diceRoll.roll}.png` : `d20.png`}`)
+        file: {
+          name: 'error.png',
+          file: readFileSync(`./images/error.png`)
+        }
       });
     } finally {
     }

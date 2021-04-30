@@ -2,14 +2,17 @@ const { MessageEmbed } = require("discord.js");
 const errorMod = require("../modules/error");
 const { SlashCommand } = require("slash-create");
 const { readFileSync } = require("fs");
+// const { hostGuildID } = require('../../config.json');
 
 class HelpCommand extends SlashCommand {
   constructor(client) {
     super(client, {
       description:
         "See a list of all commands",
-      name: "help"
+      name: "help",
+      // guildIDs: [hostGuildID]
     });
+    this.filePath = __filename;
   }
 
   async run(ctx) {

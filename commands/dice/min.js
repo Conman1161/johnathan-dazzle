@@ -3,6 +3,7 @@ const errorMod = require("../modules/error");
 const dice = require("dice-expression-evaluator");
 const { SlashCommand, CommandOptionType } = require("slash-create");
 const { readFileSync } = require("fs");
+// const { hostGuildID } = require('../../config.json');
 
 class MinCommand extends SlashCommand {
   constructor(client) {
@@ -14,8 +15,10 @@ class MinCommand extends SlashCommand {
         name: "dice",
         description: 'What dice expression do you need the minimum of? Accepts the XdY+Z dice format',
         required: true
-      }]
+      }],
+      // guildIDs: [hostGuildID]
     });
+    this.filePath = __filename;
   }
 
   async run(ctx) {

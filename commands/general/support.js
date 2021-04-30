@@ -1,7 +1,7 @@
 const { MessageEmbed } = require("discord.js");
 const { readFileSync } = require("fs");
 const { SlashCommand } = require("slash-create");
-const { ownerTag } = require('../../config.json');
+const { ownerTag, /* hostGuildID */ } = require('../../config.json');
 
 
 class SupportCommand extends SlashCommand {
@@ -9,6 +9,7 @@ class SupportCommand extends SlashCommand {
     super(client, {
       description: "Support information for Dazzle",
       name: "support",
+      // guildIDs: [hostGuildID]
     });
   }
 

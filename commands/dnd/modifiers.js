@@ -1,13 +1,16 @@
 const { MessageEmbed } = require("discord.js");
 const { readFileSync } = require("fs");
 const { SlashCommand } = require("slash-create");
+// const { hostGuildID } = require('../../config.json');
 
 class ModifierKeyCommand extends SlashCommand {
   constructor(client) {
     super(client, {
       name: "modifiers",
-      description: "A legend for Ability Score Modifiers"
+      description: "A legend for Ability Score Modifiers",
+      // guildIDs: [hostGuildID]
     });
+    this.filePath = __filename;
   }
 
   async run(ctx) {
