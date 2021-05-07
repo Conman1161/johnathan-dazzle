@@ -1,7 +1,7 @@
 const { MessageEmbed } = require("discord.js");
 const errorMod = require("../modules/error");
 const { SlashCommand } = require("slash-create");
-const { readFileSync } = require("fs");
+const { readFileSync, readdirSync } = require("fs");
 // const { hostGuildID } = require('../../config.json');
 
 class HelpCommand extends SlashCommand {
@@ -19,16 +19,21 @@ class HelpCommand extends SlashCommand {
     try {
       await ctx.defer();
       let lines = [];
-      ctx.creator.commands.forEach(element => {
-        lines.push(`**${element.commandName}** - \`${element.description}\``);
-      });
-
+      //Get all folder groups
+      let groups = readdirSync('./commands');
+      //Remove modules folder
+      groups.pop('modules');
       let helpEmbed = new MessageEmbed()
         .setAuthor("Help", `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`)
         .attachFiles(`./images/help.png`)
         .addField(`Command Name - Description`, lines.sort().join('\n'))
         .setColor("#fe00ff")
         .setThumbnail("attachment://help.png");
+
+      //Add fields to embed per group, inline = true. Guild-specific get own category only in said guild
+      //... 
+      //Edit fields for each command via loop                
+      //...
 
       return {
         embeds: [helpEmbed],
