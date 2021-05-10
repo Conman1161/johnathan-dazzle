@@ -6,6 +6,7 @@ const chartOfficial = require("../dnd/charts/wild/5e.json");
 function getChart(chartName) {
   switch (chartName) {
     case "":
+    case undefined:
       return chartOneTwo;
     case "1.2":
       return chartOneTwo;
@@ -13,32 +14,29 @@ function getChart(chartName) {
       return chartTwoZero;
     case "5e":
       return chartOfficial;
-    default:
-      throw 1;
   }
 }
 
 function getEmbedInfo(chartName, effectNumber) {
   // Assign the name the embed will use
   switch (chartName) {
+    case "":
+    case undefined:
     case "1.2":
+      if (effectNumber > getChart(chartName).length) throw 'This value is too large for this table!';
       this.chartName = "The Net Libram of Random Magical Effects 1.2";
       this.effectNumber = effectNumber == undefined ? dice(`d${Object.keys(getChart(chartName)).length}`).roll().roll : effectNumber;
       break;
     case "2.0":
+      if (effectNumber > getChart(chartName).length) throw 'This value is too large for this table!';
       this.chartName = "The Net Libram of Random Magical Effects 2.0";
       this.effectNumber = effectNumber == undefined ? dice(`d${Object.keys(getChart(chartName)).length}`).roll().roll : effectNumber;
       break;
     case "5e":
+      if (effectNumber > getChart(chartName).length) throw 'This value is too large for this table!';
       this.chartName = "Official Wild Magic Surges";
       this.effectNumber = effectNumber == undefined ? dice(`d${Object.keys(getChart(chartName)).length}`).roll().roll : effectNumber;
       break;
-    case "":
-      this.chartName = "The Net Libram of Random Magical Effects 1.2";
-      this.effectNumber = effectNumber == undefined ? dice(`d${Object.keys(getChart(chartName)).length}`).roll().roll : effectNumber;
-      break;
-    default:
-      throw 1;
   }
 
   // Return {Chart name, Die roll number, Effect from Chart}

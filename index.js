@@ -1,45 +1,51 @@
-const Commando = require("discord.js-commando");
-const Config = require("./config.json");
-const Bot = new Commando.Client({
-  owner: Config.owner
+const { Client } = require("discord.js-commando");
+let { owner, appID, token, presenceStatus, presenceText } = require('./config.json');
+const Bot = new Client({
+  owner: owner
 });
 
 const io = require('@pm2/io');
-var guildCount = io.metric({
+const { GatewayServer, SlashCreator } = require("slash-create");
+let guildCount = io.metric({
   name: 'Guild count: '
 });
 
-Bot.registry.registerDefaultTypes();
 
-Bot.registry.registerGroup("characters", "Characters");
-Bot.registry.registerGroup("dice", "Dice");
-Bot.registry.registerGroup("dnd", "DnD");
-Bot.registry.registerGroup("general", "General");
-Bot.registry.registerCommandsIn(__dirname + "/commands");
-
-Bot.registry.registerDefaultGroups();
-Bot.registry.registerDefaultCommands({
-  help: false,
-  unknownCommand: false,
-  eval: false,
+const Creator = new SlashCreator({
+  applicationID: appID,
+  token: token
 });
+// Creator.registerCommandsIn(`${__dirname}/commands/characters`).syncCommands();
+Creator.registerCommandsIn(`${__dirname}/commands/dice`);
+Creator.registerCommandsIn(`${__dirname}/commands/dnd`);
+Creator.registerCommandsIn(`${__dirname}/commands/general`);
+Creator.syncCommands();
 
+Creator.withServer(
+  new GatewayServer(
+    (handler) => Bot.ws.on('INTERACTION_CREATE', handler)
+  )
+);
+
+Creator.on('debug', m => console.log('slash-create debug:', m));
+Creator.on('warn', m => console.log('slash-create warn:', m));
+Creator.on('error', m => console.error('slash-create error: ', m));
+Creator.on('rawREST', m => console.log('slash-create REST: ', m));
 
 Bot.on("ready", function () {
   Bot.user.setPresence({
     activity: {
-      name: `${Config.presenceText}`,
+      name: `${presenceText}`,
       type: "PLAYING"
     },
-    status: `${Config.presenceStatus}`
+    status: `${presenceStatus}`
   });
 
   console.log(`${Bot.settings.client.user.username} live on ${process.env.USERDOMAIN}`);
   console.log(`Currently live in ${Bot.guilds.cache.size} guilds: `);
-  var allGuilds = Bot.guilds.cache.entries();
-  for (var i = 0; i < Bot.guilds.cache.size; i++) {
-    console.log(`- ${allGuilds.next().value[1].name}`);
-  }
+  Bot.guilds.cache.forEach(server => {
+    console.log(`- ${server.name} : ${server.id}`);
+  });
   guildCount.set(Bot.guilds.cache.size);
   //Bot.guilds.find("id", '').leave();
 });
@@ -54,4 +60,4 @@ Bot.on("guildDelete", guild => {
   guildCount.set(Bot.guilds.cache.size);
 });
 
-Bot.login(Config.token);
+Bot.login(token);

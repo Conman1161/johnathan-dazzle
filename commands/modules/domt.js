@@ -1,19 +1,15 @@
 const dice = require('dice-expression-evaluator');
 const table = require('../dnd/charts/domt/cards.json');
-const indexes = require('../dnd/charts/domt/indexes.json');
 
-function lookup(card){
-    if(table[card]===undefined){
-        throw 22;
-    }
-    return [table[card], indexes[card]];
+function lookup(card) {
+    return table[card];
 }
 
-function roll(pool){
-    var poolDiceResult = new dice(`d${pool.length}`).roll().roll-1;
-    return [pool[poolDiceResult], poolDiceResult];
+function draw(deck) {
+    let poolDiceResult = new dice(`d${parseInt(deck)}`).roll().roll - 1;
+    return Object.keys(table)[poolDiceResult];
 }
 
 module.exports = {
-    lookup, roll
+    lookup, draw
 };

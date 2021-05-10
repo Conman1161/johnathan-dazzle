@@ -1,255 +1,119 @@
-// Current approach to long fields for help does not allow for more than 1 "layer" of extra commands. With having long URLs linking to documentation, this needs to be fixed. Maybe make an array that holds arrays of "popped" commands?
-
-const commando = require("discord.js-commando");
-const discord = require("discord.js");
+const { MessageEmbed } = require("discord.js");
 const errorMod = require("../modules/error");
-const attachment = new discord.MessageAttachment(
-  "./images/help.png",
-  "help.png"
-);
-const hiddenGroups = ["commands"];
-const hiddenCommands = ["restart", "servers"];
+const { SlashCommand, CommandOptionType } = require("slash-create");
+const { readFileSync, readdirSync } = require("fs");
+const { ownerTag } = require('../../config.json');
 
-class HelpCommand extends commando.Command {
+class HelpCommand extends SlashCommand {
   constructor(client) {
     super(client, {
-      aliases: [],
       description:
-        "Gives general information about commands, along with what commands there are",
-      examples: ["!help"].sort(),
-      format: "",
-      group: "general",
-      memberName: "help",
+        "See a list of all commands",
       name: "help",
+      options: [{
+        name: 'command',
+        description: 'Need help with a specific command? Enter that command here!',
+        type: CommandOptionType.STRING,
+        required: false
+      }]
+      // guildIDs: [hostGuildID]
     });
+    this.filePath = __filename;
   }
 
-  async run(message, args) {
-    message.channel.startTyping();
-
+  async run(ctx) {
     try {
-      args = args.toLowerCase();
-      const commandGroups = this.client.registry.groups;
-      var currentCommands = [];
-      var poppedCommands = [];
-      var hasRun = false;
-      var isMod = message.author.presence.member.permissions.has(
-        "ADMINISTRATOR"
-      );
-      var helpEmbed = new discord.MessageEmbed()
-        .setAuthor("Help", message.client.user.displayAvatarURL({ dynamic: true }))
-        .attachFiles(attachment)
+      await ctx.defer();
+      //Get all folder groups
+      let groups = readdirSync('./commands');
+      //Remove modules folder
+      groups.pop('modules');
+      let helpEmbed = new MessageEmbed()
+        .setAuthor("Help", `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`)
+        .attachFiles(`./images/help.png`)
         .setColor("#fe00ff")
-        .setThumbnail("attachment://help.png");
-      // all commands
-      if (args == "") {
-        helpEmbed.addField(
-          "What's all this?",
-          "Above all the commands are their respective groups. If you want to see all commands in a group, do `!help {Group Name}`. If you want help with a specific command, do `!help {Command}`.\n\nAll links go to the documentation. Currently, commands in the **Commands** and **Utility** categories are undocumented since they are built into Discord.JS"
-        );
-        for (let [groupKey, groupObject] of commandGroups) {
-          if (hiddenGroups.includes(groupObject.name.toLowerCase()) && !isMod) {
-            continue;
-          }
-          currentCommands = [];
-          for (let [commandKey, commandObject] of groupObject.commands) {
-            if (hiddenCommands.includes(commandKey.toLowerCase() && !isMod)) {
-              continue;
-            }
-            currentCommands.push(
-              `[${commandKey}](https://conman1161.github.io/Dazzle/#${commandObject.name
-              } "${commandObject.description}\n${commandObject.aliases.length == 0
-                ? ""
-                : `Aliases: ${commandObject.aliases
-                  .toString()
-                  .replace(",", ", ")}`
-              }")`
-            );
-          }
-          if (currentCommands.toString() != "") {
-            for (var i = 0; i < currentCommands.length; i++) {
-              currentCommands[i] = ` ${currentCommands[i]}`;
-            }
-            if (currentCommands.toString().length >= 1024) {
-              while (currentCommands.toString().length >= 1024) {
-                poppedCommands.push(
-                  currentCommands[currentCommands.length - 1]
-                );
-                currentCommands.pop(currentCommands.length - 1);
-              }
-            }
+        .setThumbnail("attachment://help.png")
+        .setFooter('For more information about how to use a command, use /<command> to start using that command!');
 
-            helpEmbed.addField(
-              `__${groupObject.name}__`,
-              currentCommands.toString(),
-              true
-            );
-
-            if (poppedCommands.length > 0) {
-              helpEmbed.addField(
-                `__${groupObject.name} cont.__`,
-                poppedCommands.toString(),
-                true
-              );
-            }
-            poppedCommands = [];
-            hasRun = true;
+      let commands = ctx.creator.commands.array();
+      // If no option
+      if (!ctx.options.command) {
+        commands.forEach(command => {
+          let cwd = `${process.cwd()}\\commands`;
+          let category = command.filePath.split(cwd).pop().split('\\')[1];
+          // If no field with current command's group
+          if (!helpEmbed.fields.some(commandCategory => commandCategory.name === category)) {
+            helpEmbed.addField(category, `[${command.commandName}](https://github.com/Conman1161/johnathan-dazzle "${command.description}${command.guildIDs ? `\n${command.guildIDs}` : ''}")`, true);
           }
+          // If field with current command's group exists
+          else if (helpEmbed.fields.some(commandCategory => commandCategory.name === category)) {
+            let index = helpEmbed.fields.findIndex(obj => obj.name === category);
+            let currentField = helpEmbed.fields[index];
+            helpEmbed.spliceFields(index, 1, [{
+              name: currentField.name,
+              value: `${currentField.value}, [${command.commandName}](https://github.com/Conman1161/johnathan-dazzle "${command.description}${command.guildIDs ? `\nOnly in guild(s): ${command.guildIDs.join(',')}` : ''}")`,
+              inline: true
+            }]);
+          } else {
+            throw `If you see this, something very bad happened! Contact ${ownerTag} to get this resolved!`;
+          }
+        });
+        // If valid command option
+      } else if (commands.some(command => command.commandName === ctx.options.command)) {
+        let command = commands.find(command => command.commandName === ctx.options.command);
+        helpEmbed.addField('Command', ctx.options.command);
+        if (command.description) {
+          helpEmbed.addField('Description', command.description);
         }
-        //commands in given group
-      } else if (commandGroups.has(args)) {
-        if (hiddenGroups.includes(args) && !isMod) {
-          throw 13;
+        if (command.options) {
+          let names = command.options.map(currentCommand => currentCommand.name);
+          let descriptions = command.options.map(currentCommand => currentCommand.description);
+          let output = '';
+          for (let i = 0; i < names.length; i++) {
+            output += `**${names[i]}:** ${descriptions[i]}\n`;
+          }
+          helpEmbed.addField(`Options`, output);
         }
-        var currentCommandsMap = commandGroups.get(args).commands;
-        for (let [commandName, commandObject] of currentCommandsMap) {
-          if (hiddenCommands.includes(commandName.toLowerCase()) && !isMod) {
-            continue;
-          }
-          currentCommands.push(
-            `**[${commandName}](https://conman1161.github.io/Dazzle/#${commandObject.name
-            } "${commandObject.aliases.length == 0
-              ? ""
-              : `Aliases: ${commandObject.aliases
-                .toString()
-                .replace(",", ", ")}`
-            }")** - ${commandObject.description}\n\n`
-          );
+        if (command.guildIDs) {
+          helpEmbed.addField('Available in guild(s)', command.guildIDs.join(','));
         }
-        if (currentCommandsMap.toString() != "") {
-          if (currentCommands.toString().length >= 1024) {
-            while (currentCommands.toString().length >= 1024) {
-              poppedCommands.push(currentCommands[currentCommands.length - 1]);
-              currentCommands.pop(currentCommands.length - 1);
-            }
-          }
-
-          var outputString = "";
-          for (var i = 0; i < currentCommands.length; i++) {
-            outputString += `${currentCommands[i]}`;
-          }
-
-          helpEmbed.addField(`${args} \n`, outputString);
-
-          if (poppedCommands.length > 0) {
-            helpEmbed.addField(
-              `${Array.from(currentCommandsMap.entries())[0][1].groupID
-              } cont.`,
-              poppedCommands.toString(),
-              true
-            );
-          }
-
-          hasRun = true;
+        if (command.requiredPermissions) {
+          helpEmbed.addField('Required Permissions', command.requiredPermissions.join(','));
         }
-        // determine if given command exists, else throw
+        if (command.throttling) {
+          helpEmbed.addField('Throttled', command.throttling);
+        }
+        if (command.unknown) {
+          helpEmbed.addField('Used for unknown commands?', command.unknown);
+        }
+        if (command.deferEphemeral) {
+          helpEmbed.addField('Defer ephemerally?', command.deferEphemeral);
+        }
+        if (command.defaultPermissions) {
+          helpEmbed.addField('Default permissions?', command.defaultPermissions);
+        }
       } else {
-        var currentExamples = [];
-        for (let [groupKey, groupObject] of commandGroups) {
-          for (let [commandKey, commandObject] of groupObject.commands) {
-            if (commandKey == args) {
-              if (
-                hiddenGroups.includes(groupObject.name.toLowerCase()) &&
-                !isMod
-              ) {
-                throw 13;
-              } else if (
-                hiddenCommands.includes(commandKey.toLowerCase()) &&
-                !isMod
-              ) {
-                throw 13;
-              }
-              helpEmbed.setAuthor(`Command Help: ${commandKey} `, message.client.user.displayAvatarURL({ dynamic: true }));
+        throw `The command ${ctx.options.command} was not found!`;
+      }
 
-              //If...
-              //...aliases is not null,
-              //length of aliases array isn't 0, and
-              //first element isn't a blank string
-              if (
-                commandObject.aliases != null &&
-                commandObject.aliases.length != 0 &&
-                commandObject.aliases[0] != ""
-              ) {
-                var aliasesString = "";
-                for (var i = 0; i < commandObject.aliases.length; i++) {
-                  aliasesString += `${commandObject.aliases[i]} \n`;
-                }
-                helpEmbed.addField("Aliases:", `${aliasesString} `);
-              }
+      helpEmbed.fields.sort();
 
-              //...description isn't null, description isn't a blank string
-              if (
-                commandObject.description != null &&
-                commandObject.description != ""
-              ) {
-                helpEmbed.addField(
-                  "Description:",
-                  `${commandObject.description} `
-                );
-              }
-
-              //...details isn't null, details isn't a blank string
-              if (
-                commandObject.details != null &&
-                commandObject.details != ""
-              ) {
-                helpEmbed.addField(
-                  `Details:`,
-                  `70: Sets the minimum threshold for the sum of your statblock to 70\nd20: Rolls 6d20 for your statblock\ncth: Rolls a statblock for Call of Cthulhu`
-                );
-              }
-
-              //...examples are not null,         length of examples array isn't 0,      first element isn't a blank string
-              if (
-                commandObject.examples !== null &&
-                commandObject.examples.length != 0 &&
-                commandObject.examples[0] != ""
-              ) {
-                currentExamples = commandObject.examples;
-                var currentExamplesString = "";
-                for (var x = 0; x < commandObject.examples.length; x++) {
-                  currentExamplesString += `${currentExamples[x]} \n`;
-                }
-                helpEmbed.addField(
-                  "Examples:",
-                  `${currentExamplesString} `,
-                  true
-                );
-              }
-
-              //...format isn't null,             format isn't a blank string
-              if (commandObject.format != null && commandObject.format != "") {
-                helpEmbed.addField(
-                  "Format:",
-                  `!${commandObject.name} ${commandObject.format} `,
-                  true
-                );
-              }
-
-              //...group isn't null (should never miss, all commands need groups to be registered)
-              if (commandObject.group != null) {
-                helpEmbed.addField("Group:", `${commandObject.group.name} `);
-              }
-
-              //break from loop, since command has been found
-              hasRun = true;
-              break;
-            }
-          }
-          if (hasRun) {
-            break;
-          }
+      return {
+        embeds: [helpEmbed],
+        file: {
+          name: `help.png`,
+          file: readFileSync(`./images/help.png`)
         }
-      }
-      if (hasRun) {
-        message.channel.send(helpEmbed);
-      } else {
-        throw 12;
-      }
+      };
     } catch (err) {
-      message.channel.send(errorMod.errorMessage(err, message));
+      ctx.send({
+        embeds: [errorMod.errorMessage(err, ctx)],
+        file: {
+          name: `error.png`,
+          file: readFileSync(`./images/error.png`)
+        }
+      });
     } finally {
-      message.channel.stopTyping();
     }
   }
 }

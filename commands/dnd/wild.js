@@ -1,58 +1,110 @@
-const commando = require("discord.js-commando");
-const discord = require("discord.js");
-const wild = require("../modules/wildModule");
+const { MessageEmbed } = require("discord.js");
+const { getEmbedInfo } = require("../modules/wildModule");
 const errorMod = require("../modules/error");
+const { ownerTag, /* hostGuildID */ } = require('../../config.json');
+const { SlashCommand, CommandOptionType } = require("slash-create");
+const { readFileSync } = require("fs");
 
-const attachment = new discord.MessageAttachment(
-  "./images/wild.png",
-  "wild.png"
-);
-
-class WildCommand extends commando.Command {
+class WildCommand extends SlashCommand {
   constructor(client) {
     super(client, {
-      aliases: ["w"],
       description:
-        "Roll on one of the wild magic charts to get a wild magic effect. The default chart is 1.2.",
-      examples: ["!wild", "!wild 2.0", "!wild 1.2 2755"].sort(),
-      format: "{Chart Name} {Effect Number}",
-      group: "dnd",
-      memberName: "wild",
+        "Roll on one of the wild magic charts to get a wild magic effect. The default chart is 1.2",
       name: "wild",
+      options: [{
+        type: CommandOptionType.SUB_COMMAND,
+        name: 'roll',
+        description: 'Roll on the Wild Magic Surge table!',
+        required: false,
+        options: [{
+          type: CommandOptionType.STRING,
+          name: 'chart',
+          description: 'Which chart would you like to roll on?',
+          required: false,
+          choices: [{
+            name: 'Net Libram 1.2 (Default)',
+            value: '1.2'
+          }, {
+            name: 'Net Libram 2.0',
+            value: '2.0'
+          }, {
+            name: 'D&D 5e',
+            value: '5e'
+          }].sort((a, b) => (a.name > b.name) ? 1 : -1)
+        }]
+      }, {
+        type: CommandOptionType.SUB_COMMAND,
+        name: 'lookup',
+        description: 'Lookup an effect on one of the Wild Magic Surge tables!',
+        required: false,
+        options: [{
+          type: CommandOptionType.STRING,
+          name: 'chart',
+          description: 'Which chart do you want to lookup from?',
+          required: true,
+          choices: [{
+            name: 'Net Libram 1.2',
+            value: '1.2'
+          }, {
+            name: 'Net Libram 2.0',
+            value: '2.0'
+          }, {
+            name: 'D&D 5e',
+            value: '5e'
+          }].sort((a, b) => (a.name > b.name) ? 1 : -1)
+        }, {
+          type: CommandOptionType.INTEGER,
+          name: 'effect_number',
+          description: 'Which effect are you looking up?',
+          required: true
+        }]
+      }].sort((a, b) => (a.name > b.name) ? 1 : -1),
+      // guildIDs: [hostGuildID]
     });
+    this.filePath = __filename;
   }
 
-  async run(message, args) {
-    message.channel.startTyping();
-    args = args.toLowerCase();
-
-    var argArray = args.trim().split(" ");
-
+  async run(ctx) {
     try {
-      const embedInfo = wild.getEmbedInfo(argArray[0], argArray[1]);
+      await ctx.defer();
+      const embedInfo = getEmbedInfo(Object.keys(ctx.options)[0] === 'roll' ? ctx.options.roll.chart : ctx.options.lookup.chart, Object.keys(ctx.options)[0] === 'lookup' ? ctx.options.lookup.effect_number : null);
 
-      var embed = new discord.MessageEmbed()
+      let embed = new MessageEmbed()
         .addField("Chart Name: ", `**${embedInfo.name}**`)
         .addField("**Die Roll**", `You rolled **${embedInfo.effectNumber}**`)
         .addField("**Effect**", `**||${embedInfo.text}||**`)
-        .attachFiles([attachment])
-        .setThumbnail("attachment://wild.png")
+        .attachFiles([`./images/wild.png`])
+        .setThumbnail(`attachment://wild.png`)
         .setFooter(
-          `If you think the roll has an error, message ${message.client.owners[0].tag} with the roll number and what the error is.`
+          `If you think the roll has an error, message ${ownerTag} with the roll number and what the error is.`
         )
         .setColor("RANDOM");
 
-      if (message.channel.type == "dm") {
-        embed.setAuthor(`${message.author.username}'s Wild Magic ${argArray[1] == undefined ? 'Surge' : 'Lookup'}`, message.author.displayAvatarURL({ dynamic: true }));
+      if (ctx.guildID) {
+        embed.setAuthor(`${ctx.member.displayName}'s Wild Magic ${Object.keys(ctx.options).length < 2 ? 'Surge' : 'Lookup'}`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`);
       } else {
-        embed.setAuthor(`${message.member.nickname == null ? `${message.author.username}` : `${message.member.nickname}`}'s Wild Magic ${argArray[1] == undefined ? 'Surge' : 'Lookup'}`, message.author.displayAvatarURL({ dynamic: true }));
+        embed.setAuthor(`${ctx.user.username}'s Wild Magic ${Object.keys(ctx.options).length < 2 ? 'Surge' : 'Lookup'}`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`);
       }
-      message.channel.send(embed);
+      return {
+        embeds: [embed],
+        file: {
+          name: `wild.png`,
+          file: readFileSync(`./images/wild.png`)
+        }
+      };
     } catch (err) {
-      message.channel.send(errorMod.errorMessage(err, message));
+      await ctx.send({
+        embeds: [errorMod.errorMessage(err, ctx)],
+        file: {
+          name: `error.png`,
+          file: readFileSync(`./images/error.png`)
+        }
+      });
     } finally {
-      message.channel.stopTyping();
     }
+  }
+  async onError(err, ctx) {
+    await ctx.send(`An error occurred! Here is the message: \`${err}\``);
   }
 }
 module.exports = WildCommand;

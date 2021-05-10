@@ -3,17 +3,16 @@ const attachment = new discord.MessageAttachment(
   "./images/error.png",
   "error.png"
 );
-const config = require('../../config.json');
 
 // Return an embed with information on what the error is and how to fix it
-function errorMessage(errorCode, ctx) {
+function errorMessage(errorCode, context) {
   let embed = new discord.MessageEmbed()
     .setTitle("**Oh no, you encountered an error!**")
     .attachFiles([attachment])
     .setThumbnail("attachment://error.png")
     .setColor("#FF0000")
     .setFooter(
-      `For more help, message ${config.ownerTag} with your original message and error code (this message!)`
+      `For more help, message Conman#1161 with your original message and error code (this message!)`
     );
   switch (errorCode) {
     // Improper !roll argument
@@ -70,7 +69,7 @@ function errorMessage(errorCode, ctx) {
         `The trinket you have rolled for does not exist. Please message **${message.client.owners[0].tag}** with this roll`
       );
       embed.setFooter(
-        `Message ${config.ownerTag} and he will add them soon.`
+        `Message ${context.channel.client.owners[0].tag} and he will add them soon.`
       );
       break;
 
@@ -133,7 +132,7 @@ function errorMessage(errorCode, ctx) {
     case 15:
       embed.addField(
         `Error code: ${errorCode}`,
-        `You entered a non-supported argument for your average. If you think this is a mistake, please contact ${config.ownerTag}`
+        `You entered a non-supported argument for your average. If you think this is a mistake, please contact ${context.channel.client.owners[0].tag}`
       );
       break;
 
@@ -149,7 +148,7 @@ function errorMessage(errorCode, ctx) {
     case 17:
       embed.addField(
         `Error code: ${errorCode}`,
-        `You entered a non-supported argument for your minimum. If you think this is a mistake, please contact ${config.ownerTag}`
+        `You entered a non-supported argument for your minimum. If you think this is a mistake, please contact ${context.channel.client.owners[0].tag}`
       );
       break;
 
@@ -165,7 +164,7 @@ function errorMessage(errorCode, ctx) {
     case 19:
       embed.addField(
         `Error code: ${errorCode}`,
-        `You entered a non-supported argument for your maximum. If you think this is a mistake, please contact ${config.ownerTag}`
+        `You entered a non-supported argument for your maximum. If you think this is a mistake, please contact ${context.channel.client.owners[0].tag}`
       );
       break;
 
@@ -173,7 +172,7 @@ function errorMessage(errorCode, ctx) {
     case 20:
       embed.addField(
         `Error code: ${errorCode}`,
-        `Due to memory constraints, the most dice you can roll in one expression (**X**d**Y**+**Z**) is \`1,000,000\`. If you need this die to be roll, message **${config.ownerTag}**`
+        `Due to memory constraints, the most dice you can roll in one expression (**X**d**Y**+**Z**) is \`1,000,000\`. If you need this die to be roll, message **${context.channel.client.owners[0].tag}**`
       );
       break;
 
@@ -197,9 +196,9 @@ function errorMessage(errorCode, ctx) {
     default:
       embed.addField(
         "Error code: 0",
-        `This is an undocumented error. Please message **${config.ownerTag}** with this message and your original command ASAP!`
+        `This is an undocumented error. Please message Conman#1161 with this message and your original command ASAP!`
       );
-      embed.addField("Command used:", `\`${ctx.commandName}\``);
+      //embed.addField("Your message:", `\`${context.options.toString()}\``);
       embed.addField("Error message: ", `\`${errorCode}\``);
       break;
   }

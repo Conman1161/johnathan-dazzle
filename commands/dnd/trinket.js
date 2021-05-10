@@ -1,53 +1,105 @@
-const commando = require("discord.js-commando");
-const discord = require("discord.js");
+const { MessageEmbed } = require("discord.js");
 const trinketMod = require("../modules/trinket");
 const errorMod = require("../modules/error");
+const { SlashCommand, CommandOptionType } = require("slash-create");
+const { ownerTag, /*hostGuildID */ } = require('../../config.json');
+const { readFileSync } = require("fs");
 
-const attachment = new discord.MessageAttachment("./images/bag.png", "bag.png");
-
-class TrinketCommand extends commando.Command {
+class TrinketCommand extends SlashCommand {
   constructor(client) {
     super(client, {
-      aliases: ["t"],
-      description: `Rolls on a random trinket chart for a random trinket. There are currently __**${trinketMod.getChartCount()}**__ charts.`,
-      examples: ["!trinket", `!trinket 1-${trinketMod.getChartCount()}`].sort(),
-      format: "{Chart number}",
-      group: "dnd",
-      memberName: "trinket",
+      description: `Rolls on a random trinket chart for a random trinket. There are currently ${trinketMod.getChartCount()} charts`,
       name: "trinket",
+      options: [{
+        type: CommandOptionType.INTEGER,
+        name: 'chart',
+        description: 'Do you want to use a specific chart?',
+        required: false,
+        choices: [{
+          name: '1',
+          value: 1
+        }, {
+          name: '2',
+          value: 2
+        }, {
+          name: '3',
+          value: 3
+        }, {
+          name: '4',
+          value: 4
+        }, {
+          name: '5',
+          value: 5
+        }, {
+          name: '6',
+          value: 6
+        }, {
+          name: '7',
+          value: 7
+        }, {
+          name: '8',
+          value: 8
+        }, {
+          name: '9',
+          value: 9
+        }, {
+          name: '10',
+          value: 10
+        }, {
+          name: '11',
+          value: 11
+        }, {
+          name: '12',
+          value: 12
+        }]
+      }],
+      // guildIDs: [hostGuildID]
     });
+    this.filePath = __filename;
   }
 
-  async run(message, args) {
-    message.channel.startTyping();
-    //put args in var, see if(!args) to roll for table
+  async run(ctx) {
     try {
-      var trinket = trinketMod.getTrinketInfo(args);
+      await ctx.defer();
+      let trinket = trinketMod.getTrinketInfo(ctx.options.chart);
       if (trinket[1] == "") {
         throw 7;
       }
-      var embed = new discord.MessageEmbed()
+      let embed = new MessageEmbed()
         .addField("**Chart Number:**", `**${trinket[0]}**`)
         .addField("**Trinket**", `**||${trinket[1]}||**`)
-        .attachFiles([attachment])
-        .setThumbnail("attachment://bag.png")
+        .attachFiles([`./images/bag.png`])
+        .setThumbnail(`attachment://bag.png`)
         .setFooter(
-          `If you think anything has an error, message ${message.client.owners[0].tag} with a screenshot and indicate what the error is.`
+          `If you think anything has an error, message ${ownerTag} with a screenshot and indicate what the error is.`
         )
         .setColor("RANDOM");
-      if (message.channel.type == "dm") {
-        embed.setAuthor(`${message.author.username}'s Trinket`, message.author.displayAvatarURL({ dynamic: true }));
+      if (ctx.guildID) {
+        embed.setAuthor(`${ctx.member.displayName}'s Trinket`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`);
       } else {
-        embed.setAuthor(`${message.member.nickname == null ? `${message.author.username}` : `${message.member.nickname}`}'s Trinket`, message.author.displayAvatarURL({ dynamic: true }));
+        embed.setAuthor(`${ctx.user.username}'s Trinket`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`);
       }
 
-      message.channel.send(embed);
+      return {
+        embeds: [embed],
+        file: {
+          name: `bag.png`,
+          file: readFileSync(`./images/bag.png`)
+        }
+      };
     } catch (err) {
-      // Invalid chart
-      message.channel.send(errorMod.errorMessage(err, message));
+      await ctx.send({
+        embeds: [errorMod.errorMessage(err, ctx)],
+        file: {
+          name: `error.png`,
+          file: readFileSync(`./images/error.png`)
+        }
+      });
     } finally {
-      message.channel.stopTyping();
     }
+  }
+  async onError(err, ctx) {
+    await ctx.send(`An error occurred! Here is the message: \`${err}\``);
   }
 }
 

@@ -1,43 +1,44 @@
-const commando = require("discord.js-commando");
-const discord = require("discord.js");
-const attachment = new discord.MessageAttachment(
-  "./images/support.png",
-  "support.png"
-);
+const { MessageEmbed } = require("discord.js");
+const { readFileSync } = require("fs");
+const { SlashCommand } = require("slash-create");
+const { ownerTag, /* hostGuildID */ } = require('../../config.json');
 
-class BotInfoCommand extends commando.Command {
+
+class SupportCommand extends SlashCommand {
   constructor(client) {
     super(client, {
-      aliases: [],
       description: "Support information for Dazzle",
-      examples: ["!support"].sort(),
-      format: "",
-      group: "general",
-      memberName: "support",
       name: "support",
+      // guildIDs: [hostGuildID]
     });
+    this.filePath = __filename;
   }
 
-  async run(message) {
-    message.channel.startTyping();
-    var embed = new discord.MessageEmbed()
-      .setAuthor("Support Information", message.client.user.displayAvatarURL({ dynamic: true }))
+  async run(ctx) {
+    await ctx.defer();
+    let embed = new MessageEmbed()
+      .setAuthor("Support Information", `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`)
       .addField(
         "Support Server",
         `The link to the support Discord server can be found [here](https://discord.gg/ZUJAMnh "Click me, I go to the server!")`
       )
       .addField(
         "Need more help?",
-        `Contact ${message.client.owners[0].tag} if you have any further questions`
+        `Contact \`${ownerTag}\` if you have any further questions`
       )
       .setColor("#fe00ff")
-      .attachFiles([attachment])
-      .setURL("https://discord.gg/ZUJAMnh")
-      .setThumbnail("attachment://support.png");
+      .attachFiles([`./images/support.png`])
+      .setURL(`https://discord.gg/ZUJAMnh`)
+      .setThumbnail(`attachment://support.png`);
 
-    message.channel.send(embed);
-    message.channel.stopTyping();
+    return {
+      embeds: [embed],
+      file: {
+        name: 'support.png',
+        file: readFileSync(`./images/support.png`)
+      }
+    };
   }
 }
 
-module.exports = BotInfoCommand;
+module.exports = SupportCommand;

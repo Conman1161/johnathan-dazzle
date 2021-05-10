@@ -1,22 +1,23 @@
 {
   "name": "johnathan-dazzle",
-  "version": "1.7.6",
+  "version": "2.0.0",
   "description": "A Discord bot for rolling dice",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "Conman",
   "license": "ISC",
   "dependencies": {
-    "@pm2/io": "^4.3.5",
+    "@pm2/io": "^5.0.0",
     "dice-expression-evaluator": "^0.1.2",
-    "discord.js": "^12.4.0",
+    "discord.js": "^12.5.3",
     "discord.js-commando": "github:discordjs/Commando",
-    "fs-extra": "^9.0.0",
+    "fs-extra": "^9.1.0",
     "owoifyx": "^1.0.1",
     "request": "^2.88.2",
-    "underscore": "^1.9.1"
+    "slash-create": "^3.1.0",
+    "underscore": "^1.13.1"
   }
 }

@@ -1,0 +1,10 @@
+{
+  "token": "YourBotToken",
+  "appID": "YourAppID",
+  "owner": "YourOwnerID",
+  "ownerTag": "Someone#1234",
+  "hostGuildID": "YourGuildID",
+  "presenceText": "Your Presence Text",
+  "presenceStatus": "dnd",
+  "catboy": false
+}
