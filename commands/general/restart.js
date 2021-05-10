@@ -9,6 +9,7 @@ class RestartCommand extends SlashCommand {
       name: "restart",
       guildIDs: [hostGuildID]
     });
+    this.filePath = __filename;
   }
 
   async run(ctx) {

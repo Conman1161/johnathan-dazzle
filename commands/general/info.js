@@ -12,6 +12,7 @@ class BotInfoCommand extends SlashCommand {
       name: "info",
       // guildIDs: [hostGuildID]
     });
+    this.filePath = __filename;
   }
 
   async run(ctx) {

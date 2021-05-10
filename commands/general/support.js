@@ -11,6 +11,7 @@ class SupportCommand extends SlashCommand {
       name: "support",
       // guildIDs: [hostGuildID]
     });
+    this.filePath = __filename;
   }
 
   async run(ctx) {
