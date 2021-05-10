@@ -4,79 +4,117 @@ Welcome to the repository for Johnathan Dazzle, written by [@Conman1161](https:/
 
 You can join the support server, which has the bot invite link, [here](https://discord.gg/ZUJAMnh)
 
-# Table of Contents
+## Table of Contents
 
 - [Commands](#Commands)
 
-  - [General](#General)
-    - [!help](#!help)
-    - [!info](#!info)
-    - [!restart](#!restart)
-    - [!roll](#!roll)
-    - [!rolladv](#!rolladv)
-    - [!rollstat](#!rollstat)
-    - [!rollstats](#!rollstats)
-  
+  - [Dice](#Dice)
+    - [Average](#Average)
+    - [Max](#Max)
+    - [Min](#Min)
+    - [Roll](#Roll)
+    - [Rollstats](#Rollstats)
+
   - [DnD](#DnD)
-    - [!modifiers](#!modifiers)
-    - [!trinket](#!trinket)
-    - [!wild](#!wild)
+    - [Deck of Many Things](#Deck%20of%20Many%20Things)
+    - [Modifiers](#modifiers)
+    - [Trinket](#trinket)
+    - [Wild](#wild)
+
+  - [General](#General)
+    - [Help](#help)
+    - [Info](#info)
+    - [Restart](#restart)
+    - [Support](#support)
 
 - [Artwork Credit](#Artwork)
 
-# Commands
+## Commands
 
-- ## General
+      Command Format
 
-- ### !help
+      - Command Category
+        - Command Name
+        - Command Description
+        
+        - Subcommand?
+          - Options?: Option Desscription?
+            - Choices?: Choice Description? 
+          
+        - Options?: Option Desscription?
+          - Choices?: Choice Description?
 
-  - Gives a list of all commands, all commands in a group, or information about a specific command
+- ### Dice
+
+    - ### Average
+
+      - Get the average roll of a given dice expression
+    - ### Max
+
+      - Get the maximum possible roll of a given dice expression
+
+   - ### Min
+
+        - Get the lowest possible roll of a given dice expression
+
+   - ### Roll
+
+      - Rolls a d20
+      - `dice`: A valid dice expression
+
+  - ### Rollstats
   
-- ### !info
-
-  - Posts a short message with information about Dazzle.
+    -  Rolls 4d6 for each ability score
+    - `modifier`: An alternative rolling style
+      - `6d20`: Rolls 6d20 for your ability scores instead of 6 sets of 4d6
+      - `70 Minimum`: Will only provide a standard statblock if the sum of all ability scores is greater than or equal to 70
+      - `Call of Cthulhu`: Rolls a statblock according to the Call of Cthulhu ruleset
   
-- ### !roll
+- ### DnD
 
-  - Rolls dice based on the arguments you provide. If you don't provide any, a d20 will be rolled. You will also see an array of all the dice you rolled, along with any +/- modifiers you attach in your roll
+  - ### Deck of Many Things
+
+    - `draw`: Draw a card from the Deck of Many Things
+      - `13 Card Deck`: Draw from the deck with 13 cards
+      - `22 Card Deck`: Draw from the deck with 22 cards
+    - `lookup`: Lookup one of the cards from the Deck of Many Things
+      - `card`: The card you are searching for. Selection of all cards from the 22 Card Deck
+
+  - ### Modifiers
+
+    - Get a list of all valid ability scores and their modifier
   
-- ### !rolladv
+  - ### Trinket
 
-  - Rolls 2d20 for advantage, but can be given a single die and modifiers as well.
-    - `die`: The specific die you want to roll advantage for. Only works with single dice (d20, d6, etc.), not (2d20, 1d20, etc.)
-    - `modifier`: The modifier you want to apply to a roll. Can be positive or negative (2, -2, etc). If positive, do not put a plus sign.
+    - Get a random trinket from 1 of 12 charts
+    - `chart`: Select which chart you want your trinket to be from. 12 charts are selectable
+
+  - ### Wild
+
+    - `lookup`: Lookup an effect on one of the charts
+      - `chart`: The chart your effect is from
+      - `effect_number`: The number of the effect
+    - `roll`: Roll on one of the wild magic charts
+      - `chart`: The chart you wish to roll on
+        - `D&D 5e`: The official wild magic chart from the D&D 5e SRD
+        - `Net Libram 1.2`: The Net Libram of Random Magical Effects version 1.2 by Orrex
+        - `Net Libram 2.0`: The Net Libram of Random Magical Effects version 2.0 by Orrex
   
-- ### !rollstat
-
-  - Rolls a singular stat by rolling 4d6 and removing the lowest roll.
+- ### General
   
-- ### !rollstats
+  - ### Help
+    - Get a list of commands in their respective categories. Hovering over them will show their descriptions
+    - `command`: Provide a specific command you want to see more information about
 
-  - Rolls a full stat block by rolling 4d6 and dropping the lowest roll from each set. By default, if the sum of all stats is less than 70, your stat block will be rerolled until the sum of your new stat block is greater than or equal to 70.
-    - `full`: Removes the restriction on the sum of all stats. Will give the first stat block it generates, even if the sum is less than 70.
-      - `d20`: Rolls 6d20 for your full stat block instead of 6-sets of 4d6.
-      - `cth`: Rolls a stat block for Call of Cthulhu.
+  - ### Info
+    - Get some information about Dazzle.
 
-- ## DnD
+  - ### Restart
+    - Restart Dazzle. Only works if you are the bot owner and have setup that in config.json
 
-- ### !modifiers
+  - ### Support
+    - Get a link to the Johnathan Dazzle Support Server
 
-  - Posts a list of possible ability score modifiers
-  
-- ### !trinket
-
-  - Randomly roll on one of 12 trinket charts.
-    - `chart`: declare which chart you want to roll on instead of randomly being assigned one.
-  
-- ### !wild
-
-  - Roll on a wild magic chart for wild magic surges or lookup an effect on a given chart. The default chart is `The Net Libram of Random Magical Effects version 1.20`, which has 10,000 random effects. Can take a Chart Name and Effect Number argument:
-    - `Chart Name`: declare which wild magic chart to roll on. The current usable charts can be accessed by using the following argument for their respecitve chart:
-      - `1.2`: The Net Libram of Random Magical Effects version 1.20
-      - `2.0`: The Net Libram of Random Magical Effects version 2.00
-      - `5e`: Official Wild Magic Surges from the DnD 5e Player's Handbook
-    - `Effect Number`: declare which effect you would like to lookup. This is mainly for if you or your player roll physical dice when doing wild magic surges.
-
-# Artwork
+## Artwork
 
 - All artwork has been commissioned by Kai. Their socials can be found here: [Twitter](https://twitter.com/ckttle_), [Instagram](https://instagram.com/ckttle). Check them out and give them a follow!
