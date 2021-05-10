@@ -43,10 +43,9 @@ Bot.on("ready", function () {
 
   console.log(`${Bot.settings.client.user.username} live on ${process.env.USERDOMAIN}`);
   console.log(`Currently live in ${Bot.guilds.cache.size} guilds: `);
-  let allGuilds = Bot.guilds.cache.entries();
-  for (let i = 0; i < Bot.guilds.cache.size; i++) {
-    console.log(`- ${allGuilds.next().value[1].name}`);
-  }
+  Bot.guilds.cache.forEach(server => {
+    console.log(`- ${server.name} : ${server.id}`);
+  });
   guildCount.set(Bot.guilds.cache.size);
   //Bot.guilds.find("id", '').leave();
 });
