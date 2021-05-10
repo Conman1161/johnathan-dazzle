@@ -39,8 +39,8 @@ class HelpCommand extends SlashCommand {
       // If no option
       if (!ctx.options.command) {
         commands.forEach(command => {
-          let cwd = `${process.cwd()}\\commands`;
-          let category = command.filePath.split(cwd).pop().split('\\')[1];
+          let category = command.filePath.split('commands').pop().toLowerCase().split(command.commandName)[0];
+          category = category.slice(1, category.length - 1);
           // If no field with current command's group
           if (!helpEmbed.fields.some(commandCategory => commandCategory.name === category)) {
             helpEmbed.addField(category, `[${command.commandName}](https://github.com/Conman1161/johnathan-dazzle "${command.description}${command.guildIDs ? `\n${command.guildIDs}` : ''}")`, true);
