@@ -26,7 +26,7 @@ class BotInfoCommand extends SlashCommand {
       .setAuthor(`${catboy || ctx.options.force_catboy ? owoify('Johnathan Dazzle') : 'Johnathan Dazzle'}`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`)
       .addField(
         `${catboy || ctx.options.force_catboy ? `${owoify('Bot Info')}` : `Bot Info`}`,
-        `${catboy || ctx.options.force_catboy ? `${owoify(`Hello, I'm Johnathon Dazzle! I roll the dice around here. I've got a few tricks up my sleeve, so check them out with`)}` : `Hello, I'm Johnathon Dazzle! I roll the dice around here. I've got a few tricks up my sleeve, so check them out with`} \`!help\`!`
+        `${catboy || ctx.options.force_catboy ? `${owoify(`Hello, I'm Johnathon Dazzle! I roll the dice around here. I've got a few tricks up my sleeve, so check them out with`)}` : `Hello, I'm Johnathon Dazzle! I roll the dice around here. I've got a few tricks up my sleeve, so check them out with`} \`/help\`!`
       )
       .addField(
         `${catboy || ctx.options.force_catboy ? `${owoify(`__**WORK IN PROGRESS**__`)}` : `__**WORK IN PROGRESS**__`}`,
