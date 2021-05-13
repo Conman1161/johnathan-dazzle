@@ -2,20 +2,16 @@ const dice = require("dice-expression-evaluator");
 
 function rollStats(args) {
   let diceRoll;
-  let statThreshold = 1;
+  let statThreshold = args === "70" ? 70 : 1;
 
-  if (args == "70") {
-    statThreshold = 70;
-  }
   const diceObj = new dice('4d6+4d6+4d6+4d6+4d6+4d6');
 
   do {
     diceRoll = diceObj.roll();
     var statsCheck = diceRoll.roll;
-    for (let i = 0; i < diceRoll.diceRaw.length; i++) {
-      let currentRolls = diceRoll.diceRaw[i];
-      statsCheck -= Math.min.apply(Math, currentRolls);
-    }
+    diceRoll.diceRaw.forEach((set) => {
+      statsCheck -= Math.min.apply(Math, set);
+    });
   } while (statsCheck < statThreshold);
 
   return diceRoll;
