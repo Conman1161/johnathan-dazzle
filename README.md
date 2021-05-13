@@ -6,6 +6,8 @@ You can join the support server, which has the bot invite link, [here](https://d
 
 ## Table of Contents
 
+- [Future Ideas to Implement](#feature-ideas)
+
 - [Commands](#Commands)
 
   - [Dice](#Dice)
@@ -28,6 +30,39 @@ You can join the support server, which has the bot invite link, [here](https://d
     - [Support](#support)
 
 - [Artwork Credit](#Artwork)
+
+## Feature Ideas
+
+- These are not guaranteed to be added and simply act as a list of possible ideas that have potential to be added
+
+- [ ] Character Sheets
+  - [ ] Statblock
+  - [ ] Token
+    - [ ] Return original portrait
+    - [ ] ? Transparent image to go overtop uploaded portrait
+  - [ ] Current HP
+  - [ ] Level/XP
+    - [ ] Feature Tracking
+    - [ ] ? Multiclassing
+  - [ ] Ability Checks
+  - [ ] Skill Checks
+  - [ ] Saving Throws
+  - [ ] Switch between default characters
+  - [ ] ? Import Character Sheet from websites (G.Sheet/D&D Beyond)
+  - [ ] ? Export Sheet as PDF
+  - [ ] ? Inventory
+- [ ] Random Character at Given/Random (low) level
+- [ ] Lookup rules
+  - [ ] Backgrounds
+  - [ ] Class
+  - [ ] Feat
+  - [ ] Condition/Status
+  - [ ] Item
+  - [ ] Monster
+  - [ ] Race
+  - [ ] Spell
+  - [ ] Subclass
+- [ ] ? Spell Lists
 
 ## Commands
 
