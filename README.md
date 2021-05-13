@@ -36,6 +36,8 @@ You can join the support server, which has the bot invite link, [here](https://d
 ## TODO
 
 - [ ] Update loops to be consistent throughout every file
+  - Replace for loops with .forEach()
+  - Replace other loops where necessary
 
 ## Feature Ideas
 
