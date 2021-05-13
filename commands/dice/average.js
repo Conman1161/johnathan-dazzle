@@ -46,7 +46,7 @@ class AvgCommand extends SlashCommand {
         const currentDie = allDice.dice[i];
         switch (currentDie.constructor.name) {
           case "Dice":
-            const average = `${(currentDie.sideCount % 2 == 0 ? (currentDie.sideCount / 2 + (currentDie.sideCount / 2 + 1)) / 2 : currentDie.sideCount / currentDie.diceCount) * currentDie.diceCount}`;
+            const average = ((currentDie.sideCount + 1) / 2) * currentDie.diceCount;
             finalString.push(currentDie.coefficient * average);
             embed.addField(
               `__${currentDie.coefficient * currentDie.diceCount}d${currentDie.sideCount} Average:__`,
