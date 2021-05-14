@@ -33,7 +33,7 @@ class HelpCommand extends SlashCommand {
         .attachFiles(`./images/help.png`)
         .setColor("#fe00ff")
         .setThumbnail("attachment://help.png")
-        .setFooter('For more information about how to use a command, use /<command> to start using that command!');
+        .setFooter('For more information about how to use a command, use /<command> to start using that command!\nIf you don\'t see a command with /<command> and it\'s listed here, wait about an hour until Discord syncs with their API!');
 
       let commands = ctx.creator.commands.array();
       // If no option
