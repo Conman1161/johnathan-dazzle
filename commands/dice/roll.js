@@ -52,8 +52,8 @@ class RollCommand extends SlashCommand {
         embed.setAuthor(`${ctx.data.user.username}'s Die Roll`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`);
       }
 
-      for (let i = 0; i < diceRoll.diceSums.length; i++) {
-        let currentRaw = diceRoll.diceRaw[i];
+      diceRoll.diceSums.forEach((currentRaw, index) => {
+        currentRaw = diceRoll.diceRaw[i];
         let rawString = currentRaw.join(', ');
         let currentSum = diceRoll.diceSums[i];
         let currentDice = diceObj.dice[i];
@@ -77,8 +77,8 @@ class RollCommand extends SlashCommand {
             true
           );
         }
+      });
 
-      }
       if (diceRoll.diceSums.length > 1) {
         embed.addField(
           `__Dice total__:`,

@@ -42,8 +42,7 @@ class MaxCommand extends SlashCommand {
       }
 
       let finalString = [];
-      for (let i = 0; i < allDice.dice.length; i++) {
-        const currentDie = allDice.dice[i];
+      allDice.dice.forEach(currentDie => {
         switch (currentDie.constructor.name) {
           case "Dice":
             finalString.push(`${currentDie.max()}`);
@@ -62,7 +61,7 @@ class MaxCommand extends SlashCommand {
             );
             break;
         }
-      }
+      });
 
       finalString = finalString.toString();
       do {

@@ -42,8 +42,7 @@ class AvgCommand extends SlashCommand {
       }
 
       let finalString = [];
-      for (let i = 0; i < allDice.dice.length; i++) {
-        const currentDie = allDice.dice[i];
+      allDice.dice.forEach(currentDie => {
         switch (currentDie.constructor.name) {
           case "Dice":
             const average = ((currentDie.sideCount + 1) / 2) * currentDie.diceCount;
@@ -63,7 +62,7 @@ class AvgCommand extends SlashCommand {
             );
             break;
         }
-      }
+      });
 
       let finalSum = finalString.reduce((a, b) => parseFloat(a) + parseFloat(b));
       finalString = finalString.toString();
