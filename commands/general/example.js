@@ -17,8 +17,8 @@ class ExampleCommand extends SlashCommand {
                name: 'Choice One',
                description: 'My name can be capitalized and have spaces!'
             }].sort((a, b) => (a.name > b.name) ? 1 : -1),
-            // guildIDs: [hostGuildID]
-         }]
+         }],
+         // guildIDs: [hostGuildID]
       });
       this.filePath = __filename;
    }
