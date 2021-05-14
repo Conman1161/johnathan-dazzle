@@ -70,16 +70,15 @@ class RollStatsCommand extends SlashCommand {
 
       if (ctx.options.modifier != "cth") {
         let totalSum = 0;
-        for (let i = 0; i < statBlock.diceRaw.length; i++) {
-          let currentStat = statBlock.diceRaw[i];
-          let currentSum = statBlock.diceSums[i] - (ctx.options.modifier == "d20" ? 0 : Math.min.apply(Math, currentStat));
+        statBlock.diceRaw.forEach((currentRaw, index) => {
+          let currentSum = statBlock.diceSums[index] - (ctx.options.modifier == "d20" ? 0 : Math.min.apply(Math, currentRaw));
           totalSum += currentSum;
           embed.addField(
-            `__Stat ${intStrings[i]}__`,
-            `**${currentSum}**\nFrom [ ${currentStat.join(', ').replace(Math.min.apply(Math, currentStat), `${ctx.options.modifier == 'd20' ? '' : '~~'}${Math.min.apply(Math, currentStat)}${ctx.options.modifier == 'd20' ? '' : '~~'}`)} ]\nModifier: __**${stats.getMod(currentSum)}**__`,
+            `__Stat ${intStrings[index]}__`,
+            `**${currentSum}**\nFrom [ ${currentRaw.join(', ').replace(Math.min.apply(Math, currentRaw), `${ctx.options.modifier == 'd20' ? '' : '~~'}${Math.min.apply(Math, currentRaw)}${ctx.options.modifier == 'd20' ? '' : '~~'}`)} ]\nModifier: __**${stats.getMod(currentSum)}**__`,
             true
           );
-        }
+        });
         embed.addField(
           `__Stat Check__`,
           `Check Value: __**${totalSum}**__`

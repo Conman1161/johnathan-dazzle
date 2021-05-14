@@ -52,11 +52,10 @@ class RollCommand extends SlashCommand {
         embed.setAuthor(`${ctx.data.user.username}'s Die Roll`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`);
       }
 
-      diceRoll.diceSums.forEach((currentRaw, index) => {
-        currentRaw = diceRoll.diceRaw[i];
+      diceRoll.diceRaw.forEach((currentRaw, index) => {
         let rawString = currentRaw.join(', ');
-        let currentSum = diceRoll.diceSums[i];
-        let currentDice = diceObj.dice[i];
+        let currentSum = diceRoll.diceSums[index];
+        let currentDice = diceObj.dice[index];
 
         if (
           `You rolled **${diceRoll.roll}**[ ${rawString} ]\n`.length > 1023 ||
@@ -64,13 +63,13 @@ class RollCommand extends SlashCommand {
           throw 9;
         }
 
-        if (diceObj.dice[i].constructor.name == "Dice") {
+        if (currentDice.constructor.name == "Dice") {
           embed.addField(
             `Result of __${currentDice.coefficient * currentDice.diceCount}d${currentDice.sideCount}__:`,
             `You rolled **${currentSum}**\n[ ${rawString} ]`,
             true
           );
-        } else if (diceObj.dice[i].constructor.name == "ConstantDie") {
+        } else if (currentDice.constructor.name == "ConstantDie") {
           embed.addField(
             `Constant __${currentSum}__:`,
             `You rolled **${currentSum}**\n[ ${rawString} ]`,

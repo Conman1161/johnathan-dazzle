@@ -5,11 +5,12 @@ function rollStats(args) {
   let statThreshold = args === "70" ? 70 : 1;
 
   const diceObj = new dice('4d6+4d6+4d6+4d6+4d6+4d6');
+  let statsCheck = diceRoll.roll;
 
   do {
     diceRoll = diceObj.roll();
-    var statsCheck = diceRoll.roll;
-    diceRoll.diceRaw.forEach((set) => {
+    statsCheck = diceRoll.roll;
+    diceRoll.diceRaw.forEach(set => {
       statsCheck -= Math.min.apply(Math, set);
     });
   } while (statsCheck < statThreshold);

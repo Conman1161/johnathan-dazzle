@@ -69,9 +69,9 @@ class HelpCommand extends SlashCommand {
           let names = command.options.map(currentCommand => currentCommand.name);
           let descriptions = command.options.map(currentCommand => currentCommand.description);
           let output = '';
-          for (let i = 0; i < names.length; i++) {
-            output += `**${names[i]}:** ${descriptions[i]}\n`;
-          }
+          names.forEach((name, index) => {
+            output += `**${name}:** ${descriptions[index]}\n`;
+          });
           helpEmbed.addField(`Options`, output);
         }
         if (command.guildIDs) {
