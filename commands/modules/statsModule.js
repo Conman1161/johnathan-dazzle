@@ -1,11 +1,10 @@
 const dice = require("dice-expression-evaluator");
 
 function rollStats(args) {
-  let diceRoll;
+  let diceRoll, statsCheck;
   let statThreshold = args === "70" ? 70 : 1;
 
   const diceObj = new dice('4d6+4d6+4d6+4d6+4d6+4d6');
-  let statsCheck = diceRoll.roll;
 
   do {
     diceRoll = diceObj.roll();
