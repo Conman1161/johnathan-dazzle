@@ -35,7 +35,7 @@ function rollcth() {
 
 function getMod(args) {
   if (parseInt(args) >= 1 && parseInt(args) <= 30) {
-    return Math.ceil((parseInt(args) - 10) / 2);
+    return Math.floor((parseInt(args) - 10) / 2);
   }
   return 'You did not enter a valid ability score!';
 
