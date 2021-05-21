@@ -1,35 +1,32 @@
-const dice = require("dice-expression-evaluator");
+const { DiceRoll, DiceRoller } = require('rpg-dice-roller');
 
 function rollStats(args) {
-  let diceRoll, statsCheck;
   let statThreshold = args === "70" ? 70 : 1;
 
-  const diceObj = new dice('4d6+4d6+4d6+4d6+4d6+4d6');
+  let diceObj = new DiceRoll('{4d6kh3,4d6kh3,4d6kh3,4d6kh3,4d6kh3,4d6kh3}');
 
-  do {
-    diceRoll = diceObj.roll();
-    statsCheck = diceRoll.roll;
-    diceRoll.diceRaw.forEach(set => {
-      statsCheck -= Math.min.apply(Math, set);
-    });
-  } while (statsCheck < statThreshold);
+  while (diceObj.total < statThreshold) {
+    diceObj.roll();
+  }
 
-  return diceRoll;
+  return diceObj;
 }
 
 function rollStats20() {
-  return dice('d20+d20+d20+d20+d20+d20').roll();
+  return new DiceRoll('{d20,d20,d20,d20,d20,d20}');
 }
 
 function rollcth() {
-  let str = dice('3d6').roll();
-  let con = dice('3d6').roll();
-  let siz = dice('2d6').roll();
-  let dex = dice('3d6').roll();
-  let app = dice('3d6').roll();
-  let int = dice('2d6').roll();
-  let pow = dice('3d6').roll();
-  let edu = dice('2d6').roll();
+  // str, con, size, dex, app, int, pow, edu
+  let roller = new DiceRoller();
+  let str = roller.roll('3d6');
+  let con = roller.roll('3d6');
+  let siz = roller.roll('2d6');
+  let dex = roller.roll('3d6');
+  let app = roller.roll('3d6');
+  let int = roller.roll('2d6');
+  let pow = roller.roll('3d6');
+  let edu = roller.roll('2d6');
   return [str, con, siz, dex, app, int, pow, edu];
 }
 
