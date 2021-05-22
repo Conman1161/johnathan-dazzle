@@ -69,30 +69,33 @@ class RollStatsCommand extends SlashCommand {
       }
 
       if (ctx.options.modifier != "cth") {
-        let totalSum = 0;
-        statBlock.diceRaw.forEach((currentRaw, index) => {
-          let currentSum = statBlock.diceSums[index] - (ctx.options.modifier == "d20" ? 0 : Math.min.apply(Math, currentRaw));
-          totalSum += currentSum;
+        statBlock.rolls[0].results.forEach((currentRaw, index) => {
+          let rolls = currentRaw.results[0].rolls;
+          let rollArray = [];
+          rolls.forEach(result => {
+            rollArray.push(result.value);
+          });
           embed.addField(
             `__Stat ${intStrings[index]}__`,
-            `**${currentSum}**\nFrom [ ${currentRaw.join(', ').replace(Math.min.apply(Math, currentRaw), `${ctx.options.modifier == 'd20' ? '' : '~~'}${Math.min.apply(Math, currentRaw)}${ctx.options.modifier == 'd20' ? '' : '~~'}`)} ]\nModifier: __**${stats.getMod(currentSum)}**__`,
+            `**${currentRaw.value}**\nFrom [ ${rollArray.join(', ').replace(Math.min.apply(Math, rollArray), `${ctx.options.modifier == 'd20' ? '' : '~~'}${Math.min.apply(Math, rollArray)}${ctx.options.modifier == 'd20' ? '' : '~~'}`)} ]\nModifier: __**${stats.getMod(currentRaw.value)}**__`,
             true
           );
         });
         embed.addField(
           `__Stat Check__`,
-          `Check Value: __**${totalSum}**__`
+          `Check Value: __**${statBlock.total}**__`
         );
 
       } else {
-        embed.addField('__Strength__', `**${(statBlock[0].roll) * 5}**\nFrom: [${statBlock[0].diceRaw[0].join(' + ')}] * 5`, true);
-        embed.addField('__Constitution__', `**${(statBlock[1].roll) * 5}**\nFrom: [${statBlock[1].diceRaw[0].join(' + ')}] * 5`, true);
-        embed.addField('__Size__', `**${(statBlock[2].roll + 6) * 5}**\nFrom: [${statBlock[2].diceRaw[0].join(' + ')} + **6**] * 5`, true);
-        embed.addField('__Dexterity__', `**${(statBlock[3].roll) * 5}**\nFrom: [${statBlock[3].diceRaw[0].join(' + ')}] * 5`, true);
-        embed.addField('__Appearance__', `**${(statBlock[4].roll) * 5}**\nFrom: [${statBlock[4].diceRaw[0].join(' + ')}] * 5`, true);
-        embed.addField('__Intelligence__', `**${(statBlock[5].roll + 6) * 5}**\nFrom: [${statBlock[5].diceRaw[0].join(' + ')} + **6**] * 5`, true);
-        embed.addField('__Power__', `**${(statBlock[6].roll) * 5}**\nFrom: [${statBlock[6].diceRaw[0].join(' + ')}] * 5`, true);
-        embed.addField('__Education__', `**${(statBlock[7].roll + 6) * 5}**\nFrom: [${statBlock[7].diceRaw[0].join(' + ')} + **6**] * 5`, true);
+        let cocNames = ['Strength', 'Constitution', 'Size', 'Dexterity', 'Appearance', 'Intelligence', 'Power', 'Education'];
+        cocNames.forEach((statName, index) => {
+          let rollArr = [];
+          statBlock[index].rolls[0].rolls.forEach(roll => {
+            rollArr.push(roll.value);
+          });
+          if ([2, 5, 7].includes(index)) rollArr.push('**6**');
+          embed.addField(`__${statName}__`, `**${(statBlock[index].total) * 5}**\nFrom: [ ${rollArr.join(' + ')} ] * 5`, true);
+        });
       }
 
       return {
