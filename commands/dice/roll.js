@@ -4,7 +4,7 @@ const discord_js_1 = require("discord.js");
 const rpg_dice_roller_1 = require("rpg-dice-roller");
 const slash_create_1 = require("slash-create");
 const fs_1 = require("fs");
-const errorMod = require("../modules/error-slash");
+const errorMod = require("../modules/error");
 // const { hostGuildID } = require('../../config.json');
 const attachPath = `${process.cwd()}/images/d20s/non-transp/`;
 class RollCommand extends slash_create_1.SlashCommand {

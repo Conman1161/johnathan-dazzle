@@ -2,7 +2,7 @@ import { MessageEmbed } from "discord.js";
 import { DiceRoll } from 'rpg-dice-roller';
 import { SlashCommand, CommandOptionType, SlashCreator, CommandContext } from 'slash-create';
 import { readFileSync } from "fs";
-const errorMod = require("../modules/error-slash");
+const errorMod = require("../modules/error");
 // const { hostGuildID } = require('../../config.json');
 
 const attachPath = `${process.cwd()}/images/d20s/non-transp/`;
