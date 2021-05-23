@@ -1,7 +1,7 @@
 const { SlashCommand, CommandOptionType } = require('slash-create');
 const { MessageEmbed } = require("discord.js");
 const errorMod = require("../modules/error");
-const dice = require("dice-expression-evaluator");
+const { DiceRoll } = require('rpg-dice-roller');
 const { readFileSync } = require('fs');
 // const { hostGuildID } = require('../../config.json');
 
@@ -29,53 +29,18 @@ class MaxCommand extends SlashCommand {
         ctx.options.dice = ctx.options.dice.replace(" ", "");
       } while (ctx.options.dice.includes(" "));
 
-      let allDice = new dice(ctx.options.dice);
+      let diceExpression = new DiceRoll(ctx.options.dice);
 
       let embed = new MessageEmbed()
         .attachFiles([`./images/d20s/non-transp/d20.png`])
         .setThumbnail(`attachment://d20.png`)
+        .addField(`Maximum of __${diceExpression.notation}__:`, `__**${diceExpression.maxTotal}**__`)
         .setColor("RANDOM");
       if (ctx.guildID) {
         embed.setAuthor(`${ctx.member.displayName}'s Die Maximums`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`);
       } else {
         embed.setAuthor(`${ctx.user.username}'s Die Maximums`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`);
       }
-
-      let finalString = [];
-      allDice.dice.forEach(currentDie => {
-        switch (currentDie.constructor.name) {
-          case "Dice":
-            finalString.push(`${currentDie.max()}`);
-            embed.addField(
-              `__${currentDie.coefficient * currentDie.diceCount}d${currentDie.sideCount} Max:__`,
-              `**${currentDie.max()}**`,
-              true
-            );
-            break;
-          case "ConstantDie":
-            finalString.push(currentDie.value);
-            embed.addField(
-              `__Constant ${currentDie.value}:__`,
-              `**${currentDie.value}**`,
-              true
-            );
-            break;
-        }
-      });
-
-      finalString = finalString.toString();
-      do {
-        finalString.replace("\"", '');
-      } while (finalString.includes("\""));
-
-      do {
-        finalString = finalString.replace(",-", " - ").replace(",", " + ");
-      } while (finalString.includes(","));
-
-      embed.addField(
-        `Maximum of __${ctx.options.dice}__:`,
-        `${finalString} = __**${allDice.max()}**__`
-      );
 
       return {
         embeds: [embed],

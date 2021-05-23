@@ -1,4 +1,4 @@
-const dice = require('dice-expression-evaluator');
+const { DiceRoll } = require('rpg-dice-roller');
 const table = require('../dnd/charts/domt/cards.json');
 
 function lookup(card) {
@@ -6,7 +6,7 @@ function lookup(card) {
 }
 
 function draw(deck) {
-    let poolDiceResult = new dice(`d${parseInt(deck)}`).roll().roll - 1;
+    let poolDiceResult = new DiceRoll(`d${parseInt(deck)}`).total - 1;
     return Object.keys(table)[poolDiceResult];
 }
 
