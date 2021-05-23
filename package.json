@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "build":"tsc -p tsconfig.json",
+    "build": "tsc -p tsconfig.json",
+    "dev":"ts-node ./index.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Conman",
@@ -23,6 +24,7 @@
   },
   "devDependencies": {
     "@types/node": "^15.6.0",
+    "ts-node": "^9.1.1",
     "typescript": "^4.2.4"
   }
 }
