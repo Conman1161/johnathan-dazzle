@@ -1,51 +1,50 @@
-const { DiceRoll } = require('rpg-dice-roller');
-
-const chartOne = require("../dnd/charts/trinket/1.json");
-const chartTwo = require("../dnd/charts/trinket/2.json");
-const chartThree = require("../dnd/charts/trinket/3.json");
-const chartFour = require("../dnd/charts/trinket/4.json");
-const chartFive = require("../dnd/charts/trinket/5.json");
-const chartSix = require("../dnd/charts/trinket/6.json");
-const chartSeven = require("../dnd/charts/trinket/7.json");
-const chartEight = require("../dnd/charts/trinket/8.json");
-const chartNine = require("../dnd/charts/trinket/9.json");
-const chartTen = require("../dnd/charts/trinket/10.json");
-const chartEleven = require("../dnd/charts/trinket/11.json");
-const chartTwelve = require("../dnd/charts/trinket/12.json");
-
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const rpg_dice_roller_1 = require("rpg-dice-roller");
+const _1_json_1 = __importDefault(require("../dnd/charts/trinket/1.json"));
+const _2_json_1 = __importDefault(require("../dnd/charts/trinket/2.json"));
+const _3_json_1 = __importDefault(require("../dnd/charts/trinket/3.json"));
+const _4_json_1 = __importDefault(require("../dnd/charts/trinket/4.json"));
+const _5_json_1 = __importDefault(require("../dnd/charts/trinket/5.json"));
+const _6_json_1 = __importDefault(require("../dnd/charts/trinket/6.json"));
+const _7_json_1 = __importDefault(require("../dnd/charts/trinket/7.json"));
+const _8_json_1 = __importDefault(require("../dnd/charts/trinket/8.json"));
+const _9_json_1 = __importDefault(require("../dnd/charts/trinket/9.json"));
+const _10_json_1 = __importDefault(require("../dnd/charts/trinket/10.json"));
+const _11_json_1 = __importDefault(require("../dnd/charts/trinket/11.json"));
+const _12_json_1 = __importDefault(require("../dnd/charts/trinket/12.json"));
 let allCharts = [
-  chartOne,
-  chartTwo,
-  chartThree,
-  chartFour,
-  chartFive,
-  chartSix,
-  chartSeven,
-  chartEight,
-  chartNine,
-  chartTen,
-  chartEleven,
-  chartTwelve,
+    _1_json_1.default,
+    _2_json_1.default,
+    _3_json_1.default,
+    _4_json_1.default,
+    _5_json_1.default,
+    _6_json_1.default,
+    _7_json_1.default,
+    _8_json_1.default,
+    _9_json_1.default,
+    _10_json_1.default,
+    _11_json_1.default,
+    _12_json_1.default,
 ];
-
 function getChartCount() {
-  return allCharts.length;
+    return allCharts.length;
 }
-
 function getTrinketNumber(chartNumber) {
-  return new DiceRoll(`d${Object.keys(getChart(chartNumber)).length}`).total;
+    return new rpg_dice_roller_1.DiceRoll(`d${Object.keys(getChart(chartNumber)).length}`).total;
 }
-
 function getChart(chartNumber) {
-  return allCharts[chartNumber - 1];
+    return allCharts[chartNumber - 1];
 }
-
 function getTrinketInfo(chartNumber) {
-  // Returns [Chart number, trinket text]
-  if (chartNumber == "" || chartNumber === undefined) chartNumber = new DiceRoll(`d${allCharts.length - 1}`).total;
-  if (chartNumber > allCharts.length || chartNumber < 1 || isNaN(chartNumber)) throw 6;
-
-  return [chartNumber, getChart(chartNumber)[getTrinketNumber(chartNumber)]];
+    // Returns [Chart number, trinket text]
+    if (chartNumber == "" || chartNumber === undefined)
+        chartNumber = new rpg_dice_roller_1.DiceRoll(`d${allCharts.length - 1}`).total;
+    if (chartNumber > allCharts.length || chartNumber < 1 || isNaN(chartNumber))
+        throw 6;
+    return [chartNumber, getChart(chartNumber)[getTrinketNumber(chartNumber)]];
 }
-
 module.exports = { getTrinketInfo, getChartCount };
