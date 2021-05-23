@@ -1,7 +1,6 @@
 const { SlashCommand } = require("slash-create");
 const { hostGuildID, owner } = require('../../config.json');
 
-
 class RestartCommand extends SlashCommand {
   constructor(client) {
     super(client, {
