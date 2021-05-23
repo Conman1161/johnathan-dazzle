@@ -40,6 +40,11 @@ You can join the support server, which has the bot invite link, [here](https://d
 - [ ] Update loops to be consistent throughout every file
   - [x] Replace for loops with .forEach()
   - [ ] Replace other loops where necessary
+- [ ] Convert from JavaScript to TypeScript
+  - [ ] Dice Commands
+  - [ ] DnD Commands
+  - [ ] General Commands
+  - [ ] Custom Modules
 
 ## Feature Ideas
 
