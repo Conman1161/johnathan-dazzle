@@ -1,4 +1,4 @@
-const dice = require('dice-expression-evaluator');
+const { DiceRoll } = require('rpg-dice-roller');
 const chartOneTwo = require("../dnd/charts/wild/d10k_1.2.json");
 const chartTwoZero = require("../dnd/charts/wild/d10k_2.0.json");
 const chartOfficial = require("../dnd/charts/wild/5e.json");
@@ -25,19 +25,17 @@ function getEmbedInfo(chartName, effectNumber) {
     case "1.2":
       if (effectNumber > getChart(chartName).length) throw 'This value is too large for this table!';
       this.chartName = "The Net Libram of Random Magical Effects 1.2";
-      this.effectNumber = effectNumber == undefined ? dice(`d${Object.keys(getChart(chartName)).length}`).roll().roll : effectNumber;
       break;
     case "2.0":
       if (effectNumber > getChart(chartName).length) throw 'This value is too large for this table!';
       this.chartName = "The Net Libram of Random Magical Effects 2.0";
-      this.effectNumber = effectNumber == undefined ? dice(`d${Object.keys(getChart(chartName)).length}`).roll().roll : effectNumber;
       break;
     case "5e":
       if (effectNumber > getChart(chartName).length) throw 'This value is too large for this table!';
       this.chartName = "Official Wild Magic Surges";
-      this.effectNumber = effectNumber == undefined ? dice(`d${Object.keys(getChart(chartName)).length}`).roll().roll : effectNumber;
       break;
   }
+  this.effectNumber = effectNumber == undefined ? new DiceRoll(`d${Object.keys(getChart(chartName)).length}`).total : effectNumber;
 
   // Return {Chart name, Die roll number, Effect from Chart}
   return {

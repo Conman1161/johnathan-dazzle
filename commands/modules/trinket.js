@@ -1,4 +1,4 @@
-const dice = require("dice-expression-evaluator");
+const { DiceRoll } = require('rpg-dice-roller');
 
 const chartOne = require("../dnd/charts/trinket/1.json");
 const chartTwo = require("../dnd/charts/trinket/2.json");
@@ -33,7 +33,7 @@ function getChartCount() {
 }
 
 function getTrinketNumber(chartNumber) {
-  return dice(`d${Object.keys(getChart(chartNumber)).length}`).roll().roll;
+  return new DiceRoll(`d${Object.keys(getChart(chartNumber)).length}`).total;
 }
 
 function getChart(chartNumber) {
@@ -42,7 +42,7 @@ function getChart(chartNumber) {
 
 function getTrinketInfo(chartNumber) {
   // Returns [Chart number, trinket text]
-  if (chartNumber == "" || chartNumber === undefined) chartNumber = dice(`d${allCharts.length - 1}`).roll().roll;
+  if (chartNumber == "" || chartNumber === undefined) chartNumber = new DiceRoll(`d${allCharts.length - 1}`).total;
   if (chartNumber > allCharts.length || chartNumber < 1 || isNaN(chartNumber)) throw 6;
 
   return [chartNumber, getChart(chartNumber)[getTrinketNumber(chartNumber)]];
