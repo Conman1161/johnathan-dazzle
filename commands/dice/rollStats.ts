@@ -16,8 +16,8 @@ class RollStatsCommand extends SlashCommand {
         "Roll 4d6 and drop the lowest roll for a new character's statblock",
       options: [{
         type: CommandOptionType.STRING,
-        name: "modifier",
-        description: "Want a non-default condition for your stats?",
+        name: "style",
+        description: "Not using 4d6kh3? Pick a different rolling style!",
         choices: [
           {
             name: '70 Minimum',
@@ -44,7 +44,7 @@ class RollStatsCommand extends SlashCommand {
             value: 'pool'
           },
           {
-            name: 'Standard (Default)',
+            name: '4d6kh3 (Default)',
             value: 'standard'
           }
         ].sort((a, b) => (a.name > b.name) ? 1 : -1),
@@ -60,7 +60,7 @@ class RollStatsCommand extends SlashCommand {
       let intStrings = ["One", "Two", "Three", "Four", "Five", "Six"];
 
       let statBlock: DiceRoll, embed: MessageEmbed;
-      switch (ctx.options.modifier) {
+      switch (ctx.options.style) {
         case "70":
           statBlock = stats.rollStandardMin();
           break;
@@ -99,7 +99,7 @@ class RollStatsCommand extends SlashCommand {
       statBlock.rolls[0].results.forEach((roll: any, index: number) => {
         let currentSet = roll.results[0];
         let rollArray: (number | string)[] = [];
-        switch(ctx.options.modifier){
+        switch(ctx.options.style){
           // Drop Lowest
           case "70":
           case "standard":
@@ -146,7 +146,7 @@ class RollStatsCommand extends SlashCommand {
             break;
         }
       });
-      ctx.options.modifier !== 'cth' ? embed.addField(`__**Stat Check**__`, `Check Value: __**${statBlock.total + (ctx.options.modifier==='heroic'?(6*6):0) }**__`) : void (0);
+      ctx.options.style !== 'cth' ? embed.addField(`__**Stat Check**__`, `Check Value: __**${statBlock.total + (ctx.options.style==='heroic'?(6*6):0) }**__`) : void (0);
 
       return {
         embeds: [embed],
