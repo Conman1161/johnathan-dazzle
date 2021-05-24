@@ -35,7 +35,7 @@ Creator.withServer(
 Creator.on('debug', (m: Object) => console.log('slash-create debug:', m));
 Creator.on('warn', (m: Object) => console.log('slash-create warn:', m));
 Creator.on('error', (m: Object) => console.error('slash-create error: ', m));
-Creator.on('rawREST', (m: Object) => console.log('slash-create REST: ', m));
+// Creator.on('rawREST', (m: Object) => console.log('slash-create REST: ', m));
 
 Bot.on("ready", function () {
   let status: PresenceData = {

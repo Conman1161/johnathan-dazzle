@@ -28,7 +28,7 @@ Creator.withServer(new slash_create_1.GatewayServer((handler) => {
 Creator.on('debug', (m) => console.log('slash-create debug:', m));
 Creator.on('warn', (m) => console.log('slash-create warn:', m));
 Creator.on('error', (m) => console.error('slash-create error: ', m));
-Creator.on('rawREST', (m) => console.log('slash-create REST: ', m));
+// Creator.on('rawREST', (m: Object) => console.log('slash-create REST: ', m));
 Bot.on("ready", function () {
     let status = {
         activity: {
