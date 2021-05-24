@@ -132,12 +132,7 @@ class RollStatsCommand extends SlashCommand {
             currentSet.rolls.forEach((currentRoll: RollResult)=>{
               rollArray.push(currentRoll.value);
             });
-
-            let keys = Object.keys(_.countBy(rollArray));
-            let values = Object.values(_.countBy(rollArray));
-            keys.forEach((key, index: number) => {
-              embed.addField(`Amount of (${key})s`,`__${values[index]}__`,true);
-            })
+              embed.addField(`Your Dice Pool`,`[ ${rollArray.join(', ')} ]`,true);
             break;
           // Cthulhu
           case "cth":
@@ -148,7 +143,6 @@ class RollStatsCommand extends SlashCommand {
             });
             if ([2, 5, 7].includes(index)) rollArray.push('**6**');
             embed.addField(`__${cocNames[index]}__`, `**${(currentSet.value) * 5}**\nFrom: [ ${rollArray.join(' + ')} ] * 5`, true);
-            
             break;
         }
       });

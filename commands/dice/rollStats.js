@@ -127,11 +127,7 @@ class RollStatsCommand extends slash_create_1.SlashCommand {
                         currentSet.rolls.forEach((currentRoll) => {
                             rollArray.push(currentRoll.value);
                         });
-                        let keys = Object.keys(_.countBy(rollArray));
-                        let values = Object.values(_.countBy(rollArray));
-                        keys.forEach((key, index) => {
-                            embed.addField(`Amount of (${key})s`, `__${values[index]}__`, true);
-                        });
+                        embed.addField(`Your Dice Pool`, `[ ${rollArray.join(', ')} ]`, true);
                         break;
                     // Cthulhu
                     case "cth":
