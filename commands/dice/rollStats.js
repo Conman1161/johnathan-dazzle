@@ -120,7 +120,7 @@ class RollStatsCommand extends slash_create_1.SlashCommand {
                             rollArray.push(currentRoll.value);
                         });
                         rollArray.push('**6**');
-                        embed.addField(`__Stat ${intStrings[index]}__`, `**${currentSet.value}**\nFrom [ ${rollArray.join(', ')} ]\nModifier: __**${stats.getMod(currentSet.value)}**__`, true);
+                        embed.addField(`__Stat ${intStrings[index]}__`, `**${currentSet.value + 6}**\nFrom [ ${rollArray.join(', ')} ]\nModifier: __**${stats.getMod(currentSet.value + 6)}**__`, true);
                         break;
                     // Pool
                     case "pool":
@@ -130,16 +130,23 @@ class RollStatsCommand extends slash_create_1.SlashCommand {
                         let keys = Object.keys(_.countBy(rollArray));
                         let values = Object.values(_.countBy(rollArray));
                         keys.forEach((key, index) => {
-                            embed.addField(`Amount of __${key}__s`, `__${values[index]}__`, true);
+                            embed.addField(`Amount of (${key})s`, `__${values[index]}__`, true);
                         });
                         break;
                     // Cthulhu
                     case "cth":
-                        console.log(currentSet);
+                        let cocNames = ['Strength', 'Constitution', 'Size', 'Dexterity', 'Appearance', 'Intelligence', 'Power', 'Education'];
+                        rollArray = [];
+                        currentSet.rolls.forEach((roll) => {
+                            rollArray.push(roll.value);
+                        });
+                        if ([2, 5, 7].includes(index))
+                            rollArray.push('**6**');
+                        embed.addField(`__${cocNames[index]}__`, `**${(currentSet.value) * 5}**\nFrom: [ ${rollArray.join(' + ')} ] * 5`, true);
                         break;
                 }
             });
-            embed.addField(`__**Stat Check**__`, `Check Value: __**${statBlock.total}**__`);
+            ctx.options.modifier !== 'cth' ? embed.addField(`__**Stat Check**__`, `Check Value: __**${statBlock.total + (ctx.options.modifier === 'heroic' ? (6 * 6) : 0)}**__`) : void (0);
             return {
                 embeds: [embed],
                 file: {
