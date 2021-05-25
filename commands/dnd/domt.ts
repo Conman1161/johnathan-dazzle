@@ -124,7 +124,7 @@ class DoMTCommand extends SlashCommand {
         embed.setAuthor(`${ctx.user.username}'s Card`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`);
       }
 
-      // subcommand switch statement
+      // sub-command switch statement
       switch (Object.keys(ctx.options)[0]) {
         case 'draw':
           let card = domtMod.draw(ctx.options.draw.deck);
