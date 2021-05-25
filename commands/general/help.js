@@ -26,7 +26,7 @@ class HelpCommand extends slash_create_1.SlashCommand {
             //Get all folder groups
             let groups = fs_1.readdirSync('./commands');
             //Remove modules folder
-            groups.pop('modules');
+            groups.splice(groups.indexOf('dnd'), 1);
             let helpEmbed = new discord_js_1.MessageEmbed()
                 .setAuthor("Help", `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`)
                 .attachFiles([`./images/help.png`])
