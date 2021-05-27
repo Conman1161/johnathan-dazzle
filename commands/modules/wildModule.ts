@@ -22,6 +22,7 @@ function getEmbedInfo(chartName: string, effectNumber: number) {
   let chart = getChart(chartName);
   switch (chartName) {
     case "":
+    case undefined:
     case "1.2":
       if (effectNumber > Object.keys(chart).length) throw 'This value is too large for this table!';
       chartName = "The Net Libram of Random Magical Effects 1.2";
@@ -32,7 +33,7 @@ function getEmbedInfo(chartName: string, effectNumber: number) {
       break;
     case "5e":
       if (effectNumber > Object.keys(chart).length) throw 'This value is too large for this table!';
-      chartName = "Official Wild Magic Surges";
+      chartName = "D&D 5e Wild Magic Surges";
       break;
   }
   effectNumber = effectNumber === undefined || effectNumber === null ? new DiceRoll(`d${Object.keys(chart).length}`).total : effectNumber;

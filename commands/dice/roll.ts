@@ -26,7 +26,7 @@ class RollCommand extends SlashCommand {
   async run(ctx: CommandContext) {
     try {
       await ctx.defer();
-      let dice = new DiceRoll(ctx.options.dice.toString() || "d20");
+      let dice = new DiceRoll(ctx.options.dice || "d20");
 
       let embed = new MessageEmbed()
         .setColor("RANDOM")

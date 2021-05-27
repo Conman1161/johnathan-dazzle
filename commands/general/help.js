@@ -11,11 +11,11 @@ class HelpCommand extends slash_create_1.SlashCommand {
             description: "See a list of all commands",
             name: "help",
             options: [{
-                name: 'command',
-                description: 'Need help with a specific command? Enter that command here!',
-                type: slash_create_1.CommandOptionType.STRING,
-                required: false
-            }]
+                    name: 'command',
+                    description: 'Need help with a specific command? Enter that command here!',
+                    type: slash_create_1.CommandOptionType.STRING,
+                    required: false
+                }]
             // guildIDs: [hostGuildID]
         });
         this.filePath = __filename;
@@ -26,7 +26,7 @@ class HelpCommand extends slash_create_1.SlashCommand {
             //Get all folder groups
             let groups = fs_1.readdirSync('./commands');
             //Remove modules folder
-            groups.splice(groups.indexOf('dnd'), 1);
+            groups.splice(groups.indexOf('modules'), 1);
             let helpEmbed = new discord_js_1.MessageEmbed()
                 .setAuthor("Help", `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`)
                 .attachFiles([`./images/help.png`])
@@ -48,10 +48,10 @@ class HelpCommand extends slash_create_1.SlashCommand {
                         let index = helpEmbed.fields.findIndex(obj => obj.name === category);
                         let currentField = helpEmbed.fields[index];
                         helpEmbed.spliceFields(index, 1, [{
-                            name: currentField.name,
-                            value: `${currentField.value}, [${command.commandName}](https://github.com/Conman1161/johnathan-dazzle "${command.description}${command.guildIDs ? `\nOnly in guild(s): ${command.guildIDs.join(',')}` : ''}")`,
-                            inline: true
-                        }]);
+                                name: currentField.name,
+                                value: `${currentField.value}, [${command.commandName}](https://github.com/Conman1161/johnathan-dazzle "${command.description}${command.guildIDs ? `\nOnly in guild(s): ${command.guildIDs.join(',')}` : ''}")`,
+                                inline: true
+                            }]);
                     }
                     else {
                         throw `If you see this, something very bad happened! Contact ${config_json_1.ownerTag} to get this resolved!`;

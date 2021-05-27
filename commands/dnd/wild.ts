@@ -8,8 +8,7 @@ const errorMod = require("../modules/error");
 class WildCommand extends SlashCommand {
   constructor(creator: SlashCreator) {
     super(creator, {
-      description:
-        "Roll on one of the wild magic charts to get a wild magic effect. The default chart is 1.2",
+      description: "Roll on one of the wild magic charts to get a wild magic effect. The default chart is 1.2",
       name: "wild",
       options: [{
         type: CommandOptionType.SUB_COMMAND,

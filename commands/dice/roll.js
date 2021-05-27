@@ -25,7 +25,7 @@ class RollCommand extends slash_create_1.SlashCommand {
     async run(ctx) {
         try {
             await ctx.defer();
-            let dice = new rpg_dice_roller_1.DiceRoll(ctx.options.dice.toString() || "d20");
+            let dice = new rpg_dice_roller_1.DiceRoll(ctx.options.dice || "d20");
             let embed = new discord_js_1.MessageEmbed()
                 .setColor("RANDOM")
                 .attachFiles([`${attachPath}${dice.total < 21 && dice.total > 0 ? `d20-${dice.total}.png` : `d20.png`}`])
