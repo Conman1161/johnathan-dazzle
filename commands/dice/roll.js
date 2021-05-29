@@ -13,11 +13,11 @@ class RollCommand extends slash_create_1.SlashCommand {
             name: 'roll',
             description: 'Roll some dice',
             options: [{
-                type: slash_create_1.CommandOptionType.STRING,
-                name: "dice",
-                description: 'See https://greenimp.github.io/rpg-dice-roller/guide/notation/ for supported notations',
-                required: false
-            }],
+                    type: slash_create_1.CommandOptionType.STRING,
+                    name: "dice",
+                    description: 'See https://greenimp.github.io/rpg-dice-roller/guide/notation/ for supported notations',
+                    required: false
+                }],
             // guildIDs: [hostGuildID]
         });
         this.filePath = __filename;
@@ -34,7 +34,7 @@ class RollCommand extends slash_create_1.SlashCommand {
                 .setThumbnail(`attachment://d20${dice.total <= 20 && dice.total >= 1 ? `-${dice.total}.png` : `.png`}`)
                 .setFooter(`Need some help understanding your result notation? Use /help roll to find supported notation and what they look like`);
             //https://cdn.discordapp.com/avatars/{USERID}/{TOKENID}.png
-            if (ctx.guildID) {
+            if (ctx.member) {
                 embed.setAuthor(`${ctx.member.displayName}'s Die Roll`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`);
             }
             else {
@@ -48,27 +48,27 @@ class RollCommand extends slash_create_1.SlashCommand {
                     file: fs_1.readFileSync(`${attachPath}${dice.total < 21 && dice.total > 0 ? `d20-${dice.total}.png` : `d20.png`}`)
                 },
                 components: [{
-                    type: slash_create_1.ComponentType.ACTION_ROW,
-                    components: [{
-                        type: slash_create_1.ComponentType.BUTTON,
-                        style: slash_create_1.ButtonStyle.PRIMARY,
-                        label: 'Reroll',
-                        custom_id: 'reroll'
-                    },
-                    {
-                        type: slash_create_1.ComponentType.BUTTON,
-                        style: slash_create_1.ButtonStyle.PRIMARY,
-                        label: 'Add Advantage dice',
-                        custom_id: 'advantage'
+                        type: slash_create_1.ComponentType.ACTION_ROW,
+                        components: [{
+                                type: slash_create_1.ComponentType.BUTTON,
+                                style: slash_create_1.ButtonStyle.PRIMARY,
+                                label: 'Reroll',
+                                custom_id: 'reroll'
+                            },
+                            {
+                                type: slash_create_1.ComponentType.BUTTON,
+                                style: slash_create_1.ButtonStyle.PRIMARY,
+                                label: 'Add Advantage dice',
+                                custom_id: 'advantage'
+                            }]
                     }]
-                }]
             });
             ctx.registerComponent('reroll', async (btnCtx) => {
                 if (ctx.user.id === btnCtx.user.id) {
                     // await btnCtx.defer();
                     dice.roll();
                     embed.setFooter(`Need some help understanding your result notation? Use /help roll to find supported notation and what they look like\n\nEmbed thumbnails will show the sum of your original roll (or a ? if it was greater than 20)`);
-                    if (ctx.guildID) {
+                    if (ctx.member) {
                         embed.setAuthor(`${ctx.member.displayName}'s Die Roll (Rerolled)`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`);
                     }
                     else {
@@ -89,21 +89,21 @@ class RollCommand extends slash_create_1.SlashCommand {
                     await btnCtx.editParent({
                         embeds: [embed.toJSON()],
                         components: [{
-                            type: slash_create_1.ComponentType.ACTION_ROW,
-                            components: [{
-                                type: slash_create_1.ComponentType.BUTTON,
-                                style: slash_create_1.ButtonStyle.PRIMARY,
-                                label: 'Reroll',
-                                custom_id: 'reroll'
-                            },
-                            {
-                                type: slash_create_1.ComponentType.BUTTON,
-                                style: slash_create_1.ButtonStyle.PRIMARY,
-                                label: 'Add Advantage Dice',
-                                custom_id: 'advantage',
-                                disabled: embed.fields.length > 2
+                                type: slash_create_1.ComponentType.ACTION_ROW,
+                                components: [{
+                                        type: slash_create_1.ComponentType.BUTTON,
+                                        style: slash_create_1.ButtonStyle.PRIMARY,
+                                        label: 'Reroll',
+                                        custom_id: 'reroll'
+                                    },
+                                    {
+                                        type: slash_create_1.ComponentType.BUTTON,
+                                        style: slash_create_1.ButtonStyle.PRIMARY,
+                                        label: 'Add Advantage Dice',
+                                        custom_id: 'advantage',
+                                        disabled: embed.fields.length > 2
+                                    }]
                             }]
-                        }]
                     });
                 }
                 else {
@@ -116,7 +116,7 @@ class RollCommand extends slash_create_1.SlashCommand {
                     let oldTotal = dice.total;
                     dice.roll();
                     embed.setFooter(`Need some help understanding your result notation? Use /help roll to find supported notation and what they look like\n\nEmbed thumbnails will show the sum of your original roll (or a ? if it was greater than 20)`);
-                    if (ctx.guildID) {
+                    if (ctx.member) {
                         embed.setAuthor(`${ctx.member.displayName}'s Die Roll (Advantage Added)`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`);
                     }
                     else {
@@ -137,22 +137,22 @@ class RollCommand extends slash_create_1.SlashCommand {
                     await btnCtx.editParent({
                         embeds: [embed.toJSON()],
                         components: [{
-                            type: slash_create_1.ComponentType.ACTION_ROW,
-                            components: [{
-                                type: slash_create_1.ComponentType.BUTTON,
-                                style: slash_create_1.ButtonStyle.PRIMARY,
-                                label: 'Reroll',
-                                custom_id: 'adv_reroll',
-                                // disabled: true
-                            },
-                            {
-                                type: slash_create_1.ComponentType.BUTTON,
-                                style: slash_create_1.ButtonStyle.PRIMARY,
-                                label: 'Add Advantage Dice',
-                                custom_id: 'advantage',
-                                disabled: embed.fields.length > 2
+                                type: slash_create_1.ComponentType.ACTION_ROW,
+                                components: [{
+                                        type: slash_create_1.ComponentType.BUTTON,
+                                        style: slash_create_1.ButtonStyle.PRIMARY,
+                                        label: 'Reroll',
+                                        custom_id: 'adv_reroll',
+                                        // disabled: true
+                                    },
+                                    {
+                                        type: slash_create_1.ComponentType.BUTTON,
+                                        style: slash_create_1.ButtonStyle.PRIMARY,
+                                        label: 'Add Advantage Dice',
+                                        custom_id: 'advantage',
+                                        disabled: embed.fields.length > 2
+                                    }]
                             }]
-                        }]
                     });
                 }
                 else {
@@ -165,7 +165,7 @@ class RollCommand extends slash_create_1.SlashCommand {
                     dice.roll();
                     advDice.roll();
                     embed.setFooter(`Need some help understanding your result notation? Use /help roll to find supported notation and what they look like\n\nEmbed thumbnails will show the sum of your original roll (or a ? if it was greater than 20)`);
-                    if (ctx.guildID) {
+                    if (ctx.member) {
                         embed.setAuthor(`${ctx.member.displayName}'s Die Roll (Advantage Added)`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`);
                     }
                     else {
@@ -191,22 +191,22 @@ class RollCommand extends slash_create_1.SlashCommand {
                     await btnCtx.editParent({
                         embeds: [embed.toJSON()],
                         components: [{
-                            type: slash_create_1.ComponentType.ACTION_ROW,
-                            components: [{
-                                type: slash_create_1.ComponentType.BUTTON,
-                                style: slash_create_1.ButtonStyle.PRIMARY,
-                                label: 'Reroll',
-                                custom_id: 'adv_reroll',
-                                // disabled: true
-                            },
-                            {
-                                type: slash_create_1.ComponentType.BUTTON,
-                                style: slash_create_1.ButtonStyle.PRIMARY,
-                                label: 'Add Advantage Dice',
-                                custom_id: 'advantage',
-                                disabled: embed.fields.length > 2
+                                type: slash_create_1.ComponentType.ACTION_ROW,
+                                components: [{
+                                        type: slash_create_1.ComponentType.BUTTON,
+                                        style: slash_create_1.ButtonStyle.PRIMARY,
+                                        label: 'Reroll',
+                                        custom_id: 'adv_reroll',
+                                        // disabled: true
+                                    },
+                                    {
+                                        type: slash_create_1.ComponentType.BUTTON,
+                                        style: slash_create_1.ButtonStyle.PRIMARY,
+                                        label: 'Add Advantage Dice',
+                                        custom_id: 'advantage',
+                                        disabled: embed.fields.length > 2
+                                    }]
                             }]
-                        }]
                     });
                 }
                 else {

@@ -75,7 +75,7 @@ class WildCommand extends slash_create_1.SlashCommand {
                 .setThumbnail(`attachment://wild.png`)
                 .setFooter(`If you think the roll has an error, message ${config_json_1.ownerTag} with the roll number and what the error is.`)
                 .setColor("RANDOM");
-            if (ctx.guildID) {
+            if (ctx.member) {
                 embed.setAuthor(`${ctx.member.displayName}'s Wild Magic ${Object.keys(ctx.options).length < 2 ? 'Surge' : 'Lookup'}`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`);
             }
             else {

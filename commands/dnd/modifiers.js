@@ -22,7 +22,7 @@ class ModifierKeyCommand extends slash_create_1.SlashCommand {
             .attachFiles([`./images/lookup.png`])
             .setThumbnail(`attachment://lookup.png`);
         ctx.send({
-            embeds: [modEmbed],
+            embeds: [modEmbed.toJSON()],
             file: {
                 name: `lookup.png`,
                 file: fs_1.readFileSync(`./images/lookup.png`)

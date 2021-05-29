@@ -90,7 +90,7 @@ class RollStatsCommand extends SlashCommand {
         .attachFiles([`./images/4d6.png`])
         .setThumbnail(`attachment://4d6.png`);
 
-      if (ctx.guildID) {
+      if (ctx.member) {
         embed.setAuthor(`${ctx.member.displayName}'s Stat Block`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`);
       } else {
         embed.setAuthor(`${ctx.user.username}'s Stat Block`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`);

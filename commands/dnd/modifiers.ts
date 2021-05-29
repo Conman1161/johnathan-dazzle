@@ -26,7 +26,7 @@ class ModifierKeyCommand extends SlashCommand {
       .setThumbnail(`attachment://lookup.png`);
 
     ctx.send({
-      embeds: [modEmbed],
+      embeds: [modEmbed.toJSON()],
       file: {
         name: `lookup.png`,
         file: readFileSync(`./images/lookup.png`)

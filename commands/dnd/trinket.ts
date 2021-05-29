@@ -74,7 +74,7 @@ class TrinketCommand extends SlashCommand {
           `If you think anything has an error, message ${ownerTag} with a screenshot and indicate what the error is.`
         )
         .setColor("RANDOM");
-      if (ctx.guildID) {
+      if (ctx.member) {
         embed.setAuthor(`${ctx.member.displayName}'s Trinket`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`);
       } else {
         embed.setAuthor(`${ctx.user.username}'s Trinket`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`);

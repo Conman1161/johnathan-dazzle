@@ -37,7 +37,7 @@ class RollCommand extends SlashCommand {
         .setFooter(`Need some help understanding your result notation? Use /help roll to find supported notation and what they look like`);
 
       //https://cdn.discordapp.com/avatars/{USERID}/{TOKENID}.png
-      if (ctx.guildID) {
+      if (ctx.member) {
         embed.setAuthor(`${ctx.member.displayName}'s Die Roll`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`);
       } else {
         embed.setAuthor(`${ctx.user.username}'s Die Roll`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`);
@@ -76,7 +76,7 @@ class RollCommand extends SlashCommand {
           // await btnCtx.defer();
           dice.roll();
           embed.setFooter(`Need some help understanding your result notation? Use /help roll to find supported notation and what they look like\n\nEmbed thumbnails will show the sum of your original roll (or a ? if it was greater than 20)`);
-          if (ctx.guildID) {
+          if (ctx.member) {
             embed.setAuthor(`${ctx.member.displayName}'s Die Roll (Rerolled)`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`);
           } else {
             embed.setAuthor(`${ctx.user.username}'s Die Roll (Rerolled)`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`);
@@ -123,7 +123,7 @@ class RollCommand extends SlashCommand {
           let oldTotal = dice.total;
           dice.roll();
           embed.setFooter(`Need some help understanding your result notation? Use /help roll to find supported notation and what they look like\n\nEmbed thumbnails will show the sum of your original roll (or a ? if it was greater than 20)`);
-          if (ctx.guildID) {
+          if (ctx.member) {
             embed.setAuthor(`${ctx.member.displayName}'s Die Roll (Advantage Added)`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`);
           } else {
             embed.setAuthor(`${ctx.user.username}'s Die Roll (Advantage Added)`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`);
@@ -171,7 +171,7 @@ class RollCommand extends SlashCommand {
           dice.roll();
           advDice.roll();
           embed.setFooter(`Need some help understanding your result notation? Use /help roll to find supported notation and what they look like\n\nEmbed thumbnails will show the sum of your original roll (or a ? if it was greater than 20)`);
-          if (ctx.guildID) {
+          if (ctx.member) {
             embed.setAuthor(`${ctx.member.displayName}'s Die Roll (Advantage Added)`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`);
           } else {
             embed.setAuthor(`${ctx.user.username}'s Die Roll (Advantage Added)`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`);

@@ -72,7 +72,7 @@ class TrinketCommand extends slash_create_1.SlashCommand {
                 .setThumbnail(`attachment://bag.png`)
                 .setFooter(`If you think anything has an error, message ${config_json_1.ownerTag} with a screenshot and indicate what the error is.`)
                 .setColor("RANDOM");
-            if (ctx.guildID) {
+            if (ctx.member) {
                 embed.setAuthor(`${ctx.member.displayName}'s Trinket`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`);
             }
             else {
