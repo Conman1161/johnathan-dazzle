@@ -97,13 +97,13 @@ class HelpCommand extends slash_create_1.SlashCommand {
                 throw `The command ${ctx.options.command} was not found!`;
             }
             helpEmbed.fields.sort();
-            return {
-                embeds: [helpEmbed],
+            await ctx.send({
+                embeds: [helpEmbed.toJSON()],
                 file: {
                     name: `help.png`,
                     file: fs_1.readFileSync(`./images/help.png`)
                 }
-            };
+            });
         }
         catch (err) {
             ctx.send({

@@ -22,7 +22,7 @@ class BotInfoCommand extends SlashCommand {
 
   async run(ctx: CommandContext) {
     await ctx.defer();
-    let myInfo = new MessageEmbed()
+    let embed = new MessageEmbed()
       .setAuthor(`${catboy || ctx.options.force_catboy ? owoify('Johnathan Dazzle') : 'Johnathan Dazzle'}`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`)
       .addField(
         `${catboy || ctx.options.force_catboy ? `${owoify('Bot Info')}` : `Bot Info`}`,
@@ -54,13 +54,13 @@ class BotInfoCommand extends SlashCommand {
       .attachFiles([catboy || ctx.options.force_catboy ? "./images/catboy/Background.png" : "./images/icon.png"])
       .setThumbnail(`attachment://${catboy || ctx.options.force_catboy ? "Background.png" : "icon.png"}`);
 
-    return {
-      embeds: [myInfo],
+    await ctx.send( {
+      embeds: [embed.toJSON()],
       file: {
         name: `${catboy || ctx.options.force_catboy ? 'Background.png' : 'icon.png'}`,
         file: readFileSync(catboy || ctx.options.force_catboy ? `./images/catboy/Background.png` : `./images/icon.png`)
       }
-    };
+    });
   }
 }
 

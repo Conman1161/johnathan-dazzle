@@ -28,13 +28,13 @@ class ExampleCommand extends SlashCommand {
          await ctx.defer();
          let embed = new MessageEmbed().setColor('RANDOM');
          embed.setAuthor(`An example title!`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`);
-         return {
-            embeds: [embed],
+         await ctx.send( {
+            embeds: [embed.toJSON()],
             file: {
                name: `fileName.png`,
                file: readFileSync(`filePath`)
             }
-         };
+         });
       } catch (err) {
          await ctx.send({
             embeds: [errorMod.errorMessage(err, ctx)],

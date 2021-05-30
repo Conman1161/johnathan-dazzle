@@ -99,13 +99,13 @@ class HelpCommand extends SlashCommand {
 
       helpEmbed.fields.sort();
 
-      return {
-        embeds: [helpEmbed],
+      await ctx.send( {
+        embeds: [helpEmbed.toJSON()],
         file: {
           name: `help.png`,
           file: readFileSync(`./images/help.png`)
         }
-      };
+      });
     } catch (err) {
       ctx.send({
         embeds: [errorMod.errorMessage(err, ctx)],

@@ -31,13 +31,13 @@ class SupportCommand extends SlashCommand {
       .setURL(`https://discord.gg/ZUJAMnh`)
       .setThumbnail(`attachment://support.png`);
 
-    return {
-      embeds: [embed],
+    await ctx.send( {
+      embeds: [embed.toJSON()],
       file: {
         name: 'support.png',
         file: readFileSync(`./images/support.png`)
       }
-    };
+    });
   }
 }
 

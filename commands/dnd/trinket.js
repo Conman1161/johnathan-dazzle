@@ -78,13 +78,13 @@ class TrinketCommand extends slash_create_1.SlashCommand {
             else {
                 embed.setAuthor(`${ctx.user.username}'s Trinket`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`);
             }
-            return {
-                embeds: [embed],
+            await ctx.send({
+                embeds: [embed.toJSON()],
                 file: {
                     name: `bag.png`,
                     file: fs_1.readFileSync(`./images/bag.png`)
                 }
-            };
+            });
         }
         catch (err) {
             await ctx.send({

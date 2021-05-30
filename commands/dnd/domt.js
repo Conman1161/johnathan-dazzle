@@ -139,13 +139,13 @@ class DoMTCommand extends slash_create_1.SlashCommand {
                     embed.setImage(`attachment://${ctx.options.lookup.card.replace(' ', '')}.png`);
                     break;
             }
-            return {
-                embeds: [embed],
+            await ctx.send({
+                embeds: [embed.toJSON()],
                 file: {
                     name: `${embed.image.url.replace('attachment://', '')}`,
                     file: fs_1.readFileSync(`./images/domt/${embed.image.url.replace('attachment://', '')}`)
                 }
-            };
+            });
         }
         catch (err) {
             await ctx.send({

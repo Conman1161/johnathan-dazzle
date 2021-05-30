@@ -141,13 +141,13 @@ class DoMTCommand extends SlashCommand {
           break;
       }
 
-      return {
-        embeds: [embed],
+      await ctx.send( {
+        embeds: [embed.toJSON()],
         file: {
           name: `${embed.image.url.replace('attachment://', '')}`,
           file: readFileSync(`./images/domt/${embed.image.url.replace('attachment://', '')}`)
         }
-      };
+      });
     } catch (err) {
       await ctx.send({
         embeds: [errorMod.errorMessage(err, ctx)],

@@ -23,13 +23,13 @@ class SupportCommand extends slash_create_1.SlashCommand {
             .attachFiles([`./images/support.png`])
             .setURL(`https://discord.gg/ZUJAMnh`)
             .setThumbnail(`attachment://support.png`);
-        return {
-            embeds: [embed],
+        await ctx.send({
+            embeds: [embed.toJSON()],
             file: {
                 name: 'support.png',
                 file: fs_1.readFileSync(`./images/support.png`)
             }
-        };
+        });
     }
 }
 module.exports = SupportCommand;

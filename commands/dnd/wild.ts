@@ -84,13 +84,13 @@ class WildCommand extends SlashCommand {
       } else {
         embed.setAuthor(`${ctx.user.username}'s Wild Magic ${Object.keys(ctx.options).length < 2 ? 'Surge' : 'Lookup'}`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`);
       }
-      return {
-        embeds: [embed],
+      await ctx.send( {
+        embeds: [embed.toJSON()],
         file: {
           name: `wild.png`,
           file: readFileSync(`./images/wild.png`)
         }
-      };
+      });
     } catch (err) {
       await ctx.send({
         embeds: [errorMod.errorMessage(err, ctx)],
