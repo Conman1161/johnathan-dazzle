@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const discord_js_1 = require("discord.js");
 const slash_create_1 = require("slash-create");
 const fs_1 = require("fs");
 const _ = require('underscore');
@@ -55,34 +54,32 @@ class RollStatsCommand extends slash_create_1.SlashCommand {
     async run(ctx) {
         try {
             await ctx.defer();
-            let intStrings = ["One", "Two", "Three", "Four", "Five", "Six"];
-            let statBlock, embed;
+            let embed;
             switch (ctx.options.style) {
                 case "70":
-                    statBlock = stats.rollStandardMin();
+                    embed = stats.rollStandardMin(); // [x]
                     break;
                 case "d20":
-                    statBlock = stats.rollStats20();
+                    embed = stats.rollStats20(); // [x]
                     break;
                 case "cth":
-                    statBlock = stats.rollcth();
+                    embed = stats.rollcth(); // [x]
                     break;
                 case "classic":
-                    statBlock = stats.rollClassic();
+                    embed = stats.rollClassic(); // [x]
                     break;
                 case "heroic":
-                    statBlock = stats.rollHeroic();
+                    embed = stats.rollHeroic(); // [x]
                     break;
                 case "pool":
-                    statBlock = stats.rollDicePool();
+                    embed = stats.rollDicePool(); // [x]
                     break;
                 case "standard":
                 default:
-                    statBlock = stats.rollStandard();
+                    embed = stats.rollStandard(); // [x]
                     break;
             }
-            embed = new discord_js_1.MessageEmbed()
-                .setColor("RANDOM")
+            embed.setColor("RANDOM")
                 .attachFiles([`./images/4d6.png`])
                 .setThumbnail(`attachment://4d6.png`);
             if (ctx.member) {
@@ -91,65 +88,75 @@ class RollStatsCommand extends slash_create_1.SlashCommand {
             else {
                 embed.setAuthor(`${ctx.user.username}'s Stat Block`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`);
             }
-            statBlock.rolls[0].results.forEach((roll, index) => {
-                let currentSet = roll.results[0];
-                let rollArray = [];
-                switch (ctx.options.style) {
-                    // Drop Lowest
-                    case "70":
-                    case "standard":
-                    case undefined:
-                        currentSet.rolls.forEach((currentRoll) => {
-                            rollArray.push(currentRoll.value);
-                        });
-                        let min = Math.min.apply(Math, rollArray);
-                        rollArray[rollArray.indexOf(min)] = `~~${min}~~`;
-                        embed.addField(`__Stat ${intStrings[index]}__`, `**${currentSet.value}**\nFrom [ ${rollArray.join(', ')} ]\nModifier: __**${stats.getMod(currentSet.value)}**__`, true);
-                        break;
-                    // Keep All (standard Format)
-                    case "d20":
-                    case "classic":
-                        currentSet.rolls.forEach((currentRoll) => {
-                            rollArray.push(currentRoll.value);
-                        });
-                        embed.addField(`__Stat ${intStrings[index]}__`, `**${currentSet.value}**\nFrom [ ${rollArray.join(', ')} ]\nModifier: __**${stats.getMod(currentSet.value)}**__`, true);
-                        break;
-                    // Keep All (+6)
-                    case "heroic":
-                        currentSet.rolls.forEach((currentRoll) => {
-                            rollArray.push(currentRoll.value);
-                        });
-                        rollArray.push('**6**');
-                        embed.addField(`__Stat ${intStrings[index]}__`, `**${currentSet.value + 6}**\nFrom [ ${rollArray.join(', ')} ]\nModifier: __**${stats.getMod(currentSet.value + 6)}**__`, true);
-                        break;
-                    // Pool
-                    case "pool":
-                        currentSet.rolls.forEach((currentRoll) => {
-                            rollArray.push(currentRoll.value);
-                        });
-                        embed.addField(`Your Dice Pool`, `[ ${rollArray.join(', ')} ]`, true);
-                        break;
-                    // Cthulhu
-                    case "cth":
-                        let cocNames = ['Strength', 'Constitution', 'Size', 'Dexterity', 'Appearance', 'Intelligence', 'Power', 'Education'];
-                        rollArray = [];
-                        currentSet.rolls.forEach((roll) => {
-                            rollArray.push(roll.value);
-                        });
-                        if ([2, 5, 7].includes(index))
-                            rollArray.push('**6**');
-                        embed.addField(`__${cocNames[index]}__`, `**${(currentSet.value) * 5}**\nFrom: [ ${rollArray.join(' + ')} ] * 5`, true);
-                        break;
-                }
-            });
-            ctx.options.style !== 'cth' ? embed.addField(`__**Stat Check**__`, `Check Value: __**${statBlock.total + (ctx.options.style === 'heroic' ? (6 * 6) : 0)}**__`) : void (0);
-            return {
-                embeds: [embed],
+            await ctx.send({
+                embeds: [embed.toJSON()],
                 file: {
                     name: `4d6.png`,
                     file: fs_1.readFileSync(`./images/4d6.png`)
+                },
+                components: [{
+                        type: slash_create_1.ComponentType.ACTION_ROW,
+                        components: [{
+                                type: slash_create_1.ComponentType.BUTTON,
+                                style: slash_create_1.ButtonStyle.PRIMARY,
+                                label: 'Reroll',
+                                custom_id: 'reroll'
+                            }]
+                    }]
+            });
+            ctx.registerComponent('reroll', async (btnCtx) => {
+                if (ctx.user.id === btnCtx.user.id) {
+                    // Reroll a stat block according to ctx, then edit embed accordingly
+                    switch (ctx.options.style) {
+                        case "70":
+                            embed = stats.rollStandardMin(); // [x]
+                            break;
+                        case "d20":
+                            embed = stats.rollStats20(); // [x]
+                            break;
+                        case "cth":
+                            embed = stats.rollcth(); // [x]
+                            break;
+                        case "classic":
+                            embed = stats.rollClassic(); // [x]
+                            break;
+                        case "heroic":
+                            embed = stats.rollHeroic(); // [x]
+                            break;
+                        case "pool":
+                            embed = stats.rollDicePool(); // [x]
+                            break;
+                        case "standard":
+                        default:
+                            embed = stats.rollStandard(); // [x]
+                            break;
+                    }
+                    embed.setColor("RANDOM")
+                        .setThumbnail(`attachment://4d6.png`);
+                    if (ctx.member) {
+                        embed.setAuthor(`${ctx.member.displayName}'s Stat Block`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`);
+                    }
+                    else {
+                        embed.setAuthor(`${ctx.user.username}'s Stat Block`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`);
+                    }
+                    btnCtx.editParent({
+                        embeds: [embed.toJSON()],
+                        components: [{
+                                type: slash_create_1.ComponentType.ACTION_ROW,
+                                components: [{
+                                        type: slash_create_1.ComponentType.BUTTON,
+                                        style: slash_create_1.ButtonStyle.PRIMARY,
+                                        label: 'Reroll',
+                                        custom_id: 'reroll'
+                                    }]
+                            }]
+                    });
                 }
-            };
+                else {
+                    await btnCtx.defer(true);
+                    await btnCtx.send('You are not the person rolling these dice, so you cannot reroll them!');
+                }
+            });
         }
         catch (err) {
             await ctx.send({
