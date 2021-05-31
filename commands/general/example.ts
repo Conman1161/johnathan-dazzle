@@ -1,6 +1,6 @@
 import { MessageEmbed } from "discord.js";
 import { readFileSync } from "fs";
-import { SlashCommand, CommandOptionType, SlashCreator, CommandContext } from "slash-create";
+import { SlashCommand, CommandOptionType, SlashCreator, CommandContext, ComponentType, ButtonStyle } from "slash-create";
 const errorMod = require('../modules/error');
 // const { hostGuildID } = require('../../config.json');
 
@@ -28,11 +28,35 @@ class ExampleCommand extends SlashCommand {
          await ctx.defer();
          let embed = new MessageEmbed().setColor('RANDOM');
          embed.setAuthor(`An example title!`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`);
-         await ctx.send( {
+         await ctx.send({
             embeds: [embed.toJSON()],
             file: {
                name: `fileName.png`,
                file: readFileSync(`filePath`)
+            },
+            components: [{
+               type: ComponentType.ACTION_ROW,
+               components: [{
+                  type: ComponentType.BUTTON,
+                  style: ButtonStyle.PRIMARY,
+                  label: 'Primary',
+                  custom_id: 'one'
+               },{
+                  type: ComponentType.BUTTON,
+                  style: ButtonStyle.LINK,
+                  label: 'Link',
+                  url: 'https://github.com/Conman1161/johnathan-dazzle'
+               }]
+            }]
+         });
+
+         ctx.registerComponent('one', async (btnCtx) => {
+            if(ctx.user.id === btnCtx.user.id){
+               // Do something to the embed here
+               // Or something else...
+            }else{
+               await btnCtx.defer(true);
+               await btnCtx.send('You are not the person who originally used this component, so you cannot use this button!');
             }
          });
       } catch (err) {
@@ -41,7 +65,21 @@ class ExampleCommand extends SlashCommand {
             file: {
                name: `error.png`,
                file: readFileSync(`./images/error.png`)
-            }
+            },
+            components: [{
+               type: ComponentType.ACTION_ROW,
+               components: [{
+                  type: ComponentType.BUTTON,
+                  style: ButtonStyle.PRIMARY,
+                  label: 'Primary',
+                  custom_id: 'one'
+               },{
+                  type: ComponentType.BUTTON,
+                  style: ButtonStyle.LINK,
+                  label: 'Link',
+                  url: 'https://github.com/Conman1161/johnathan-dazzle'
+               }]
+            }]
          });
       } finally {
       }

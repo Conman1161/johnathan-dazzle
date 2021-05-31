@@ -33,6 +33,30 @@ class ExampleCommand extends slash_create_1.SlashCommand {
                 file: {
                     name: `fileName.png`,
                     file: fs_1.readFileSync(`filePath`)
+                },
+                components: [{
+                        type: slash_create_1.ComponentType.ACTION_ROW,
+                        components: [{
+                                type: slash_create_1.ComponentType.BUTTON,
+                                style: slash_create_1.ButtonStyle.PRIMARY,
+                                label: 'Primary',
+                                custom_id: 'one'
+                            }, {
+                                type: slash_create_1.ComponentType.BUTTON,
+                                style: slash_create_1.ButtonStyle.LINK,
+                                label: 'Link',
+                                url: 'https://github.com/Conman1161/johnathan-dazzle'
+                            }]
+                    }]
+            });
+            ctx.registerComponent('one', async (btnCtx) => {
+                if (ctx.user.id === btnCtx.user.id) {
+                    // Do something to the embed here
+                    // Or something else...
+                }
+                else {
+                    await btnCtx.defer(true);
+                    await btnCtx.send('You are not the person who originally used this component, so you cannot use this button!');
                 }
             });
         }
@@ -42,7 +66,21 @@ class ExampleCommand extends slash_create_1.SlashCommand {
                 file: {
                     name: `error.png`,
                     file: fs_1.readFileSync(`./images/error.png`)
-                }
+                },
+                components: [{
+                        type: slash_create_1.ComponentType.ACTION_ROW,
+                        components: [{
+                                type: slash_create_1.ComponentType.BUTTON,
+                                style: slash_create_1.ButtonStyle.PRIMARY,
+                                label: 'Primary',
+                                custom_id: 'one'
+                            }, {
+                                type: slash_create_1.ComponentType.BUTTON,
+                                style: slash_create_1.ButtonStyle.LINK,
+                                label: 'Link',
+                                url: 'https://github.com/Conman1161/johnathan-dazzle'
+                            }]
+                    }]
             });
         }
         finally {

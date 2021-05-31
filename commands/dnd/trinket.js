@@ -66,8 +66,8 @@ class TrinketCommand extends slash_create_1.SlashCommand {
                 throw 7;
             }
             let embed = new discord_js_1.MessageEmbed()
-                .addField("**Chart Number:**", `**${trinket[0]}**`)
-                .addField("**Trinket**", `**||${trinket[1]}||**`)
+                .addField("Chart Number", `**${trinket[0]}**`)
+                .addField("Trinket", `${trinket[1]}`)
                 .attachFiles([`./images/bag.png`])
                 .setThumbnail(`attachment://bag.png`)
                 .setFooter(`If you think anything has an error, message ${config_json_1.ownerTag} with a screenshot and indicate what the error is.`)
@@ -83,6 +83,47 @@ class TrinketCommand extends slash_create_1.SlashCommand {
                 file: {
                     name: `bag.png`,
                     file: fs_1.readFileSync(`./images/bag.png`)
+                },
+                components: [{
+                        type: slash_create_1.ComponentType.ACTION_ROW,
+                        components: [{
+                                type: slash_create_1.ComponentType.BUTTON,
+                                style: slash_create_1.ButtonStyle.PRIMARY,
+                                label: 'Get a new trinket',
+                                custom_id: 'new_trinket'
+                            }]
+                    }]
+            });
+            ctx.registerComponent('new_trinket', async (btnCtx) => {
+                if (ctx.user.id === btnCtx.user.id) {
+                    // Edit embed to new trinket
+                    trinket = trinketMod.getTrinketInfo(ctx.options.chart);
+                    embed.spliceFields(0, 2, [
+                        {
+                            name: `Chart Number`,
+                            value: `**${trinket[0]}**`
+                        },
+                        {
+                            name: `Trinket`,
+                            value: trinket[1]
+                        }
+                    ]);
+                    await btnCtx.editParent({
+                        embeds: [embed.toJSON()],
+                        components: [{
+                                type: slash_create_1.ComponentType.ACTION_ROW,
+                                components: [{
+                                        type: slash_create_1.ComponentType.BUTTON,
+                                        style: slash_create_1.ButtonStyle.PRIMARY,
+                                        label: 'Get a new trinket',
+                                        custom_id: 'new_trinket'
+                                    }]
+                            }]
+                    });
+                }
+                else {
+                    await btnCtx.defer(true);
+                    await btnCtx.send('You did not draw this card from the deck, so you do not have permission to get the effect!');
                 }
             });
         }

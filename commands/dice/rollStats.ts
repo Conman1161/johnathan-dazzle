@@ -115,26 +115,26 @@ class RollStatsCommand extends SlashCommand {
           // Reroll a stat block according to ctx, then edit embed accordingly
           switch (ctx.options.style) {
             case "70":
-              embed = stats.rollStandardMin(); // [x]
+              embed = stats.rollStandardMin(); 
               break;
             case "d20":
-              embed = stats.rollStats20(); // [x]
+              embed = stats.rollStats20(); 
               break;
             case "cth":
-              embed = stats.rollcth(); // [x]
+              embed = stats.rollcth(); 
               break;
             case "classic":
-              embed = stats.rollClassic(); // [x]
+              embed = stats.rollClassic(); 
               break;
             case "heroic":
-              embed = stats.rollHeroic(); // [x]
+              embed = stats.rollHeroic(); 
               break;
             case "pool":
-              embed = stats.rollDicePool(); // [x]
+              embed = stats.rollDicePool(); 
               break;
             case "standard":
             default:
-              embed = stats.rollStandard(); // [x]
+              embed = stats.rollStandard(); 
               break;
           }
     
