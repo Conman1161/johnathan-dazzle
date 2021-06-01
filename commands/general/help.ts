@@ -40,7 +40,7 @@ class HelpCommand extends SlashCommand {
       // If no option
       if (!ctx.options.command) {
         commands.forEach(command => {
-          let category = command.filePath.split('commands').pop().toLowerCase().split(command.commandName)[0];
+          let category = command.filePath!.split('commands').pop()!.toLowerCase().split(command.commandName)[0];
           category = category.slice(1, category.length - 1);
           // If no field with current command's group
           if (!helpEmbed.fields.some(commandCategory => commandCategory.name === category)) {
@@ -63,35 +63,35 @@ class HelpCommand extends SlashCommand {
       } else if (commands.some(command => command.commandName === ctx.options.command)) {
         let command = commands.find(command => command.commandName === ctx.options.command);
         helpEmbed.addField('Command', ctx.options.command);
-        if (command.description) {
-          helpEmbed.addField('Description', command.description);
+        if (command!.description) {
+          helpEmbed.addField('Description', command!.description);
         }
-        if (command.options) {
-          let names = command.options.map(currentCommand => currentCommand.name);
-          let descriptions = command.options.map(currentCommand => currentCommand.description);
+        if (command!.options) {
+          let names = command!.options.map(currentCommand => currentCommand.name);
+          let descriptions = command!.options.map(currentCommand => currentCommand.description);
           let output = '';
           names.forEach((name, index) => {
             output += `**${name}:** ${descriptions[index]}\n`;
           });
           helpEmbed.addField(`Options`, output);
         }
-        if (command.guildIDs) {
-          helpEmbed.addField('Available in guild(s)', command.guildIDs.join(','));
+        if (command!.guildIDs) {
+          helpEmbed.addField('Available in guild(s)', command!.guildIDs.join(','));
         }
-        if (command.requiredPermissions) {
-          helpEmbed.addField('Required Permissions', command.requiredPermissions.join(','));
+        if (command!.requiredPermissions) {
+          helpEmbed.addField('Required Permissions', command!.requiredPermissions.join(','));
         }
-        if (command.throttling) {
-          helpEmbed.addField('Throttled', command.throttling);
+        if (command!.throttling) {
+          helpEmbed.addField('Throttled', command!.throttling);
         }
-        if (command.unknown) {
-          helpEmbed.addField('Used for unknown commands?', command.unknown);
+        if (command!.unknown) {
+          helpEmbed.addField('Used for unknown commands?', command!.unknown);
         }
-        if (command.deferEphemeral) {
-          helpEmbed.addField('Defer ephemerally?', command.deferEphemeral);
+        if (command!.deferEphemeral) {
+          helpEmbed.addField('Defer ephemerally?', command!.deferEphemeral);
         }
-        if (command.defaultPermissions) {
-          helpEmbed.addField('Default permissions?', command.defaultPermissions);
+        if (command!.defaultPermission) {
+          helpEmbed.addField('Default permissions?', command!.defaultPermission);
         }
       } else {
         throw `The command ${ctx.options.command} was not found!`;

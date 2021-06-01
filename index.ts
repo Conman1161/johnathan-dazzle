@@ -45,9 +45,9 @@ Bot.on("ready", function () {
       },
       status: presenceStatus // Won't crash if not valid
   };
-  Bot.user.setPresence(status);
+  Bot.user!.setPresence(status);
 
-  console.log(`${Bot.settings.client.user.username} live on ${process.env.USERDOMAIN}`);
+  console.log(`${Bot.settings.client.user!.username} live on ${process.env.USERDOMAIN}`);
   console.log(`Currently live in ${Bot.guilds.cache.size} guilds: `);
   Bot.guilds.cache.forEach((server: Guild) => {
     console.log(`- ${server.name} : ${server.id}`);

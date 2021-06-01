@@ -41,10 +41,12 @@ function getChart(chartNumber) {
 }
 function getTrinketInfo(chartNumber) {
     // Returns [Chart number, trinket text]
-    if (chartNumber == "" || chartNumber === undefined)
+    if (chartNumber === undefined)
         chartNumber = new rpg_dice_roller_1.DiceRoll(`d${allCharts.length - 1}`).total;
     if (chartNumber > allCharts.length || chartNumber < 1 || isNaN(chartNumber))
         throw 6;
-    return [chartNumber, getChart(chartNumber)[getTrinketNumber(chartNumber)]];
+    let chart = getChart(chartNumber);
+    let trinket = Object.values(chart)[getTrinketNumber(chartNumber)];
+    return [chartNumber, trinket];
 }
 module.exports = { getTrinketInfo, getChartCount };

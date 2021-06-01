@@ -89,8 +89,8 @@ class HelpCommand extends slash_create_1.SlashCommand {
                 if (command.deferEphemeral) {
                     helpEmbed.addField('Defer ephemerally?', command.deferEphemeral);
                 }
-                if (command.defaultPermissions) {
-                    helpEmbed.addField('Default permissions?', command.defaultPermissions);
+                if (command.defaultPermission) {
+                    helpEmbed.addField('Default permissions?', command.defaultPermission);
                 }
             }
             else {

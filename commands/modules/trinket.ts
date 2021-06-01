@@ -40,12 +40,14 @@ function getChart(chartNumber: number) {
   return allCharts[chartNumber - 1];
 }
 
-function getTrinketInfo(chartNumber: string | number) {
+function getTrinketInfo(chartNumber: number): Object {
   // Returns [Chart number, trinket text]
-  if (chartNumber == "" || chartNumber === undefined) chartNumber = new DiceRoll(`d${allCharts.length - 1}`).total;
+  if (chartNumber === undefined) chartNumber = new DiceRoll(`d${allCharts.length - 1}`).total;
   if (chartNumber > allCharts.length || chartNumber < 1 || isNaN(chartNumber)) throw 6;
+  let chart = getChart(chartNumber);
+  let trinket = Object.values(chart)[getTrinketNumber(chartNumber)];
 
-  return [chartNumber, getChart(chartNumber)[getTrinketNumber(chartNumber)]];
+  return [chartNumber, trinket];
 }
 
 module.exports = { getTrinketInfo, getChartCount };
