@@ -37,12 +37,13 @@ You can join the support server, which has the bot invite link, [here](https://d
 
     Planned features and their current progress
 
+## Completed TODOs
+
+    These are features that were previously TODO and have been completed
+
 - [X] Update loops to be consistent throughout every file
 - [X] Convert from JavaScript to TypeScript
-- [ ] Implement Components
-  - [X] Dice Commands
-  - [X] D&D Commands
-  - [ ] General Commands
+- [X] Implement Components
 
 ## Feature Ideas
 
