@@ -19,12 +19,8 @@ class SupportCommand extends SlashCommand {
     let embed = new MessageEmbed()
       .setAuthor("Support Information", `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`)
       .addField(
-        "Support Server",
-        `The link to the support Discord server can be found [here](https://discord.gg/ZUJAMnh "Click me, I go to the server!")`
-      )
-      .addField(
-        "Need more help?",
-        `Contact \`${ownerTag}\` if you have any further questions`
+        "Need specific help?",
+        `Join the Discord server below or contact \`${ownerTag}\` if you have any further questions`
       )
       .setColor("#fe00ff")
       .attachFiles([`./images/support.png`])
