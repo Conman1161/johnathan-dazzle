@@ -66,28 +66,74 @@ class WildCommand extends slash_create_1.SlashCommand {
     async run(ctx) {
         try {
             await ctx.defer();
-            const embedInfo = getEmbedInfo(Object.keys(ctx.options)[0] === 'roll' ? ctx.options.roll.chart : ctx.options.lookup.chart, Object.keys(ctx.options)[0] === 'lookup' ? ctx.options.lookup.effect_number : null);
+            let embedInfo = getEmbedInfo(Object.keys(ctx.options)[0] === 'roll' ? ctx.options.roll.chart : ctx.options.lookup.chart, Object.keys(ctx.options)[0] === 'lookup' ? ctx.options.lookup.effect_number : null);
             let embed = new discord_js_1.MessageEmbed()
-                .addField("Chart Name: ", `**${embedInfo.name}**`)
-                .addField("**Die Roll**", `You rolled **${embedInfo.effectNumber}**`)
-                .addField("**Effect**", `**||${embedInfo.text}||**`)
+                .addField("Chart Name", `**${embedInfo.name}**`)
+                .addField("Die Roll", `You rolled **${embedInfo.effectNumber}**`)
+                .addField("Effect", `**||${embedInfo.text}||**`)
                 .attachFiles([`./images/wild.png`])
                 .setThumbnail(`attachment://wild.png`)
                 .setFooter(`If you think the roll has an error, message ${config_json_1.ownerTag} with the roll number and what the error is.`)
                 .setColor("RANDOM");
-            if (ctx.guildID) {
+            if (ctx.member) {
                 embed.setAuthor(`${ctx.member.displayName}'s Wild Magic ${Object.keys(ctx.options).length < 2 ? 'Surge' : 'Lookup'}`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`);
             }
             else {
                 embed.setAuthor(`${ctx.user.username}'s Wild Magic ${Object.keys(ctx.options).length < 2 ? 'Surge' : 'Lookup'}`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`);
             }
-            return {
-                embeds: [embed],
+            await ctx.send({
+                embeds: [embed.toJSON()],
                 file: {
                     name: `wild.png`,
                     file: fs_1.readFileSync(`./images/wild.png`)
+                },
+                components: [{
+                        type: slash_create_1.ComponentType.ACTION_ROW,
+                        components: [{
+                                type: slash_create_1.ComponentType.BUTTON,
+                                style: slash_create_1.ButtonStyle.PRIMARY,
+                                label: 'New Effect',
+                                custom_id: 'reroll',
+                                disabled: typeof ctx.options.lookup === 'object'
+                            }]
+                    }]
+            });
+            ctx.registerComponent('reroll', async (btnCtx) => {
+                if (ctx.user.id === btnCtx.user.id) {
+                    embedInfo = getEmbedInfo(Object.keys(ctx.options)[0] === 'roll' ? ctx.options.roll.chart : ctx.options.lookup.chart, Object.keys(ctx.options)[0] === 'lookup' ? ctx.options.lookup.effect_number : null);
+                    embed.spliceFields(0, 3, [
+                        {
+                            name: `Chart Name`,
+                            value: `**${embedInfo.name}**`
+                        },
+                        {
+                            name: `Die Roll`,
+                            value: `You rolled **${embedInfo.effectNumber}**`
+                        },
+                        {
+                            name: `Effect`,
+                            value: `**||${embedInfo.text}||**`
+                        }
+                    ]);
+                    btnCtx.editParent({
+                        embeds: [embed.toJSON()],
+                        components: [{
+                                type: slash_create_1.ComponentType.ACTION_ROW,
+                                components: [{
+                                        type: slash_create_1.ComponentType.BUTTON,
+                                        style: slash_create_1.ButtonStyle.PRIMARY,
+                                        label: 'New Effect',
+                                        custom_id: 'reroll',
+                                        disabled: typeof ctx.options.lookup === 'object'
+                                    }]
+                            }]
+                    });
                 }
-            };
+                else {
+                    await btnCtx.defer(true);
+                    await btnCtx.send('You did not make this wild magic surge, so you do not have permission to get a new one!');
+                }
+            });
         }
         catch (err) {
             await ctx.send({

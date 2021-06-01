@@ -1,7 +1,7 @@
 import { MessageEmbed } from "discord.js";
 import { version } from "../../package.json";
 import { catboy, ownerTag } from '../../config.json';
-import { SlashCommand, CommandOptionType, SlashCreator, CommandContext } from "slash-create";
+import { SlashCommand, CommandOptionType, SlashCreator, CommandContext, ComponentType, ButtonStyle } from "slash-create";
 import { readFileSync } from "fs";
 const owoify = require('owoifyx');
 
@@ -22,7 +22,7 @@ class BotInfoCommand extends SlashCommand {
 
   async run(ctx: CommandContext) {
     await ctx.defer();
-    let myInfo = new MessageEmbed()
+    let embed = new MessageEmbed()
       .setAuthor(`${catboy || ctx.options.force_catboy ? owoify('Johnathan Dazzle') : 'Johnathan Dazzle'}`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`)
       .addField(
         `${catboy || ctx.options.force_catboy ? `${owoify('Bot Info')}` : `Bot Info`}`,
@@ -54,13 +54,34 @@ class BotInfoCommand extends SlashCommand {
       .attachFiles([catboy || ctx.options.force_catboy ? "./images/catboy/Background.png" : "./images/icon.png"])
       .setThumbnail(`attachment://${catboy || ctx.options.force_catboy ? "Background.png" : "icon.png"}`);
 
-    return {
-      embeds: [myInfo],
+    await ctx.send( {
+      embeds: [embed.toJSON()],
       file: {
         name: `${catboy || ctx.options.force_catboy ? 'Background.png' : 'icon.png'}`,
         file: readFileSync(catboy || ctx.options.force_catboy ? `./images/catboy/Background.png` : `./images/icon.png`)
-      }
-    };
+      },
+      components: [{
+        type: ComponentType.ACTION_ROW,
+        components: [{
+          type: ComponentType.BUTTON,
+          style: ButtonStyle.LINK,
+          label: 'Support Discord Server',
+          url: 'https://discord.gg/ZUJAMnh'
+        },
+        {
+          type: ComponentType.BUTTON,
+          style: ButtonStyle.LINK,
+          label: 'Dazzle Invite link',
+          url: 'https://discord.com/oauth2/authorize?client_id=484780670556831763&permissions=2147609600&scope=bot%20applications.commands'
+        },
+        {
+          type: ComponentType.BUTTON,
+          style: ButtonStyle.LINK,
+          label: 'Github Repository',
+          url: 'https://github.com/Conman1161/johnathan-dazzle'
+        }]
+      }]
+    });
   }
 }
 

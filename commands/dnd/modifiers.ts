@@ -15,7 +15,7 @@ class ModifierKeyCommand extends SlashCommand {
 
   async run(ctx: CommandContext) {
     await ctx.defer();
-    let modEmbed = new MessageEmbed()
+    let embed = new MessageEmbed()
       .addField("Format: ", "**Ability Score:** (Modifier)")
       .addField(
         "**Ability Score Modifier**",
@@ -25,8 +25,8 @@ class ModifierKeyCommand extends SlashCommand {
       .attachFiles([`./images/lookup.png`])
       .setThumbnail(`attachment://lookup.png`);
 
-    ctx.send({
-      embeds: [modEmbed],
+    await ctx.send({
+      embeds: [embed.toJSON()],
       file: {
         name: `lookup.png`,
         file: readFileSync(`./images/lookup.png`)

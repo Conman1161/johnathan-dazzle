@@ -1,5 +1,5 @@
 import { MessageEmbed } from "discord.js";
-import { SlashCommand, CommandOptionType, SlashCreator, CommandContext } from "slash-create";
+import { SlashCommand, CommandOptionType, SlashCreator, CommandContext, ComponentType, ButtonStyle } from "slash-create";
 import { readFileSync } from "fs";
 import { DiceRoll } from "rpg-dice-roller";
 import { RollResult } from "rpg-dice-roller/types/results";
@@ -57,104 +57,113 @@ class RollStatsCommand extends SlashCommand {
   async run(ctx: CommandContext) {
     try {
       await ctx.defer();
-      let intStrings = ["One", "Two", "Three", "Four", "Five", "Six"];
 
-      let statBlock: DiceRoll, embed: MessageEmbed;
+      let embed: MessageEmbed;
       switch (ctx.options.style) {
         case "70":
-          statBlock = stats.rollStandardMin();
+          embed = stats.rollStandardMin(); // [x]
           break;
         case "d20":
-          statBlock = stats.rollStats20();
+          embed = stats.rollStats20(); // [x]
           break;
         case "cth":
-          statBlock = stats.rollcth();
+          embed = stats.rollcth(); // [x]
           break;
         case "classic":
-          statBlock = stats.rollClassic();
+          embed = stats.rollClassic(); // [x]
           break;
         case "heroic":
-          statBlock = stats.rollHeroic();
+          embed = stats.rollHeroic(); // [x]
           break;
         case "pool":
-          statBlock = stats.rollDicePool();
+          embed = stats.rollDicePool(); // [x]
           break;
         case "standard":
         default:
-          statBlock = stats.rollStandard();
+          embed = stats.rollStandard(); // [x]
           break;
       }
 
-      embed = new MessageEmbed()
-        .setColor("RANDOM")
+      embed.setColor("RANDOM")
         .attachFiles([`./images/4d6.png`])
         .setThumbnail(`attachment://4d6.png`);
 
-      if (ctx.guildID) {
+      if (ctx.member) {
         embed.setAuthor(`${ctx.member.displayName}'s Stat Block`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`);
       } else {
         embed.setAuthor(`${ctx.user.username}'s Stat Block`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`);
       }
 
-      statBlock.rolls[0].results.forEach((roll: any, index: number) => {
-        let currentSet = roll.results[0];
-        let rollArray: (number | string)[] = [];
-        switch(ctx.options.style){
-          // Drop Lowest
-          case "70":
-          case "standard":
-          case undefined:
-            currentSet.rolls.forEach((currentRoll: RollResult)=>{
-              rollArray.push(currentRoll.value);
-            });
-            let min = Math.min.apply(Math, rollArray);
-            rollArray[rollArray.indexOf(min)] = `~~${min}~~`;
-            embed.addField(`__Stat ${intStrings[index]}__`,`**${currentSet.value}**\nFrom [ ${rollArray.join(', ')} ]\nModifier: __**${stats.getMod(currentSet.value)}**__`,true);
-            break;
-          // Keep All (standard Format)
-          case "d20":
-          case "classic":
-            currentSet.rolls.forEach((currentRoll: RollResult)=>{
-              rollArray.push(currentRoll.value);
-            });
-            embed.addField(`__Stat ${intStrings[index]}__`,`**${currentSet.value}**\nFrom [ ${rollArray.join(', ')} ]\nModifier: __**${stats.getMod(currentSet.value)}**__`,true);
-            break;
-          // Keep All (+6)
-          case "heroic":
-            currentSet.rolls.forEach((currentRoll: RollResult)=>{
-              rollArray.push(currentRoll.value);
-            });
-            rollArray.push('**6**');
-            embed.addField(`__Stat ${intStrings[index]}__`,`**${currentSet.value+6}**\nFrom [ ${rollArray.join(', ')} ]\nModifier: __**${stats.getMod(currentSet.value+6)}**__`,true);
-            break;
-          // Pool
-          case "pool":
-            currentSet.rolls.forEach((currentRoll: RollResult)=>{
-              rollArray.push(currentRoll.value);
-            });
-              embed.addField(`Your Dice Pool`,`[ ${rollArray.join(', ')} ]`,true);
-            break;
-          // Cthulhu
-          case "cth":
-            let cocNames = ['Strength', 'Constitution', 'Size', 'Dexterity', 'Appearance', 'Intelligence', 'Power', 'Education'];
-            rollArray = [];
-            currentSet.rolls.forEach((roll: RollResult) => {
-              rollArray.push(roll.value);
-            });
-            if ([2, 5, 7].includes(index)) rollArray.push('**6**');
-            embed.addField(`__${cocNames[index]}__`, `**${(currentSet.value) * 5}**\nFrom: [ ${rollArray.join(' + ')} ] * 5`, true);
-            break;
-        }
-      });
-      ctx.options.style !== 'cth' ? embed.addField(`__**Stat Check**__`, `Check Value: __**${statBlock.total + (ctx.options.style==='heroic'?(6*6):0) }**__`) : void (0);
-
-      return {
-        embeds: [embed],
+      await ctx.send({
+        embeds: [embed.toJSON()],
         file: {
           name: `4d6.png`,
           file: readFileSync(`./images/4d6.png`)
+        }, 
+        components: [{
+          type: ComponentType.ACTION_ROW,
+          components: [{
+            type: ComponentType.BUTTON,
+            style: ButtonStyle.PRIMARY,
+            label: 'Reroll',
+            custom_id: 'reroll'
+          }]
+        }]
+      });
+      ctx.registerComponent('reroll', async (btnCtx) => { 
+        if(ctx.user.id === btnCtx.user.id){
+          // Reroll a stat block according to ctx, then edit embed accordingly
+          switch (ctx.options.style) {
+            case "70":
+              embed = stats.rollStandardMin(); 
+              break;
+            case "d20":
+              embed = stats.rollStats20(); 
+              break;
+            case "cth":
+              embed = stats.rollcth(); 
+              break;
+            case "classic":
+              embed = stats.rollClassic(); 
+              break;
+            case "heroic":
+              embed = stats.rollHeroic(); 
+              break;
+            case "pool":
+              embed = stats.rollDicePool(); 
+              break;
+            case "standard":
+            default:
+              embed = stats.rollStandard(); 
+              break;
+          }
+    
+          embed.setColor("RANDOM")
+            .setThumbnail(`attachment://4d6.png`);
+    
+          if (ctx.member) {
+            embed.setAuthor(`${ctx.member.displayName}'s Stat Block`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`);
+          } else {
+            embed.setAuthor(`${ctx.user.username}'s Stat Block`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`);
+          }
+
+          btnCtx.editParent({
+            embeds: [embed.toJSON()],
+            components: [{
+              type: ComponentType.ACTION_ROW,
+              components: [{
+                type: ComponentType.BUTTON,
+                style: ButtonStyle.PRIMARY,
+                label: 'Reroll',
+                custom_id: 'reroll'
+              }]
+            }]
+          });
+        }else{
+          await btnCtx.defer(true);
+          await btnCtx.send('You are not the person rolling these dice, so you cannot reroll them!');
         }
-      };
+      });
     } catch (err) {
       await ctx.send({
         embeds: [errorMod.errorMessage(err, ctx)],

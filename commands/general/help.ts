@@ -1,5 +1,5 @@
 import { MessageEmbed } from "discord.js";
-import { SlashCommand, CommandOptionType, SlashCreator, CommandContext } from "slash-create";
+import { SlashCommand, CommandOptionType, SlashCreator, CommandContext, ComponentType, ButtonStyle } from "slash-create";
 import { readFileSync, readdirSync } from "fs";
 import { ownerTag } from '../../config.json';
 const errorMod = require("../modules/error");
@@ -99,13 +99,22 @@ class HelpCommand extends SlashCommand {
 
       helpEmbed.fields.sort();
 
-      return {
-        embeds: [helpEmbed],
+      await ctx.send( {
+        embeds: [helpEmbed.toJSON()],
         file: {
           name: `help.png`,
           file: readFileSync(`./images/help.png`)
-        }
-      };
+        },
+        components: [{
+          type: ComponentType.ACTION_ROW,
+          components: [{
+            type: ComponentType.BUTTON,
+            style: ButtonStyle.LINK,
+            label: 'Support Discord Server',
+            url: 'https://discord.gg/ZUJAMnh'
+          }]
+        }]
+      });
     } catch (err) {
       ctx.send({
         embeds: [errorMod.errorMessage(err, ctx)],
