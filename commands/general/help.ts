@@ -112,6 +112,12 @@ class HelpCommand extends SlashCommand {
             style: ButtonStyle.LINK,
             label: 'Support Discord Server',
             url: 'https://discord.gg/ZUJAMnh'
+          },
+          {
+            type: ComponentType.BUTTON,
+            style: ButtonStyle.LINK,
+            label: 'Dice Notation',
+            url: 'https://greenimp.github.io/rpg-dice-roller/guide/notation/'
           }]
         }]
       });
