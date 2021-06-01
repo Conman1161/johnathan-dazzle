@@ -123,10 +123,11 @@ class DoMTCommand extends slash_create_1.SlashCommand {
             else {
                 embed.setAuthor(`${ctx.user.username}'s Card`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`);
             }
-            let card = domtMod.draw(ctx.options.draw.deck);
+            let card = '';
             // sub-command switch statement
             switch (Object.keys(ctx.options)[0]) {
                 case 'draw':
+                    card = domtMod.draw(ctx.options.draw.deck);
                     embed.attachFiles([`${imageDir}${card.replace(' ', '')}.png`]);
                     embed.addField('Card: ', card);
                     embed.setImage(`attachment://${card.replace(' ', '')}.png`);
