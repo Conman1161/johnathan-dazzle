@@ -1,6 +1,6 @@
 import { MessageEmbed } from "discord.js";
 import { ownerTag } from '../../config.json';
-import { SlashCommand, CommandOptionType, SlashCreator, CommandContext } from "slash-create";
+import { SlashCommand, CommandOptionType, SlashCreator, CommandContext, ComponentType, ButtonStyle } from "slash-create";
 import { readFileSync } from "fs";
 const { getEmbedInfo } = require("../modules/wildModule");
 const errorMod = require("../modules/error");
@@ -66,12 +66,12 @@ class WildCommand extends SlashCommand {
   async run(ctx: CommandContext) {
     try {
       await ctx.defer();
-      const embedInfo = getEmbedInfo(Object.keys(ctx.options)[0] === 'roll' ? ctx.options.roll.chart : ctx.options.lookup.chart, Object.keys(ctx.options)[0] === 'lookup' ? ctx.options.lookup.effect_number : null);
+      let embedInfo = getEmbedInfo(Object.keys(ctx.options)[0] === 'roll' ? ctx.options.roll.chart : ctx.options.lookup.chart, Object.keys(ctx.options)[0] === 'lookup' ? ctx.options.lookup.effect_number : null);
 
       let embed = new MessageEmbed()
-        .addField("Chart Name: ", `**${embedInfo.name}**`)
-        .addField("**Die Roll**", `You rolled **${embedInfo.effectNumber}**`)
-        .addField("**Effect**", `**||${embedInfo.text}||**`)
+        .addField("Chart Name", `**${embedInfo.name}**`)
+        .addField("Die Roll", `You rolled **${embedInfo.effectNumber}**`)
+        .addField("Effect", `**||${embedInfo.text}||**`)
         .attachFiles([`./images/wild.png`])
         .setThumbnail(`attachment://wild.png`)
         .setFooter(
@@ -79,18 +79,66 @@ class WildCommand extends SlashCommand {
         )
         .setColor("RANDOM");
 
-      if (ctx.guildID) {
+      if (ctx.member) {
         embed.setAuthor(`${ctx.member.displayName}'s Wild Magic ${Object.keys(ctx.options).length < 2 ? 'Surge' : 'Lookup'}`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`);
       } else {
         embed.setAuthor(`${ctx.user.username}'s Wild Magic ${Object.keys(ctx.options).length < 2 ? 'Surge' : 'Lookup'}`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`);
       }
-      return {
-        embeds: [embed],
+      await ctx.send({
+        embeds: [embed.toJSON()],
         file: {
           name: `wild.png`,
           file: readFileSync(`./images/wild.png`)
+        },
+        components: [{
+          type: ComponentType.ACTION_ROW,
+          components: [{
+            type: ComponentType.BUTTON,
+            style: ButtonStyle.PRIMARY,
+            label: 'New Effect',
+            custom_id: 'reroll',
+            disabled: typeof ctx.options.lookup === 'object'
+          }]
+        }]
+      });
+
+      ctx.registerComponent('reroll', async (btnCtx) => {
+        if(ctx.user.id === btnCtx.user.id){
+          embedInfo = getEmbedInfo(Object.keys(ctx.options)[0] === 'roll' ? ctx.options.roll.chart : ctx.options.lookup.chart, Object.keys(ctx.options)[0] === 'lookup' ? ctx.options.lookup.effect_number : null);
+          embed.spliceFields(0,3,[
+            {
+              name: `Chart Name`,
+              value: `**${embedInfo.name}**`
+            },
+            {
+              name: `Die Roll`,
+              value: `You rolled **${embedInfo.effectNumber}**`
+            },
+            {
+              name: `Effect`,
+              value: `**||${embedInfo.text}||**`
+            }
+          ]);
+
+          btnCtx.editParent({
+            embeds: [embed.toJSON()],
+            components: [{
+              type: ComponentType.ACTION_ROW,
+              components: [{
+                type: ComponentType.BUTTON,
+                style: ButtonStyle.PRIMARY,
+                label: 'New Effect',
+                custom_id: 'reroll',
+                disabled: typeof ctx.options.lookup === 'object'
+              }]
+            }]
+          });
+          
+        }else{
+          await btnCtx.defer(true);
+          await btnCtx.send('You did not make this wild magic surge, so you do not have permission to get a new one!');
         }
-      };
+      });
     } catch (err) {
       await ctx.send({
         embeds: [errorMod.errorMessage(err, ctx)],

@@ -97,13 +97,22 @@ class HelpCommand extends slash_create_1.SlashCommand {
                 throw `The command ${ctx.options.command} was not found!`;
             }
             helpEmbed.fields.sort();
-            return {
-                embeds: [helpEmbed],
+            await ctx.send({
+                embeds: [helpEmbed.toJSON()],
                 file: {
                     name: `help.png`,
                     file: fs_1.readFileSync(`./images/help.png`)
-                }
-            };
+                },
+                components: [{
+                        type: slash_create_1.ComponentType.ACTION_ROW,
+                        components: [{
+                                type: slash_create_1.ComponentType.BUTTON,
+                                style: slash_create_1.ButtonStyle.LINK,
+                                label: 'Support Discord Server',
+                                url: 'https://discord.gg/ZUJAMnh'
+                            }]
+                    }]
+            });
         }
         catch (err) {
             ctx.send({

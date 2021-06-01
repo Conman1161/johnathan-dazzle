@@ -117,16 +117,17 @@ class DoMTCommand extends slash_create_1.SlashCommand {
         try {
             await ctx.defer();
             let embed = new discord_js_1.MessageEmbed().setColor('RANDOM');
-            if (ctx.guildID) {
+            if (ctx.member) {
                 embed.setAuthor(`${ctx.member.displayName}'s Card`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`);
             }
             else {
                 embed.setAuthor(`${ctx.user.username}'s Card`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`);
             }
+            let card = '';
             // sub-command switch statement
             switch (Object.keys(ctx.options)[0]) {
                 case 'draw':
-                    let card = domtMod.draw(ctx.options.draw.deck);
+                    card = domtMod.draw(ctx.options.draw.deck);
                     embed.attachFiles([`${imageDir}${card.replace(' ', '')}.png`]);
                     embed.addField('Card: ', card);
                     embed.setImage(`attachment://${card.replace(' ', '')}.png`);
@@ -139,13 +140,45 @@ class DoMTCommand extends slash_create_1.SlashCommand {
                     embed.setImage(`attachment://${ctx.options.lookup.card.replace(' ', '')}.png`);
                     break;
             }
-            return {
-                embeds: [embed],
+            await ctx.send({
+                embeds: [embed.toJSON()],
                 file: {
                     name: `${embed.image.url.replace('attachment://', '')}`,
                     file: fs_1.readFileSync(`./images/domt/${embed.image.url.replace('attachment://', '')}`)
+                },
+                components: [{
+                        type: slash_create_1.ComponentType.ACTION_ROW,
+                        components: [{
+                                type: slash_create_1.ComponentType.BUTTON,
+                                style: slash_create_1.ButtonStyle.PRIMARY,
+                                label: 'Get Effect',
+                                custom_id: 'effect',
+                                disabled: Object.keys(ctx.options)[0] === 'lookup'
+                            }]
+                    }]
+            });
+            ctx.registerComponent('effect', async (btnCtx) => {
+                if (ctx.user.id === btnCtx.user.id) {
+                    embed.addField('Effect: ', domtMod.lookup(card));
+                    btnCtx.editParent({
+                        embeds: [embed.toJSON()],
+                        components: [{
+                                type: slash_create_1.ComponentType.ACTION_ROW,
+                                components: [{
+                                        type: slash_create_1.ComponentType.BUTTON,
+                                        style: slash_create_1.ButtonStyle.PRIMARY,
+                                        label: 'Get Effect',
+                                        custom_id: 'effect',
+                                        disabled: true
+                                    }]
+                            }]
+                    });
                 }
-            };
+                else {
+                    await btnCtx.defer(true);
+                    await btnCtx.send('You did not draw this card from the deck, so you do not have permission to get the effect!');
+                }
+            });
         }
         catch (err) {
             await ctx.send({

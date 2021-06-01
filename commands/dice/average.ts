@@ -33,7 +33,7 @@ class AvgCommand extends SlashCommand {
         .setThumbnail(`attachment://d20.png`)
         .addField(`__Average of ${allDice.notation}__`, `**${allDice.averageTotal}**`)
         .setColor("RANDOM");
-      if (ctx.guildID) {
+      if (ctx.member) {
         embed.setAuthor(`${ctx.member.displayName}'s Die Average`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`);
       } else {
         embed.setAuthor(`${ctx.user.username}'s Die Averages`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`);

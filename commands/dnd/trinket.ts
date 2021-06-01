@@ -1,5 +1,5 @@
 import { MessageEmbed } from "discord.js";
-import { SlashCommand, CommandOptionType, SlashCreator, CommandContext } from "slash-create";
+import { SlashCommand, CommandOptionType, SlashCreator, CommandContext, ComponentType, ButtonStyle } from "slash-create";
 import { ownerTag } from '../../config.json';
 import { readFileSync } from "fs";
 const trinketMod = require("../modules/trinket");
@@ -66,27 +66,69 @@ class TrinketCommand extends SlashCommand {
         throw 7;
       }
       let embed = new MessageEmbed()
-        .addField("**Chart Number:**", `**${trinket[0]}**`)
-        .addField("**Trinket**", `**||${trinket[1]}||**`)
+        .addField("Chart Number", `**${trinket[0]}**`)
+        .addField("Trinket", `${trinket[1]}`)
         .attachFiles([`./images/bag.png`])
         .setThumbnail(`attachment://bag.png`)
         .setFooter(
           `If you think anything has an error, message ${ownerTag} with a screenshot and indicate what the error is.`
         )
         .setColor("RANDOM");
-      if (ctx.guildID) {
+      if (ctx.member) {
         embed.setAuthor(`${ctx.member.displayName}'s Trinket`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`);
       } else {
         embed.setAuthor(`${ctx.user.username}'s Trinket`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`);
       }
 
-      return {
-        embeds: [embed],
+      await ctx.send( {
+        embeds: [embed.toJSON()],
         file: {
           name: `bag.png`,
           file: readFileSync(`./images/bag.png`)
+        },
+        components: [{
+          type: ComponentType.ACTION_ROW,
+          components: [{
+            type: ComponentType.BUTTON,
+            style: ButtonStyle.PRIMARY,
+            label: 'Get a new trinket',
+            custom_id: 'new_trinket'
+          }]
+        }]
+      });
+
+      ctx.registerComponent('new_trinket', async (btnCtx) => {
+        if(ctx.user.id === btnCtx.user.id){
+          // Edit embed to new trinket
+          trinket = trinketMod.getTrinketInfo(ctx.options.chart);
+          embed.spliceFields(0,2,[
+            {
+              name: `Chart Number`,
+              value: `**${trinket[0]}**`
+            },
+            {
+              name: `Trinket`,
+              value: trinket[1]
+            }
+          ]);
+          await btnCtx.editParent({
+            embeds: [embed.toJSON()],
+            components: [{
+              type: ComponentType.ACTION_ROW,
+              components: [{
+                type: ComponentType.BUTTON,
+                style: ButtonStyle.PRIMARY,
+                label: 'Get a new trinket',
+                custom_id: 'new_trinket'
+              }]
+            }]
+          });
+        }else{
+          await btnCtx.defer(true);
+          await btnCtx.send('You did not draw this card from the deck, so you do not have permission to get the effect!');
         }
-      };
+      });
+      
     } catch (err) {
       await ctx.send({
         embeds: [errorMod.errorMessage(err, ctx)],
