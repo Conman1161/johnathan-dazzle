@@ -1,7 +1,7 @@
 import { MessageEmbed } from "discord.js";
 import { version } from "../../package.json";
 import { catboy, ownerTag } from '../../config.json';
-import { SlashCommand, CommandOptionType, SlashCreator, CommandContext } from "slash-create";
+import { SlashCommand, CommandOptionType, SlashCreator, CommandContext, ComponentType, ButtonStyle } from "slash-create";
 import { readFileSync } from "fs";
 const owoify = require('owoifyx');
 
@@ -59,7 +59,28 @@ class BotInfoCommand extends SlashCommand {
       file: {
         name: `${catboy || ctx.options.force_catboy ? 'Background.png' : 'icon.png'}`,
         file: readFileSync(catboy || ctx.options.force_catboy ? `./images/catboy/Background.png` : `./images/icon.png`)
-      }
+      },
+      components: [{
+        type: ComponentType.ACTION_ROW,
+        components: [{
+          type: ComponentType.BUTTON,
+          style: ButtonStyle.LINK,
+          label: 'Support Discord Server',
+          url: 'https://discord.gg/ZUJAMnh'
+        },
+        {
+          type: ComponentType.BUTTON,
+          style: ButtonStyle.LINK,
+          label: 'Dazzle Invite link',
+          url: 'https://discord.com/oauth2/authorize?client_id=484780670556831763&permissions=2147609600&scope=bot%20applications.commands'
+        },
+        {
+          type: ComponentType.BUTTON,
+          style: ButtonStyle.LINK,
+          label: 'Github Repository',
+          url: 'https://github.com/Conman1161/johnathan-dazzle'
+        }]
+      }]
     });
   }
 }

@@ -39,7 +39,28 @@ class BotInfoCommand extends slash_create_1.SlashCommand {
             file: {
                 name: `${config_json_1.catboy || ctx.options.force_catboy ? 'Background.png' : 'icon.png'}`,
                 file: fs_1.readFileSync(config_json_1.catboy || ctx.options.force_catboy ? `./images/catboy/Background.png` : `./images/icon.png`)
-            }
+            },
+            components: [{
+                    type: slash_create_1.ComponentType.ACTION_ROW,
+                    components: [{
+                            type: slash_create_1.ComponentType.BUTTON,
+                            style: slash_create_1.ButtonStyle.LINK,
+                            label: 'Support Discord Server',
+                            url: 'https://discord.gg/ZUJAMnh'
+                        },
+                        {
+                            type: slash_create_1.ComponentType.BUTTON,
+                            style: slash_create_1.ButtonStyle.LINK,
+                            label: 'Dazzle Invite link',
+                            url: 'https://discord.com/oauth2/authorize?client_id=484780670556831763&permissions=2147609600&scope=bot%20applications.commands'
+                        },
+                        {
+                            type: slash_create_1.ComponentType.BUTTON,
+                            style: slash_create_1.ButtonStyle.LINK,
+                            label: 'Github Repository',
+                            url: 'https://github.com/Conman1161/johnathan-dazzle'
+                        }]
+                }]
         });
     }
 }

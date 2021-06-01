@@ -1,6 +1,6 @@
 import { MessageEmbed } from "discord.js";
 import { readFileSync } from "fs";
-import { CommandContext, SlashCommand, SlashCreator } from "slash-create";
+import { ButtonStyle, CommandContext, ComponentType, SlashCommand, SlashCreator } from "slash-create";
 import { ownerTag } from '../../config.json';
 
 
@@ -36,7 +36,16 @@ class SupportCommand extends SlashCommand {
       file: {
         name: 'support.png',
         file: readFileSync(`./images/support.png`)
-      }
+      },
+      components: [{
+        type: ComponentType.ACTION_ROW,
+        components: [{
+          type: ComponentType.BUTTON,
+          style: ButtonStyle.LINK,
+          label: 'Support Discord Server',
+          url: 'https://discord.gg/ZUJAMnh'
+        }]
+      }]
     });
   }
 }
