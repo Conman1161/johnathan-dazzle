@@ -144,7 +144,7 @@ class DoMTCommand extends slash_create_1.SlashCommand {
             await ctx.send({
                 embeds: [embed.toJSON()],
                 file: {
-                    name: `${imageDir}${card.replace(' ', '')}.png`,
+                    name: `${card.replace(' ', '')}.png`,
                     file: fs_1.readFileSync(`${imageDir}${card.replace(' ', '')}.png`)
                 },
                 components: [{
