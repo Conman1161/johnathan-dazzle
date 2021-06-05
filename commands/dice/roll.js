@@ -58,7 +58,7 @@ class RollCommand extends slash_create_1.SlashCommand {
                             {
                                 type: slash_create_1.ComponentType.BUTTON,
                                 style: slash_create_1.ButtonStyle.PRIMARY,
-                                label: 'Add Advantage dice',
+                                label: 'Add Advantage Dice',
                                 custom_id: 'advantage'
                             }]
                     }]
