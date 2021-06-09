@@ -3,7 +3,7 @@ import { Client } from "discord.js-commando";
 import io from '@pm2/io';
 import { GatewayServer, SlashCreator } from "slash-create";
 
-import { owner, appID, token, presenceStatus, presenceText } from './config.json';
+import { owner, appID, token, presenceText } from './config.json';
 const Bot = new Client({
   owner: owner
 });
@@ -43,7 +43,7 @@ Bot.on("ready", function () {
         name: `${presenceText}`,
         type: "PLAYING"
       },
-      status: presenceStatus // Won't crash if not valid
+      status: 'online'
   };
   Bot.user!.setPresence(status);
 

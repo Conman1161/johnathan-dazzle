@@ -35,7 +35,7 @@ Bot.on("ready", function () {
             name: `${config_json_1.presenceText}`,
             type: "PLAYING"
         },
-        status: config_json_1.presenceStatus // Won't crash if not valid
+        status: 'online'
     };
     Bot.user.setPresence(status);
     console.log(`${Bot.settings.client.user.username} live on ${process.env.USERDOMAIN}`);
