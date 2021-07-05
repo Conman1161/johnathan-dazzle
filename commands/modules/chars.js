@@ -1,7 +1,6 @@
-const { MessageEmbed, MessageAttachment } = require("discord.js");
+const { MessageEmbed } = require("discord.js");
 const fs = require("fs");
 const stats = require("./statsModule");
-const sheetsPath = `${process.cwd()}/commands/characters/sheets`;
 
 const checks = [
    "acrobatics",
