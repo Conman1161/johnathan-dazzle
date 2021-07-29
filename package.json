@@ -21,7 +21,7 @@
     "rpg-dice-roller": "^5.0.0",
     "slash-create": "^3.3.0",
     "underscore": "^1.13.1",
-    "ws": "^7.5.3"
+    "ws": "^8.0.0"
   },
   "devDependencies": {
     "@types/node": "^16.4.3",
