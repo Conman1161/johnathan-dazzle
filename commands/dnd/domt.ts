@@ -1,9 +1,10 @@
-const errorMod = require('../modules/error');
-const domtMod = require('../modules/domt');
 const imageDir = `${process.cwd()}/images/domt/`;
 import { MessageEmbed } from "discord.js";
 import { SlashCommand, CommandOptionType, SlashCreator, CommandContext, ComponentType, ButtonStyle } from "slash-create";
 import { readFileSync } from 'fs';
+import { errorMessage } from '../modules/error';
+import {draw, lookup} from '../modules/domt';
+
 // const { hostGuildID } = require('../../config.json');
 
 class DoMTCommand extends SlashCommand {
@@ -128,14 +129,14 @@ class DoMTCommand extends SlashCommand {
       // sub-command switch statement
       switch (Object.keys(ctx.options)[0]) {
         case 'draw':
-          card = domtMod.draw(ctx.options.draw.deck);
+          card = draw(ctx.options.draw.deck);
           embed.addField('Card: ', card);
           embed.attachFiles([`${imageDir}${card.replace(' ', '')}.png`]);
           embed.setImage(`attachment://${card.replace(' ', '')}.png`);
           break;
         case 'lookup':
           card = ctx.options.lookup.card;
-          let effect = domtMod.lookup(ctx.options.lookup.card);
+          let effect = lookup(ctx.options.lookup.card);
           embed.attachFiles([`${imageDir}${ctx.options.lookup.card.replace(' ', '')}.png`]);
           embed.addField('Card: ', ctx.options.lookup.card);
           embed.addField('Effect: ', effect);
@@ -163,7 +164,7 @@ class DoMTCommand extends SlashCommand {
 
       ctx.registerComponent('effect', async (btnCtx) => { 
         if(ctx.user.id === btnCtx.user.id){
-          embed.addField('Effect: ', domtMod.lookup(card));
+          embed.addField('Effect: ', lookup(card));
           btnCtx.editParent({
             embeds: [embed.toJSON()],
             components: [{
@@ -185,7 +186,7 @@ class DoMTCommand extends SlashCommand {
       
     } catch (err) {
       await ctx.send({
-        embeds: [errorMod.errorMessage(err, ctx)],
+        embeds: [errorMessage(err).toJSON()],
         file: {
           name: `error.png`,
           file: readFileSync(`./images/error.png`)

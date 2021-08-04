@@ -1,15 +1,14 @@
-import { CommandContext } from "slash-create";
-
-import discord from "discord.js";
-const attachment = new discord.MessageAttachment(
-  "./images/error.png",
-  "error.png"
-);
+import {MessageAttachment, MessageEmbed} from "discord.js";
 
 // Return an embed with information on what the error is and how to fix it
-//peg$SyntaxError
-function errorMessage(error: SyntaxError | number, context: CommandContext) {
-  let embed = new discord.MessageEmbed()
+
+export function errorMessage(error: SyntaxError | number) {
+  let attachment = new MessageAttachment(
+    "./images/error.png",
+    "error.png"
+  );
+
+  let embed = new MessageEmbed()
     .setTitle("**Oh no, you encountered an error!**")
     .attachFiles([attachment])
     .setThumbnail("attachment://error.png")
@@ -155,5 +154,5 @@ function errorMessage(error: SyntaxError | number, context: CommandContext) {
       break;
   }
   return embed;
-}
-module.exports = { errorMessage };
+};
+// module.exports = { errorMessage };

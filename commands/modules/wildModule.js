@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.getEmbedInfo = exports.getChart = void 0;
 const rpg_dice_roller_1 = require("rpg-dice-roller");
 const d10k_1_2_json_1 = __importDefault(require("../dnd/charts/wild/d10k_1.2.json"));
 const d10k_2_0_json_1 = __importDefault(require("../dnd/charts/wild/d10k_2.0.json"));
@@ -20,6 +21,7 @@ function getChart(chartName) {
     }
     throw 'No chart found!';
 }
+exports.getChart = getChart;
 function getEmbedInfo(chartName, effectNumber) {
     // Assign the name the embed will use
     let chart = getChart(chartName);
@@ -50,4 +52,4 @@ function getEmbedInfo(chartName, effectNumber) {
         "text": Object.values(chart)[effectNumber]
     };
 }
-module.exports = { getChart, getEmbedInfo };
+exports.getEmbedInfo = getEmbedInfo;

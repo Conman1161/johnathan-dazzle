@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.getTrinketInfo = exports.getChart = exports.getTrinketNumber = exports.getChartCount = void 0;
 const rpg_dice_roller_1 = require("rpg-dice-roller");
 const _1_json_1 = __importDefault(require("../dnd/charts/trinket/1.json"));
 const _2_json_1 = __importDefault(require("../dnd/charts/trinket/2.json"));
@@ -33,12 +34,15 @@ let allCharts = [
 function getChartCount() {
     return allCharts.length;
 }
+exports.getChartCount = getChartCount;
 function getTrinketNumber(chartNumber) {
     return new rpg_dice_roller_1.DiceRoll(`d${Object.keys(getChart(chartNumber)).length}`).total;
 }
+exports.getTrinketNumber = getTrinketNumber;
 function getChart(chartNumber) {
     return allCharts[chartNumber - 1];
 }
+exports.getChart = getChart;
 function getTrinketInfo(chartNumber) {
     // Returns [Chart number, trinket text]
     if (chartNumber === undefined)
@@ -49,4 +53,5 @@ function getTrinketInfo(chartNumber) {
     let trinket = Object.values(chart)[getTrinketNumber(chartNumber)];
     return [chartNumber, trinket];
 }
+exports.getTrinketInfo = getTrinketInfo;
 module.exports = { getTrinketInfo, getChartCount };

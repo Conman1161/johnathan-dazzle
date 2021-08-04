@@ -2,7 +2,7 @@ import { MessageEmbed } from "discord.js";
 import { DiceRoll } from 'rpg-dice-roller';
 import { SlashCommand, CommandOptionType, SlashCreator, CommandContext, ComponentType, ButtonStyle } from 'slash-create';
 import { readFileSync } from "fs";
-const errorMod = require("../modules/error");
+import { errorMessage } from '../modules/error'
 // const { hostGuildID } = require('../../config.json');
 
 const attachPath = `${process.cwd()}/images/d20s/non-transp/`;
@@ -220,7 +220,7 @@ class RollCommand extends SlashCommand {
       });
     } catch (err) {
       ctx.send({
-        embeds: [errorMod.errorMessage(err, ctx)],
+        embeds: [errorMessage(err).toJSON()],
         file: {
           name: 'error.png',
           file: readFileSync(`./images/error.png`)

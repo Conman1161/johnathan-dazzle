@@ -1,14 +1,11 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const discord_js_1 = __importDefault(require("discord.js"));
-const attachment = new discord_js_1.default.MessageAttachment("./images/error.png", "error.png");
+exports.errorMessage = void 0;
+const discord_js_1 = require("discord.js");
 // Return an embed with information on what the error is and how to fix it
-//peg$SyntaxError
-function errorMessage(error, context) {
-    let embed = new discord_js_1.default.MessageEmbed()
+function errorMessage(error) {
+    let attachment = new discord_js_1.MessageAttachment("./images/error.png", "error.png");
+    let embed = new discord_js_1.MessageEmbed()
         .setTitle("**Oh no, you encountered an error!**")
         .attachFiles([attachment])
         .setThumbnail("attachment://error.png")
@@ -88,4 +85,6 @@ function errorMessage(error, context) {
     }
     return embed;
 }
-module.exports = { errorMessage };
+exports.errorMessage = errorMessage;
+;
+// module.exports = { errorMessage };

@@ -1,7 +1,6 @@
 import { MessageEmbed } from "discord.js";
 import { readFileSync } from "fs";
 import { CommandContext, SlashCommand, SlashCreator } from "slash-create";
-// const { hostGuildID } = require('../../config.json');
 
 class ModifierKeyCommand extends SlashCommand {
   constructor(creator: SlashCreator) {

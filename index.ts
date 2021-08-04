@@ -1,20 +1,15 @@
 import { Guild, PresenceData } from "discord.js";
 import { Client } from "discord.js-commando";
 import { GatewayServer, SlashCreator } from "slash-create";
-
-const io = require('@pm2/io');
+import {metric} from '@pm2/io'
 
 import { owner, appID, token, presenceText } from './config.json';
 const Bot = new Client({
   owner: owner
 });
 
-let guildCount = io.metric({
+let guildCount = metric({
   name: 'Guild count: '
-});
-
-let guildList = io.metric({
-  name: 'Guild list: '
 });
 
 const Creator = new SlashCreator({
@@ -56,13 +51,6 @@ Bot.on("ready", function () {
     console.log(`- ${server.name} : ${server.id}`);
   });
   guildCount.set(Bot.guilds.cache.size);
-  guildList.set(Bot.guilds.cache);
-
-  let guilds: string[] = [];
-  Bot.guilds.cache.forEach(server => {
-      guilds.push(server.name);
-  });
-  guildList.set(guilds);
   //Bot.guilds.find("id", '').leave();
 });
 

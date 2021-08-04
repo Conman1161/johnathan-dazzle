@@ -3,7 +3,6 @@ import { readFileSync } from "fs";
 import { ButtonStyle, CommandContext, ComponentType, SlashCommand, SlashCreator } from "slash-create";
 import { ownerTag } from '../../config.json';
 
-
 class SupportCommand extends SlashCommand {
   constructor(creator: SlashCreator) {
     super(creator, {

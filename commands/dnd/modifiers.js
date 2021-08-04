@@ -3,7 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const discord_js_1 = require("discord.js");
 const fs_1 = require("fs");
 const slash_create_1 = require("slash-create");
-// const { hostGuildID } = require('../../config.json');
 class ModifierKeyCommand extends slash_create_1.SlashCommand {
     constructor(creator) {
         super(creator, {

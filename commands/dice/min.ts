@@ -2,7 +2,7 @@ import { MessageEmbed } from "discord.js";
 import { DiceRoll } from 'rpg-dice-roller';
 import { SlashCommand, CommandOptionType, SlashCreator, CommandContext } from "slash-create";
 import { readFileSync } from "fs";
-const errorMod = require("../modules/error");
+import { errorMessage } from '../modules/error'
 // const { hostGuildID } = require('../../config.json');
 
 class MinCommand extends SlashCommand {
@@ -51,7 +51,7 @@ class MinCommand extends SlashCommand {
       };
     } catch (err) {
       await ctx.send({
-        embeds: [errorMod.errorMessage(err, ctx)],
+        embeds: [errorMessage(err).toJSON()],
         file: {
           name: `error.png`,
           file: readFileSync(`./images/error.png`)

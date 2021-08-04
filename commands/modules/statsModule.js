@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.getMod = exports.rollDicePool = exports.rollHeroic = exports.rollClassic = exports.rollcth = exports.rollStats20 = exports.rollStandardMin = exports.rollStandard = void 0;
 const discord_js_1 = require("discord.js");
 const rpg_dice_roller_1 = require("rpg-dice-roller");
 const intStrings = ["One", "Two", "Three", "Four", "Five", "Six"];
@@ -21,6 +22,7 @@ function rollStandard() {
     embed.addField(`__**Stat Check**__`, `Check Value: __**${diceRoll.total}**__`);
     return embed;
 }
+exports.rollStandard = rollStandard;
 function rollStandardMin() {
     let diceRoll = new rpg_dice_roller_1.DiceRoll('{4d6kh3,4d6kh3,4d6kh3,4d6kh3,4d6kh3,4d6kh3}');
     let embed = new discord_js_1.MessageEmbed();
@@ -40,6 +42,7 @@ function rollStandardMin() {
     embed.addField(`__**Stat Check**__`, `Check Value: __**${diceRoll.total}**__`);
     return embed;
 }
+exports.rollStandardMin = rollStandardMin;
 //6d20
 function rollStats20() {
     let diceRoll = new rpg_dice_roller_1.DiceRoll('{d20,d20,d20,d20,d20,d20}');
@@ -55,6 +58,7 @@ function rollStats20() {
     embed.addField(`__**Stat Check**__`, `Check Value: __**${diceRoll.total}**__`);
     return embed;
 }
+exports.rollStats20 = rollStats20;
 //cth block
 function rollcth() {
     // str, con, size, dex, app, int, pow, edu
@@ -72,6 +76,7 @@ function rollcth() {
     });
     return embed;
 }
+exports.rollcth = rollcth;
 //3d6
 function rollClassic() {
     let diceRoll = new rpg_dice_roller_1.DiceRoll(`{3d6,3d6,3d6,3d6,3d6,3d6}`);
@@ -87,6 +92,7 @@ function rollClassic() {
     embed.addField(`__**Stat Check**__`, `Check Value: __**${diceRoll.total}**__`);
     return embed;
 }
+exports.rollClassic = rollClassic;
 //2d6+6
 function rollHeroic() {
     let diceRoll = new rpg_dice_roller_1.DiceRoll(`{2d6,2d6,2d6,2d6,2d6,2d6}`);
@@ -103,6 +109,7 @@ function rollHeroic() {
     embed.addField(`__**Stat Check**__`, `Check Value: __**${diceRoll.total + (6 * 6)}**__`);
     return embed;
 }
+exports.rollHeroic = rollHeroic;
 //24d6
 function rollDicePool() {
     let diceRoll = new rpg_dice_roller_1.DiceRoll(`{24d6}`);
@@ -118,19 +125,11 @@ function rollDicePool() {
     embed.addField(`__**Stat Check**__`, `Check Value: __**${diceRoll.total}**__`);
     return embed;
 }
+exports.rollDicePool = rollDicePool;
 function getMod(args) {
     if (parseInt(args.toString()) >= 1 && parseInt(args.toString()) <= 30) {
         return Math.floor((parseInt(args.toString()) - 10) / 2);
     }
     throw 'You did not enter a valid ability score!';
 }
-module.exports = {
-    rollStandard,
-    rollStandardMin,
-    rollStats20,
-    rollcth,
-    rollClassic,
-    rollHeroic,
-    rollDicePool,
-    getMod,
-};
+exports.getMod = getMod;

@@ -2,8 +2,7 @@ import { SlashCommand, CommandOptionType, SlashCreator, CommandContext } from 's
 import { MessageEmbed } from "discord.js";
 import { readFileSync } from 'fs';
 import { DiceRoll } from 'rpg-dice-roller';
-const errorMod = require("../modules/error");
-// const { hostGuildID } = require('../../config.json');
+import { errorMessage } from '../modules/error'
 
 class AvgCommand extends SlashCommand {
   constructor(creator: SlashCreator) {
@@ -48,7 +47,7 @@ class AvgCommand extends SlashCommand {
       };
     } catch (err) {
       await ctx.send({
-        embeds: [errorMod.errorMessage(err, ctx)],
+        embeds: [errorMessage(err).toJSON()],
         file: {
           name: `error.png`,
           file: readFileSync(`./images/error.png`)

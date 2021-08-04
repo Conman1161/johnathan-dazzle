@@ -28,19 +28,19 @@ let allCharts = [
   chartTwelve,
 ];
 
-function getChartCount() {
+export function getChartCount() {
   return allCharts.length;
 }
 
-function getTrinketNumber(chartNumber: number) {
+export function getTrinketNumber(chartNumber: number) {
   return new DiceRoll(`d${Object.keys(getChart(chartNumber)).length}`).total;
 }
 
-function getChart(chartNumber: number) {
+export function getChart(chartNumber: number) {
   return allCharts[chartNumber - 1];
 }
 
-function getTrinketInfo(chartNumber: number): Object {
+export function getTrinketInfo(chartNumber: number): Object {
   // Returns [Chart number, trinket text]
   if (chartNumber === undefined) chartNumber = new DiceRoll(`d${allCharts.length - 1}`).total;
   if (chartNumber > allCharts.length || chartNumber < 1 || isNaN(chartNumber)) throw 6;

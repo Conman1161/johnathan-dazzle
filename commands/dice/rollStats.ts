@@ -1,12 +1,8 @@
 import { MessageEmbed } from "discord.js";
 import { SlashCommand, CommandOptionType, SlashCreator, CommandContext, ComponentType, ButtonStyle } from "slash-create";
 import { readFileSync } from "fs";
-import { DiceRoll } from "rpg-dice-roller";
-import { RollResult } from "rpg-dice-roller/types/results";
-const _ = require('underscore');
-const stats = require("../modules/statsModule");
-const errorMod = require("../modules/error");
-// const { hostGuildID } = require('../../config.json');
+import { errorMessage } from '../modules/error';
+import { rollStandardMin, rollStats20, rollcth, rollClassic, rollHeroic, rollDicePool, rollStandard } from '../modules/statsModule';
 
 class RollStatsCommand extends SlashCommand {
   constructor(creator: SlashCreator) {
@@ -61,26 +57,26 @@ class RollStatsCommand extends SlashCommand {
       let embed: MessageEmbed;
       switch (ctx.options.style) {
         case "70":
-          embed = stats.rollStandardMin(); // [x]
+          embed = rollStandardMin(); // [x]
           break;
         case "d20":
-          embed = stats.rollStats20(); // [x]
+          embed = rollStats20(); // [x]
           break;
         case "cth":
-          embed = stats.rollcth(); // [x]
+          embed = rollcth(); // [x]
           break;
         case "classic":
-          embed = stats.rollClassic(); // [x]
+          embed = rollClassic(); // [x]
           break;
         case "heroic":
-          embed = stats.rollHeroic(); // [x]
+          embed = rollHeroic(); // [x]
           break;
         case "pool":
-          embed = stats.rollDicePool(); // [x]
+          embed = rollDicePool(); // [x]
           break;
         case "standard":
         default:
-          embed = stats.rollStandard(); // [x]
+          embed = rollStandard(); // [x]
           break;
       }
 
@@ -115,26 +111,26 @@ class RollStatsCommand extends SlashCommand {
           // Reroll a stat block according to ctx, then edit embed accordingly
           switch (ctx.options.style) {
             case "70":
-              embed = stats.rollStandardMin(); 
+              embed = rollStandardMin(); 
               break;
             case "d20":
-              embed = stats.rollStats20(); 
+              embed = rollStats20(); 
               break;
             case "cth":
-              embed = stats.rollcth(); 
+              embed = rollcth(); 
               break;
             case "classic":
-              embed = stats.rollClassic(); 
+              embed = rollClassic(); 
               break;
             case "heroic":
-              embed = stats.rollHeroic(); 
+              embed = rollHeroic(); 
               break;
             case "pool":
-              embed = stats.rollDicePool(); 
+              embed = rollDicePool(); 
               break;
             case "standard":
             default:
-              embed = stats.rollStandard(); 
+              embed = rollStandard(); 
               break;
           }
     
@@ -166,7 +162,7 @@ class RollStatsCommand extends SlashCommand {
       });
     } catch (err) {
       await ctx.send({
-        embeds: [errorMod.errorMessage(err, ctx)],
+        embeds: [errorMessage(err).toJSON()],
         file: {
           name: `error.png`,
           file: readFileSync(`./images/error.png`)

@@ -3,7 +3,7 @@ import chartOneTwo from "../dnd/charts/wild/d10k_1.2.json";
 import chartTwoZero from "../dnd/charts/wild/d10k_2.0.json";
 import chartOfficial from "../dnd/charts/wild/5e.json";
 
-function getChart(chartName: string): object {
+export function getChart(chartName: string): object {
   switch (chartName) {
     case "":
     case undefined:
@@ -17,7 +17,7 @@ function getChart(chartName: string): object {
   throw 'No chart found!';
 }
 
-function getEmbedInfo(chartName: string, effectNumber: number) {
+export function getEmbedInfo(chartName: string, effectNumber: number) {
   // Assign the name the embed will use
   let chart = getChart(chartName);
   switch (chartName) {
@@ -45,5 +45,3 @@ function getEmbedInfo(chartName: string, effectNumber: number) {
     "text": Object.values(chart)[effectNumber]
   };
 }
-
-module.exports = { getChart, getEmbedInfo };

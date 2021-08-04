@@ -1,7 +1,7 @@
 import { MessageEmbed } from "discord.js";
 import { readFileSync } from "fs";
 import { SlashCommand, CommandOptionType, SlashCreator, CommandContext, ComponentType, ButtonStyle } from "slash-create";
-const errorMod = require('../modules/error');
+import { errorMessage } from '../modules/error'
 // const { hostGuildID } = require('../../config.json');
 
 class ExampleCommand extends SlashCommand {
@@ -61,7 +61,7 @@ class ExampleCommand extends SlashCommand {
          });
       } catch (err) {
          await ctx.send({
-            embeds: [errorMod.errorMessage(err, ctx)],
+            embeds: [errorMessage(err).toJSON()],
             file: {
                name: `error.png`,
                file: readFileSync(`./images/error.png`)

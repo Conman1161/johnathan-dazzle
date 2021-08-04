@@ -2,16 +2,13 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const discord_js_commando_1 = require("discord.js-commando");
 const slash_create_1 = require("slash-create");
-const io = require('@pm2/io');
+const io_1 = require("@pm2/io");
 const config_json_1 = require("./config.json");
 const Bot = new discord_js_commando_1.Client({
     owner: config_json_1.owner
 });
-let guildCount = io.metric({
+let guildCount = io_1.metric({
     name: 'Guild count: '
-});
-let guildList = io.metric({
-    name: 'Guild list: '
 });
 const Creator = new slash_create_1.SlashCreator({
     applicationID: config_json_1.appID,
@@ -44,12 +41,6 @@ Bot.on("ready", function () {
         console.log(`- ${server.name} : ${server.id}`);
     });
     guildCount.set(Bot.guilds.cache.size);
-    guildList.set(Bot.guilds.cache);
-    let guilds = [];
-    Bot.guilds.cache.forEach(server => {
-        guilds.push(server.name);
-    });
-    guildList.set(guilds);
     //Bot.guilds.find("id", '').leave();
 });
 Bot.on("guildCreate", (guild) => {

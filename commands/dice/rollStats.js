@@ -2,10 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const slash_create_1 = require("slash-create");
 const fs_1 = require("fs");
-const _ = require('underscore');
-const stats = require("../modules/statsModule");
-const errorMod = require("../modules/error");
-// const { hostGuildID } = require('../../config.json');
+const error_1 = require("../modules/error");
+const statsModule_1 = require("../modules/statsModule");
 class RollStatsCommand extends slash_create_1.SlashCommand {
     constructor(creator) {
         super(creator, {
@@ -57,26 +55,26 @@ class RollStatsCommand extends slash_create_1.SlashCommand {
             let embed;
             switch (ctx.options.style) {
                 case "70":
-                    embed = stats.rollStandardMin(); // [x]
+                    embed = statsModule_1.rollStandardMin(); // [x]
                     break;
                 case "d20":
-                    embed = stats.rollStats20(); // [x]
+                    embed = statsModule_1.rollStats20(); // [x]
                     break;
                 case "cth":
-                    embed = stats.rollcth(); // [x]
+                    embed = statsModule_1.rollcth(); // [x]
                     break;
                 case "classic":
-                    embed = stats.rollClassic(); // [x]
+                    embed = statsModule_1.rollClassic(); // [x]
                     break;
                 case "heroic":
-                    embed = stats.rollHeroic(); // [x]
+                    embed = statsModule_1.rollHeroic(); // [x]
                     break;
                 case "pool":
-                    embed = stats.rollDicePool(); // [x]
+                    embed = statsModule_1.rollDicePool(); // [x]
                     break;
                 case "standard":
                 default:
-                    embed = stats.rollStandard(); // [x]
+                    embed = statsModule_1.rollStandard(); // [x]
                     break;
             }
             embed.setColor("RANDOM")
@@ -109,26 +107,26 @@ class RollStatsCommand extends slash_create_1.SlashCommand {
                     // Reroll a stat block according to ctx, then edit embed accordingly
                     switch (ctx.options.style) {
                         case "70":
-                            embed = stats.rollStandardMin();
+                            embed = statsModule_1.rollStandardMin();
                             break;
                         case "d20":
-                            embed = stats.rollStats20();
+                            embed = statsModule_1.rollStats20();
                             break;
                         case "cth":
-                            embed = stats.rollcth();
+                            embed = statsModule_1.rollcth();
                             break;
                         case "classic":
-                            embed = stats.rollClassic();
+                            embed = statsModule_1.rollClassic();
                             break;
                         case "heroic":
-                            embed = stats.rollHeroic();
+                            embed = statsModule_1.rollHeroic();
                             break;
                         case "pool":
-                            embed = stats.rollDicePool();
+                            embed = statsModule_1.rollDicePool();
                             break;
                         case "standard":
                         default:
-                            embed = stats.rollStandard();
+                            embed = statsModule_1.rollStandard();
                             break;
                     }
                     embed.setColor("RANDOM")
@@ -160,7 +158,7 @@ class RollStatsCommand extends slash_create_1.SlashCommand {
         }
         catch (err) {
             await ctx.send({
-                embeds: [errorMod.errorMessage(err, ctx)],
+                embeds: [error_1.errorMessage(err).toJSON()],
                 file: {
                     name: `error.png`,
                     file: fs_1.readFileSync(`./images/error.png`)

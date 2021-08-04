@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const discord_js_1 = require("discord.js");
 const fs_1 = require("fs");
 const slash_create_1 = require("slash-create");
-const errorMod = require('../modules/error');
+const error_1 = require("../modules/error");
 // const { hostGuildID } = require('../../config.json');
 class ExampleCommand extends slash_create_1.SlashCommand {
     constructor(creator) {
@@ -62,7 +62,7 @@ class ExampleCommand extends slash_create_1.SlashCommand {
         }
         catch (err) {
             await ctx.send({
-                embeds: [errorMod.errorMessage(err, ctx)],
+                embeds: [error_1.errorMessage(err).toJSON()],
                 file: {
                     name: `error.png`,
                     file: fs_1.readFileSync(`./images/error.png`)
