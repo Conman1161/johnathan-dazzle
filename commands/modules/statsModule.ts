@@ -9,13 +9,15 @@ export function rollStandard() {
   let diceRoll = new DiceRoll('{4d6kh3,4d6kh3,4d6kh3,4d6kh3,4d6kh3,4d6kh3}');
   let embed = new MessageEmbed();
 
+  //@ts-expect-error
   diceRoll.rolls[0].results.forEach((roll: any, index: number)=>{
     let currentSet = roll.results[0];
     let rollArray: (number | string)[] = [];
     currentSet.rolls.forEach((currentRoll: RollResult)=>{
       rollArray.push(currentRoll.value);
     });
-    let min  = Math.min.apply(Math, rollArray);
+    //@ts-expect-error
+    let min  = Math.min(...rollArray);
     rollArray[rollArray.indexOf(min)] = `~~${min}~~`;
     embed.addField(`__Stat ${intStrings[index]}__`,`**${currentSet.value}**\nFrom [ ${rollArray.join(', ')} ]\nModifier: __**${getMod(currentSet.value)}**__`,true);
   });
@@ -32,13 +34,15 @@ export function rollStandardMin() {
   while (diceRoll.total < 70) {
     diceRoll.roll();
   }
+  //@ts-expect-error
   diceRoll.rolls[0].results.forEach((roll: any, index: number)=>{
     let currentSet = roll.results[0];
     let rollArray: (number | string)[] = [];
     currentSet.rolls.forEach((currentRoll: RollResult)=>{
       rollArray.push(currentRoll.value);
     });
-    let min  = Math.min.apply(Math, rollArray);
+    //@ts-expect-error
+    let min  = Math.min(...rollArray);
     rollArray[rollArray.indexOf(min)] = `~~${min}~~`;
     embed.addField(`__Stat ${intStrings[index]}__`,`**${currentSet.value}**\nFrom [ ${rollArray.join(', ')} ]\nModifier: __**${getMod(currentSet.value)}**__`,true);
   });
@@ -53,6 +57,7 @@ export function rollStats20() {
   let diceRoll = new DiceRoll('{d20,d20,d20,d20,d20,d20}');
   let embed = new MessageEmbed();
 
+  //@ts-expect-error
   diceRoll.rolls[0].results.forEach((roll: any, index: number)=>{
     let currentSet = roll.results[0];
     let rollArray: (number | string)[] = [];
@@ -73,6 +78,7 @@ export function rollcth() {
   let diceRoll = new DiceRoll(`{3d6,3d6,2d6,3d6,3d6,2d6,3d6,2d6}`);
   let embed = new MessageEmbed();
 
+  //@ts-expect-error
   diceRoll.rolls[0].results.forEach((roll: any, index: number)=>{
     let currentSet = roll.results[0];
     let rollArray: (number | string)[] = [];
@@ -92,6 +98,7 @@ export function rollClassic(){
   let diceRoll = new DiceRoll(`{3d6,3d6,3d6,3d6,3d6,3d6}`);
   let embed = new MessageEmbed();
 
+  //@ts-expect-error
   diceRoll.rolls[0].results.forEach((roll: any, index: number)=>{
     let currentSet = roll.results[0];
     let rollArray: (number | string)[] = [];
@@ -111,6 +118,7 @@ export function rollHeroic(){
   let diceRoll = new DiceRoll(`{2d6,2d6,2d6,2d6,2d6,2d6}`);
   let embed = new MessageEmbed();
 
+  //@ts-expect-error
   diceRoll.rolls[0].results.forEach((roll: any, index: number)=>{
     let currentSet = roll.results[0];
     let rollArray: (number | string)[] = [];
@@ -132,7 +140,8 @@ export function rollDicePool(){
   let diceRoll = new DiceRoll(`{24d6}`);
   let embed = new MessageEmbed();
 
-  diceRoll.rolls[0].results.forEach((roll: any, index: number)=>{
+  //@ts-expect-error
+  diceRoll.rolls[0].results.forEach((roll: any)=>{
     let currentSet = roll.results[0];
     let rollArray: (number | string)[] = [];
 

@@ -9,13 +9,15 @@ const cocNames = ['Strength', 'Constitution', 'Size', 'Dexterity', 'Appearance',
 function rollStandard() {
     let diceRoll = new rpg_dice_roller_1.DiceRoll('{4d6kh3,4d6kh3,4d6kh3,4d6kh3,4d6kh3,4d6kh3}');
     let embed = new discord_js_1.MessageEmbed();
+    //@ts-expect-error
     diceRoll.rolls[0].results.forEach((roll, index) => {
         let currentSet = roll.results[0];
         let rollArray = [];
         currentSet.rolls.forEach((currentRoll) => {
             rollArray.push(currentRoll.value);
         });
-        let min = Math.min.apply(Math, rollArray);
+        //@ts-expect-error
+        let min = Math.min(...rollArray);
         rollArray[rollArray.indexOf(min)] = `~~${min}~~`;
         embed.addField(`__Stat ${intStrings[index]}__`, `**${currentSet.value}**\nFrom [ ${rollArray.join(', ')} ]\nModifier: __**${getMod(currentSet.value)}**__`, true);
     });
@@ -29,13 +31,15 @@ function rollStandardMin() {
     while (diceRoll.total < 70) {
         diceRoll.roll();
     }
+    //@ts-expect-error
     diceRoll.rolls[0].results.forEach((roll, index) => {
         let currentSet = roll.results[0];
         let rollArray = [];
         currentSet.rolls.forEach((currentRoll) => {
             rollArray.push(currentRoll.value);
         });
-        let min = Math.min.apply(Math, rollArray);
+        //@ts-expect-error
+        let min = Math.min(...rollArray);
         rollArray[rollArray.indexOf(min)] = `~~${min}~~`;
         embed.addField(`__Stat ${intStrings[index]}__`, `**${currentSet.value}**\nFrom [ ${rollArray.join(', ')} ]\nModifier: __**${getMod(currentSet.value)}**__`, true);
     });
@@ -47,6 +51,7 @@ exports.rollStandardMin = rollStandardMin;
 function rollStats20() {
     let diceRoll = new rpg_dice_roller_1.DiceRoll('{d20,d20,d20,d20,d20,d20}');
     let embed = new discord_js_1.MessageEmbed();
+    //@ts-expect-error
     diceRoll.rolls[0].results.forEach((roll, index) => {
         let currentSet = roll.results[0];
         let rollArray = [];
@@ -64,6 +69,7 @@ function rollcth() {
     // str, con, size, dex, app, int, pow, edu
     let diceRoll = new rpg_dice_roller_1.DiceRoll(`{3d6,3d6,2d6,3d6,3d6,2d6,3d6,2d6}`);
     let embed = new discord_js_1.MessageEmbed();
+    //@ts-expect-error
     diceRoll.rolls[0].results.forEach((roll, index) => {
         let currentSet = roll.results[0];
         let rollArray = [];
@@ -81,6 +87,7 @@ exports.rollcth = rollcth;
 function rollClassic() {
     let diceRoll = new rpg_dice_roller_1.DiceRoll(`{3d6,3d6,3d6,3d6,3d6,3d6}`);
     let embed = new discord_js_1.MessageEmbed();
+    //@ts-expect-error
     diceRoll.rolls[0].results.forEach((roll, index) => {
         let currentSet = roll.results[0];
         let rollArray = [];
@@ -97,6 +104,7 @@ exports.rollClassic = rollClassic;
 function rollHeroic() {
     let diceRoll = new rpg_dice_roller_1.DiceRoll(`{2d6,2d6,2d6,2d6,2d6,2d6}`);
     let embed = new discord_js_1.MessageEmbed();
+    //@ts-expect-error
     diceRoll.rolls[0].results.forEach((roll, index) => {
         let currentSet = roll.results[0];
         let rollArray = [];
@@ -114,7 +122,8 @@ exports.rollHeroic = rollHeroic;
 function rollDicePool() {
     let diceRoll = new rpg_dice_roller_1.DiceRoll(`{24d6}`);
     let embed = new discord_js_1.MessageEmbed();
-    diceRoll.rolls[0].results.forEach((roll, index) => {
+    //@ts-expect-error
+    diceRoll.rolls[0].results.forEach((roll) => {
         let currentSet = roll.results[0];
         let rollArray = [];
         currentSet.rolls.forEach((currentRoll) => {
