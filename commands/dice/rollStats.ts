@@ -53,6 +53,7 @@ class RollStatsCommand extends SlashCommand {
   async run(ctx: CommandContext) {
     try {
       await ctx.defer();
+      let rerollCount = 0;
 
       let embed: MessageEmbed;
       switch (ctx.options.style) {
@@ -138,9 +139,9 @@ class RollStatsCommand extends SlashCommand {
             .setThumbnail(`attachment://4d6.png`);
     
           if (ctx.member) {
-            embed.setAuthor(`${ctx.member.displayName}'s Stat Block`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`);
+            embed.setAuthor(`${ctx.member.displayName}'s Rerolled Stat Block [${++rerollCount}]`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`);
           } else {
-            embed.setAuthor(`${ctx.user.username}'s Stat Block`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`);
+            embed.setAuthor(`${ctx.user.username}'s Rerolled Stat Block [${++rerollCount}]`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`);
           }
 
           btnCtx.editParent({
