@@ -161,7 +161,7 @@ class RollStatsCommand extends SlashCommand {
           await btnCtx.send('You are not the person rolling these dice, so you cannot reroll them!');
         }
       });
-    } catch (err) {
+    } catch (err: any) {
       await ctx.send({
         embeds: [errorMessage(err).toJSON()],
         file: {
