@@ -14,7 +14,7 @@ const Creator = new slash_create_1.SlashCreator({
     applicationID: config_json_1.appID,
     token: config_json_1.token
 });
-// Creator.registerCommandsIn(`${__dirname}/commands/characters`).syncCommands();
+// Creator.registerCommandsIn(`${__dirname}/commands/characters`);
 Creator.registerCommandsIn(`${__dirname}/commands/dice`);
 Creator.registerCommandsIn(`${__dirname}/commands/dnd`);
 Creator.registerCommandsIn(`${__dirname}/commands/general`);
