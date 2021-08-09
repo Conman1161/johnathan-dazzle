@@ -79,7 +79,6 @@ class RollStatsCommand extends slash_create_1.SlashCommand {
                     break;
             }
             embed.setColor("RANDOM")
-                .attachFiles([`./images/4d6.png`])
                 .setThumbnail(`attachment://4d6.png`);
             if (ctx.member) {
                 embed.setAuthor(`${ctx.member.displayName}'s Stat Block`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`);

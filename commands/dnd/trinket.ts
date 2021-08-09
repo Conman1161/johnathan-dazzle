@@ -68,7 +68,6 @@ class TrinketCommand extends SlashCommand {
       let embed = new MessageEmbed()
         .addField("Chart Number", `**${trinket[0]}**`)
         .addField("Trinket", `${trinket[1]}`)
-        .attachFiles([`./images/bag.png`])
         .setThumbnail(`attachment://bag.png`)
         .setFooter(
           `If you think anything has an error, message ${ownerTag} with a screenshot and indicate what the error is.`

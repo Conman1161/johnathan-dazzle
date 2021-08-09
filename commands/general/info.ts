@@ -51,7 +51,6 @@ class BotInfoCommand extends SlashCommand {
         'All artwork has been commissioned and made by **Kai**. They can be found on [`Twitter`](https://twitter.com/ckttle_ "@ckttle_") and [`Instagram`](https://instagram.com/ckttle "@ckttle").'
       )
       .setColor(catboy || ctx.options.force_catboy ? "#e073c1" : "#fe00ff")
-      .attachFiles([catboy || ctx.options.force_catboy ? "./images/catboy/Background.png" : "./images/icon.png"])
       .setThumbnail(`attachment://${catboy || ctx.options.force_catboy ? "Background.png" : "icon.png"}`);
 
     await ctx.send( {

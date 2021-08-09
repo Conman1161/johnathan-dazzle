@@ -31,7 +31,6 @@ class MaxCommand extends SlashCommand {
       let diceExpression = new DiceRoll(ctx.options.dice);
 
       let embed = new MessageEmbed()
-        .attachFiles([`./images/d20s/non-transp/d20.png`])
         .setThumbnail(`attachment://d20.png`)
         .addField(`Maximum of __${diceExpression.notation}__:`, `__**${diceExpression.maxTotal}**__`)
         .setColor("RANDOM");
@@ -48,7 +47,7 @@ class MaxCommand extends SlashCommand {
           file: readFileSync(`./images/d20s/non-transp/d20.png`)
         }
       };
-    } catch (err) {
+    } catch (err: any) {
       await ctx.send({
         embeds: [errorMessage(err).toJSON()],
         file: {

@@ -28,7 +28,6 @@ class AvgCommand extends SlashCommand {
       let allDice = new DiceRoll(ctx.options.dice.toString());
 
       let embed = new MessageEmbed()
-        .attachFiles([`./images/d20s/non-transp/d20.png`])
         .setThumbnail(`attachment://d20.png`)
         .addField(`__Average of ${allDice.notation}__`, `**${allDice.averageTotal}**`)
         .setColor("RANDOM");
@@ -45,7 +44,7 @@ class AvgCommand extends SlashCommand {
           file: readFileSync(`./images/d20s/non-transp/d20.png`)
         }
       };
-    } catch (err) {
+    } catch (err: any) {
       await ctx.send({
         embeds: [errorMessage(err).toJSON()],
         file: {

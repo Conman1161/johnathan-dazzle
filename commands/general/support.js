@@ -19,7 +19,6 @@ class SupportCommand extends slash_create_1.SlashCommand {
             .setAuthor("Support Information", `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`)
             .addField("Need specific help?", `Join the Discord server below or contact \`${config_json_1.ownerTag}\` if you have any further questions`)
             .setColor("#fe00ff")
-            .attachFiles([`./images/support.png`])
             .setURL(`https://discord.gg/ZUJAMnh`)
             .setThumbnail(`attachment://support.png`);
         await ctx.send({

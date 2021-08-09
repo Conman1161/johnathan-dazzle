@@ -29,7 +29,6 @@ class RollCommand extends slash_create_1.SlashCommand {
             let advDice = new rpg_dice_roller_1.DiceRoll(ctx.options.dice || "d20");
             let embed = new discord_js_1.MessageEmbed()
                 .setColor("RANDOM")
-                .attachFiles([`${attachPath}${dice.total < 21 && dice.total > 0 ? `d20-${dice.total}.png` : `d20.png`}`])
                 .addField(`Evaluation:`, dice.output, true)
                 .setThumbnail(`attachment://d20${dice.total <= 20 && dice.total >= 1 ? `-${dice.total}.png` : `.png`}`)
                 .setFooter(`Need some help understanding your result notation? Use /help roll to find supported notation and what they look like`);
@@ -75,7 +74,7 @@ class RollCommand extends slash_create_1.SlashCommand {
                         embed.setAuthor(`${ctx.user.username}'s Die Roll (Rerolled)`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`);
                     }
                     embed.spliceFields(0, embed.fields.length);
-                    embed.addFields([
+                    embed.setFields([
                         {
                             name: `Evaluation`,
                             value: `${dice.output}`,
@@ -83,7 +82,7 @@ class RollCommand extends slash_create_1.SlashCommand {
                         },
                         {
                             name: `__Dice Total__`,
-                            value: dice.total
+                            value: dice.total.toString()
                         }
                     ]);
                     await btnCtx.editParent({
@@ -113,6 +112,7 @@ class RollCommand extends slash_create_1.SlashCommand {
             });
             ctx.registerComponent('advantage', async (btnCtx) => {
                 if (ctx.user.id === btnCtx.user.id) {
+                    let oldOutput = dice.output;
                     let oldTotal = dice.total;
                     dice.roll();
                     embed.setFooter(`Need some help understanding your result notation? Use /help roll to find supported notation and what they look like\n\nEmbed thumbnails will show the sum of your original roll (or a ? if it was greater than 20)`);
@@ -123,15 +123,20 @@ class RollCommand extends slash_create_1.SlashCommand {
                         embed.setAuthor(`${ctx.user.username}'s Die Roll (Advantage Added)`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`);
                     }
                     embed.spliceFields(1, embed.fields.length - 1);
-                    embed.addFields([
+                    embed.setFields([
                         {
-                            name: `Advantage Evaluation`,
-                            value: dice.output,
+                            name: 'Evaluation:',
+                            value: oldOutput.toString(),
+                            inline: true
+                        },
+                        {
+                            name: 'Advantage Evaluation',
+                            value: dice.output.toString(),
                             inline: true
                         },
                         {
                             name: `__Dice Total__`,
-                            value: oldTotal + dice.total
+                            value: (oldTotal + dice.total).toString()
                         },
                     ]);
                     await btnCtx.editParent({
@@ -172,22 +177,18 @@ class RollCommand extends slash_create_1.SlashCommand {
                         embed.setAuthor(`${ctx.user.username}'s Die Roll (Advantage Added)`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`);
                     }
                     embed.spliceFields(0, embed.fields.length);
-                    embed.addFields([
-                        {
-                            name: `Evaluation`,
-                            value: dice.output,
-                            inline: true
-                        },
-                        {
-                            name: `Advantage Evaluation`,
-                            value: advDice.output,
-                            inline: true
-                        },
-                        {
-                            name: `__Dice Total__`,
-                            value: dice.total + advDice.total,
-                        },
-                    ]);
+                    embed.addFields({
+                        name: `Evaluation`,
+                        value: dice.output,
+                        inline: true
+                    }, {
+                        name: `Advantage Evaluation`,
+                        value: advDice.output,
+                        inline: true
+                    }, {
+                        name: `__Dice Total__`,
+                        value: (dice.total + advDice.total).toString()
+                    });
                     await btnCtx.editParent({
                         embeds: [embed.toJSON()],
                         components: [{

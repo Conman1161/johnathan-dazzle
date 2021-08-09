@@ -131,13 +131,11 @@ class DoMTCommand extends SlashCommand {
         case 'draw':
           card = draw(ctx.options.draw.deck);
           embed.addField('Card: ', card);
-          embed.attachFiles([`${imageDir}${card.replace(' ', '')}.png`]);
           embed.setImage(`attachment://${card.replace(' ', '')}.png`);
           break;
         case 'lookup':
           card = ctx.options.lookup.card;
           let effect = lookup(ctx.options.lookup.card);
-          embed.attachFiles([`${imageDir}${ctx.options.lookup.card.replace(' ', '')}.png`]);
           embed.addField('Card: ', ctx.options.lookup.card);
           embed.addField('Effect: ', effect);
           embed.setImage(`attachment://${ctx.options.lookup.card.replace(' ', '')}.png`);
@@ -184,7 +182,7 @@ class DoMTCommand extends SlashCommand {
         }
       });
       
-    } catch (err) {
+    } catch (err: any) {
       await ctx.send({
         embeds: [errorMessage(err).toJSON()],
         file: {

@@ -32,7 +32,6 @@ class BotInfoCommand extends slash_create_1.SlashCommand {
             .addField(`${config_json_1.catboy || ctx.options.force_catboy ? `${owoify(`Bot Version`)}` : `Bot Version`} `, `${config_json_1.catboy || ctx.options.force_catboy ? `${owoify(`Currently running v**${package_json_1.version}**`)}` : `Currently running v**${package_json_1.version}**`} `)
             .addField("Artwork/Assets", 'All artwork has been commissioned and made by **Kai**. They can be found on [`Twitter`](https://twitter.com/ckttle_ "@ckttle_") and [`Instagram`](https://instagram.com/ckttle "@ckttle").')
             .setColor(config_json_1.catboy || ctx.options.force_catboy ? "#e073c1" : "#fe00ff")
-            .attachFiles([config_json_1.catboy || ctx.options.force_catboy ? "./images/catboy/Background.png" : "./images/icon.png"])
             .setThumbnail(`attachment://${config_json_1.catboy || ctx.options.force_catboy ? "Background.png" : "icon.png"}`);
         await ctx.send({
             embeds: [embed.toJSON()],

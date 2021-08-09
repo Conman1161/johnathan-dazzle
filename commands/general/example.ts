@@ -59,7 +59,7 @@ class ExampleCommand extends SlashCommand {
                await btnCtx.send('You are not the person who originally used this component, so you cannot use this button!');
             }
          });
-      } catch (err) {
+      } catch (err: any) {
          await ctx.send({
             embeds: [errorMessage(err).toJSON()],
             file: {

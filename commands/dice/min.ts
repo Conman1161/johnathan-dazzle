@@ -32,7 +32,6 @@ class MinCommand extends SlashCommand {
       let diceExpression = new DiceRoll(ctx.options.dice);
 
       let embed = new MessageEmbed()
-        .attachFiles([`./images/d20s/non-transp/d20.png`])
         .setThumbnail(`attachment://d20.png`)
         .addField(`Minimum of ${diceExpression.notation}`, `__**${diceExpression.minTotal}**__`)
         .setColor("RANDOM");
@@ -42,14 +41,14 @@ class MinCommand extends SlashCommand {
         embed.setAuthor(`${ctx.user.username}'s Die Minimums`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`);
       }
 
-      return {
-        embeds: [embed],
+      await ctx.send( {
+        embeds: [embed.toJSON()],
         file: {
           name: `d20.png`,
           file: readFileSync(`./images/d20s/non-transp/d20.png`)
         }
-      };
-    } catch (err) {
+      });
+    } catch (err: any) {
       await ctx.send({
         embeds: [errorMessage(err).toJSON()],
         file: {

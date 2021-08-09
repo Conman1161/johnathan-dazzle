@@ -30,7 +30,6 @@ class MaxCommand extends slash_create_1.SlashCommand {
             } while (ctx.options.dice.includes(" "));
             let diceExpression = new rpg_dice_roller_1.DiceRoll(ctx.options.dice);
             let embed = new discord_js_1.MessageEmbed()
-                .attachFiles([`./images/d20s/non-transp/d20.png`])
                 .setThumbnail(`attachment://d20.png`)
                 .addField(`Maximum of __${diceExpression.notation}__:`, `__**${diceExpression.maxTotal}**__`)
                 .setColor("RANDOM");

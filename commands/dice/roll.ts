@@ -31,7 +31,6 @@ class RollCommand extends SlashCommand {
 
       let embed = new MessageEmbed()
         .setColor("RANDOM")
-        .attachFiles([`${attachPath}${dice.total < 21 && dice.total > 0 ? `d20-${dice.total}.png` : `d20.png`}`])
         .addField(`Evaluation:`, dice.output, true)
         .setThumbnail(`attachment://d20${dice.total <= 20 && dice.total >= 1 ? `-${dice.total}.png` : `.png`}`)
         .setFooter(`Need some help understanding your result notation? Use /help roll to find supported notation and what they look like`);
@@ -82,17 +81,18 @@ class RollCommand extends SlashCommand {
             embed.setAuthor(`${ctx.user.username}'s Die Roll (Rerolled)`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`);
           }
           embed.spliceFields(0,embed.fields.length);
-          embed.addFields([
-            {
+          embed.setFields(
+            [
+              {
               name: `Evaluation`,
               value: `${dice.output}`,
               inline: true
             },
             {
               name: `__Dice Total__`,
-              value: dice.total
-            }
-          ]);
+              value: dice.total.toString()
+            }]
+          );
           await btnCtx.editParent({
             embeds: [embed.toJSON()],
             components: [{
@@ -120,6 +120,7 @@ class RollCommand extends SlashCommand {
 
       ctx.registerComponent('advantage', async (btnCtx) => { 
         if(ctx.user.id === btnCtx.user.id){
+          let oldOutput = dice.output;
           let oldTotal = dice.total;
           dice.roll();
           embed.setFooter(`Need some help understanding your result notation? Use /help roll to find supported notation and what they look like\n\nEmbed thumbnails will show the sum of your original roll (or a ? if it was greater than 20)`);
@@ -129,17 +130,23 @@ class RollCommand extends SlashCommand {
             embed.setAuthor(`${ctx.user.username}'s Die Roll (Advantage Added)`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`);
           }
           embed.spliceFields(1,embed.fields.length-1);
-          embed.addFields([
+          embed.setFields([
+            {
+              name: 'Evaluation:',
+              value: oldOutput.toString(),
+              inline: true
+            },
           {
-            name: `Advantage Evaluation`,
-            value: dice.output,
+            name: 'Advantage Evaluation',
+            value: dice.output.toString(),
             inline: true
           },
           {
             name: `__Dice Total__`,
-            value: oldTotal + dice.total
+            value: (oldTotal + dice.total).toString()
           },
-        ]);
+            ]
+        );
           await btnCtx.editParent({
             embeds: [embed.toJSON()],
             components: [{
@@ -177,7 +184,7 @@ class RollCommand extends SlashCommand {
             embed.setAuthor(`${ctx.user.username}'s Die Roll (Advantage Added)`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`);
           }
           embed.spliceFields(0,embed.fields.length);
-          embed.addFields([
+          embed.addFields(
             {
               name: `Evaluation`,
               value: dice.output,
@@ -190,9 +197,9 @@ class RollCommand extends SlashCommand {
             },
             {
               name: `__Dice Total__`,
-              value: dice.total + advDice.total,
+              value: (dice.total + advDice.total).toString()
             },
-          ]);
+          );
           await btnCtx.editParent({
             embeds: [embed.toJSON()],
             components: [{
@@ -218,7 +225,7 @@ class RollCommand extends SlashCommand {
           await btnCtx.send('You are not the person rolling these dice, so you cannot add advantage dice!');
         }
       });
-    } catch (err) {
+    } catch (err: any) {
       ctx.send({
         embeds: [errorMessage(err).toJSON()],
         file: {

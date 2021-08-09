@@ -72,7 +72,6 @@ class WildCommand extends SlashCommand {
         .addField("Chart Name", `**${embedInfo.name}**`)
         .addField("Die Roll", `You rolled **${embedInfo.effectNumber}**`)
         .addField("Effect", `**||${embedInfo.text}||**`)
-        .attachFiles([`./images/wild.png`])
         .setThumbnail(`attachment://wild.png`)
         .setFooter(
           `If you think the roll has an error, message ${ownerTag} with the roll number and what the error is.`

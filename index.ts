@@ -1,11 +1,11 @@
-import { Guild, PresenceData } from "discord.js";
-import { Client } from "discord.js-commando";
+import { Guild, PresenceData, Client } from "discord.js";
 import { GatewayServer, SlashCreator } from "slash-create";
-import {metric} from '@pm2/io'
+import { metric } from '@pm2/io'
 
 import { owner, appID, token, presenceText } from './config.json';
+
 const Bot = new Client({
-  owner: owner
+  intents: ['GUILD_PRESENCES', 'GUILD_MEMBERS', 'DIRECT_MESSAGES'],
 });
 
 let guildCount = metric({
@@ -37,15 +37,15 @@ Creator.on('error', (m: Object) => console.error('slash-create error: ', m));
 
 Bot.on("ready", function () {
   let status: PresenceData = {
-      activity: {
+      status: 'online',
+      activities: [{
         name: `${presenceText}`,
-        type: "PLAYING"
-      },
-      status: 'online'
+        type: 'CUSTOM'
+      }]
   };
   Bot.user!.setPresence(status);
 
-  console.log(`${Bot.settings.client.user!.username} live on ${process.env.USERDOMAIN}`);
+  console.log(`${Bot.user!.username} live on ${process.env.USERDOMAIN}`);
   console.log(`Currently live in ${Bot.guilds.cache.size} guilds: `);
   Bot.guilds.cache.forEach((server: Guild) => {
     console.log(`- ${server.name} : ${server.id}`);

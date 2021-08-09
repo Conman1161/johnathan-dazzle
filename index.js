@@ -1,11 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const discord_js_commando_1 = require("discord.js-commando");
+const discord_js_1 = require("discord.js");
 const slash_create_1 = require("slash-create");
 const io_1 = require("@pm2/io");
 const config_json_1 = require("./config.json");
-const Bot = new discord_js_commando_1.Client({
-    owner: config_json_1.owner
+const Bot = new discord_js_1.Client({
+    intents: ['GUILD_PRESENCES', 'GUILD_MEMBERS', 'DIRECT_MESSAGES'],
 });
 let guildCount = io_1.metric({
     name: 'Guild count: '
@@ -28,14 +28,14 @@ Creator.on('error', (m) => console.error('slash-create error: ', m));
 // Creator.on('rawREST', (m: Object) => console.log('slash-create REST: ', m));
 Bot.on("ready", function () {
     let status = {
-        activity: {
-            name: `${config_json_1.presenceText}`,
-            type: "PLAYING"
-        },
-        status: 'online'
+        status: 'online',
+        activities: [{
+                name: `${config_json_1.presenceText}`,
+                type: 'CUSTOM'
+            }]
     };
     Bot.user.setPresence(status);
-    console.log(`${Bot.settings.client.user.username} live on ${process.env.USERDOMAIN}`);
+    console.log(`${Bot.user.username} live on ${process.env.USERDOMAIN}`);
     console.log(`Currently live in ${Bot.guilds.cache.size} guilds: `);
     Bot.guilds.cache.forEach((server) => {
         console.log(`- ${server.name} : ${server.id}`);

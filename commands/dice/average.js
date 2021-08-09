@@ -27,7 +27,6 @@ class AvgCommand extends slash_create_1.SlashCommand {
                 throw 1;
             let allDice = new rpg_dice_roller_1.DiceRoll(ctx.options.dice.toString());
             let embed = new discord_js_1.MessageEmbed()
-                .attachFiles([`./images/d20s/non-transp/d20.png`])
                 .setThumbnail(`attachment://d20.png`)
                 .addField(`__Average of ${allDice.notation}__`, `**${allDice.averageTotal}**`)
                 .setColor("RANDOM");

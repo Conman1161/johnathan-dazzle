@@ -22,7 +22,6 @@ class SupportCommand extends SlashCommand {
         `Join the Discord server below or contact \`${ownerTag}\` if you have any further questions`
       )
       .setColor("#fe00ff")
-      .attachFiles([`./images/support.png`])
       .setURL(`https://discord.gg/ZUJAMnh`)
       .setThumbnail(`attachment://support.png`);
 

@@ -31,7 +31,6 @@ class MinCommand extends slash_create_1.SlashCommand {
             } while (ctx.options.dice.includes(" "));
             let diceExpression = new rpg_dice_roller_1.DiceRoll(ctx.options.dice);
             let embed = new discord_js_1.MessageEmbed()
-                .attachFiles([`./images/d20s/non-transp/d20.png`])
                 .setThumbnail(`attachment://d20.png`)
                 .addField(`Minimum of ${diceExpression.notation}`, `__**${diceExpression.minTotal}**__`)
                 .setColor("RANDOM");
@@ -41,13 +40,13 @@ class MinCommand extends slash_create_1.SlashCommand {
             else {
                 embed.setAuthor(`${ctx.user.username}'s Die Minimums`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`);
             }
-            return {
-                embeds: [embed],
+            await ctx.send({
+                embeds: [embed.toJSON()],
                 file: {
                     name: `d20.png`,
                     file: fs_1.readFileSync(`./images/d20s/non-transp/d20.png`)
                 }
-            };
+            });
         }
         catch (err) {
             await ctx.send({

@@ -68,7 +68,6 @@ class TrinketCommand extends slash_create_1.SlashCommand {
             let embed = new discord_js_1.MessageEmbed()
                 .addField("Chart Number", `**${trinket[0]}**`)
                 .addField("Trinket", `${trinket[1]}`)
-                .attachFiles([`./images/bag.png`])
                 .setThumbnail(`attachment://bag.png`)
                 .setFooter(`If you think anything has an error, message ${config_json_1.ownerTag} with a screenshot and indicate what the error is.`)
                 .setColor("RANDOM");

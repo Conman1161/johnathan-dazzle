@@ -10,7 +10,6 @@ export function errorMessage(error: SyntaxError | number) {
 
   let embed = new MessageEmbed()
     .setTitle("**Oh no, you encountered an error!**")
-    .attachFiles([attachment])
     .setThumbnail("attachment://error.png")
     .setColor("#FF0000")
     .setFooter(

@@ -129,13 +129,11 @@ class DoMTCommand extends slash_create_1.SlashCommand {
                 case 'draw':
                     card = domt_1.draw(ctx.options.draw.deck);
                     embed.addField('Card: ', card);
-                    embed.attachFiles([`${imageDir}${card.replace(' ', '')}.png`]);
                     embed.setImage(`attachment://${card.replace(' ', '')}.png`);
                     break;
                 case 'lookup':
                     card = ctx.options.lookup.card;
                     let effect = domt_1.lookup(ctx.options.lookup.card);
-                    embed.attachFiles([`${imageDir}${ctx.options.lookup.card.replace(' ', '')}.png`]);
                     embed.addField('Card: ', ctx.options.lookup.card);
                     embed.addField('Effect: ', effect);
                     embed.setImage(`attachment://${ctx.options.lookup.card.replace(' ', '')}.png`);

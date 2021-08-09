@@ -7,7 +7,6 @@ function errorMessage(error) {
     let attachment = new discord_js_1.MessageAttachment("./images/error.png", "error.png");
     let embed = new discord_js_1.MessageEmbed()
         .setTitle("**Oh no, you encountered an error!**")
-        .attachFiles([attachment])
         .setThumbnail("attachment://error.png")
         .setColor("#FF0000")
         .setFooter(`For more help, message Conman#1161 with your original message and error code (this message!)`);

@@ -82,7 +82,6 @@ class RollStatsCommand extends SlashCommand {
       }
 
       embed.setColor("RANDOM")
-        .attachFiles([`./images/4d6.png`])
         .setThumbnail(`attachment://4d6.png`);
 
       if (ctx.member) {
