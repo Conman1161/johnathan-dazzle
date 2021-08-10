@@ -4,7 +4,6 @@ const discord_js_1 = require("discord.js");
 const fs_1 = require("fs");
 const slash_create_1 = require("slash-create");
 const error_1 = require("../modules/error");
-// const { hostGuildID } = require('../../config.json');
 class ExampleCommand extends slash_create_1.SlashCommand {
     constructor(creator) {
         super(creator, {

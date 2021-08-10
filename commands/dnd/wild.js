@@ -1,11 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const discord_js_1 = require("discord.js");
-const config_json_1 = require("../../config.json");
 const slash_create_1 = require("slash-create");
 const fs_1 = require("fs");
-const { getEmbedInfo } = require("../modules/wildModule");
-const errorMod = require("../modules/error");
+const wildModule_1 = require("../modules/wildModule");
+const error_1 = require("../modules/error");
 class WildCommand extends slash_create_1.SlashCommand {
     constructor(creator) {
         super(creator, {
@@ -66,13 +65,13 @@ class WildCommand extends slash_create_1.SlashCommand {
     async run(ctx) {
         try {
             await ctx.defer();
-            let embedInfo = getEmbedInfo(Object.keys(ctx.options)[0] === 'roll' ? ctx.options.roll.chart : ctx.options.lookup.chart, Object.keys(ctx.options)[0] === 'lookup' ? ctx.options.lookup.effect_number : null);
+            let embedInfo = wildModule_1.getEmbedInfo(Object.keys(ctx.options)[0] === 'roll' ? ctx.options.roll.chart : ctx.options.lookup.chart, Object.keys(ctx.options)[0] === 'lookup' ? ctx.options.lookup.effect_number : null);
             let embed = new discord_js_1.MessageEmbed()
                 .addField("Chart Name", `**${embedInfo.name}**`)
                 .addField("Die Roll", `You rolled **${embedInfo.effectNumber}**`)
                 .addField("Effect", `**||${embedInfo.text}||**`)
                 .setThumbnail(`attachment://wild.png`)
-                .setFooter(`If you think the roll has an error, message ${config_json_1.ownerTag} with the roll number and what the error is.`)
+                .setFooter(`If you think the roll has an error, message ${process.env.OWNER_ID} with the roll number and what the error is.`)
                 .setColor("RANDOM");
             if (ctx.member) {
                 embed.setAuthor(`${ctx.member.displayName}'s Wild Magic ${Object.keys(ctx.options).length < 2 ? 'Surge' : 'Lookup'}`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`);
@@ -99,7 +98,7 @@ class WildCommand extends slash_create_1.SlashCommand {
             });
             ctx.registerComponent('reroll', async (btnCtx) => {
                 if (ctx.user.id === btnCtx.user.id) {
-                    embedInfo = getEmbedInfo(Object.keys(ctx.options)[0] === 'roll' ? ctx.options.roll.chart : ctx.options.lookup.chart, Object.keys(ctx.options)[0] === 'lookup' ? ctx.options.lookup.effect_number : null);
+                    embedInfo = wildModule_1.getEmbedInfo(Object.keys(ctx.options)[0] === 'roll' ? ctx.options.roll.chart : ctx.options.lookup.chart, Object.keys(ctx.options)[0] === 'lookup' ? ctx.options.lookup.effect_number : null);
                     embed.spliceFields(0, 3, [
                         {
                             name: `Chart Name`,
@@ -136,7 +135,7 @@ class WildCommand extends slash_create_1.SlashCommand {
         }
         catch (err) {
             await ctx.send({
-                embeds: [errorMod.errorMessage(err, ctx)],
+                embeds: [error_1.errorMessage(err).toJSON()],
                 file: {
                     name: `error.png`,
                     file: fs_1.readFileSync(`./images/error.png`)

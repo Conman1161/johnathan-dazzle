@@ -1,15 +1,19 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const discord_js_1 = require("discord.js");
 const slash_create_1 = require("slash-create");
 const io_1 = require("@pm2/io");
-const config_json_1 = require("./config.json");
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
 const Bot = new discord_js_1.Client({
     intents: ['GUILD_PRESENCES', 'GUILD_MEMBERS', 'DIRECT_MESSAGES'],
     presence: {
         status: 'online',
         activities: [{
-                name: `${config_json_1.presenceText}`,
+                name: process.env.PRESENCE_TEXT,
                 type: 'PLAYING'
             }]
     }
@@ -18,8 +22,8 @@ let guildCount = io_1.metric({
     name: 'Guild count: '
 });
 const Creator = new slash_create_1.SlashCreator({
-    applicationID: config_json_1.appID,
-    token: config_json_1.token
+    applicationID: process.env.APP_ID,
+    token: process.env.TOKEN
 });
 // Creator.registerCommandsIn(`${__dirname}/commands/characters`);
 Creator.registerCommandsIn(`${__dirname}/commands/dice`);
@@ -50,4 +54,4 @@ Bot.on("guildDelete", (guild) => {
     console.log(`Left a guild: ${guild.name}. New guild count: ${Bot.guilds.cache.size}`);
     guildCount.set(Bot.guilds.cache.size);
 });
-Bot.login(config_json_1.token);
+Bot.login(process.env.TOKEN);

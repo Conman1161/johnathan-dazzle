@@ -1,9 +1,8 @@
 import { MessageEmbed } from "discord.js";
-import { ownerTag } from '../../config.json';
 import { SlashCommand, CommandOptionType, SlashCreator, CommandContext, ComponentType, ButtonStyle } from "slash-create";
 import { readFileSync } from "fs";
-const { getEmbedInfo } = require("../modules/wildModule");
-const errorMod = require("../modules/error");
+import { getEmbedInfo } from "../modules/wildModule";
+import { errorMessage } from '../modules/error';
 
 class WildCommand extends SlashCommand {
   constructor(creator: SlashCreator) {
@@ -74,7 +73,7 @@ class WildCommand extends SlashCommand {
         .addField("Effect", `**||${embedInfo.text}||**`)
         .setThumbnail(`attachment://wild.png`)
         .setFooter(
-          `If you think the roll has an error, message ${ownerTag} with the roll number and what the error is.`
+          `If you think the roll has an error, message ${process.env.OWNER_ID} with the roll number and what the error is.`
         )
         .setColor("RANDOM");
 
@@ -138,9 +137,9 @@ class WildCommand extends SlashCommand {
           await btnCtx.send('You did not make this wild magic surge, so you do not have permission to get a new one!');
         }
       });
-    } catch (err) {
+    } catch (err: any) {
       await ctx.send({
-        embeds: [errorMod.errorMessage(err, ctx)],
+        embeds: [errorMessage(err).toJSON()],
         file: {
           name: `error.png`,
           file: readFileSync(`./images/error.png`)

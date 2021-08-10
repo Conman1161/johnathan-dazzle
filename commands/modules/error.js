@@ -4,7 +4,6 @@ exports.errorMessage = void 0;
 const discord_js_1 = require("discord.js");
 // Return an embed with information on what the error is and how to fix it
 function errorMessage(error) {
-    let attachment = new discord_js_1.MessageAttachment("./images/error.png", "error.png");
     let embed = new discord_js_1.MessageEmbed()
         .setTitle("**Oh no, you encountered an error!**")
         .setThumbnail("attachment://error.png")

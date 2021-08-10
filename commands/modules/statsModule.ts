@@ -1,8 +1,8 @@
 import { MessageEmbed } from 'discord.js';
 import { DiceRoll } from 'rpg-dice-roller';
 import { RollResult } from 'rpg-dice-roller/types/results';
-const intStrings = ["One", "Two", "Three", "Four", "Five", "Six"];
-const cocNames = ['Strength', 'Constitution', 'Size', 'Dexterity', 'Appearance', 'Intelligence', 'Power', 'Education'];
+let intStrings = ["One", "Two", "Three", "Four", "Five", "Six"];
+let cocNames = ['Strength', 'Constitution', 'Size', 'Dexterity', 'Appearance', 'Intelligence', 'Power', 'Education'];
 
 //4d6kh3
 export function rollStandard() {

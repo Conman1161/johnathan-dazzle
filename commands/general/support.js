@@ -3,7 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const discord_js_1 = require("discord.js");
 const fs_1 = require("fs");
 const slash_create_1 = require("slash-create");
-const config_json_1 = require("../../config.json");
 class SupportCommand extends slash_create_1.SlashCommand {
     constructor(creator) {
         super(creator, {
@@ -17,7 +16,7 @@ class SupportCommand extends slash_create_1.SlashCommand {
         await ctx.defer();
         let embed = new discord_js_1.MessageEmbed()
             .setAuthor("Support Information", `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`)
-            .addField("Need specific help?", `Join the Discord server below or contact \`${config_json_1.ownerTag}\` if you have any further questions`)
+            .addField("Need specific help?", `Join the Discord server below or contact \`${process.env.OWNER_TAG}\` if you have any further questions`)
             .setColor("#fe00ff")
             .setURL(`https://discord.gg/ZUJAMnh`)
             .setThumbnail(`attachment://support.png`);

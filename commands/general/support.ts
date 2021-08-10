@@ -1,7 +1,6 @@
 import { MessageEmbed } from "discord.js";
 import { readFileSync } from "fs";
 import { ButtonStyle, CommandContext, ComponentType, SlashCommand, SlashCreator } from "slash-create";
-import { ownerTag } from '../../config.json';
 
 class SupportCommand extends SlashCommand {
   constructor(creator: SlashCreator) {
@@ -19,7 +18,7 @@ class SupportCommand extends SlashCommand {
       .setAuthor("Support Information", `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`)
       .addField(
         "Need specific help?",
-        `Join the Discord server below or contact \`${ownerTag}\` if you have any further questions`
+        `Join the Discord server below or contact \`${process.env.OWNER_TAG}\` if you have any further questions`
       )
       .setColor("#fe00ff")
       .setURL(`https://discord.gg/ZUJAMnh`)

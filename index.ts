@@ -1,15 +1,17 @@
 import { Guild, PresenceData, Client } from "discord.js";
 import { GatewayServer, SlashCreator } from "slash-create";
 import { metric } from '@pm2/io'
+import dotenv from 'dotenv';
 
 import { appID, token, presenceText } from './config.json';
 
+dotenv.config();
 const Bot = new Client({
   intents: ['GUILD_PRESENCES', 'GUILD_MEMBERS', 'DIRECT_MESSAGES'],
   presence: {
     status: 'online',
     activities: [{
-      name: `${presenceText}`,
+      name: process.env.PRESENCE_TEXT,
       type: 'PLAYING'
     }]
   }
@@ -20,8 +22,8 @@ let guildCount = metric({
 });
 
 const Creator = new SlashCreator({
-  applicationID: appID,
-  token: token
+  applicationID: process.env.APP_ID!,
+  token: process.env.TOKEN
 });
 // Creator.registerCommandsIn(`${__dirname}/commands/characters`);
 Creator.registerCommandsIn(`${__dirname}/commands/dice`);
@@ -63,4 +65,4 @@ Bot.on("guildDelete", (guild: Guild) => {
   guildCount.set(Bot.guilds.cache.size);
 });
 
-Bot.login(token);
+Bot.login(process.env.TOKEN);

@@ -1,6 +1,5 @@
 import { MessageEmbed } from "discord.js";
 import { SlashCommand, CommandOptionType, SlashCreator, CommandContext, ComponentType, ButtonStyle } from "slash-create";
-import { ownerTag } from '../../config.json';
 import { readFileSync } from "fs";
 const trinketMod = require("../modules/trinket");
 const errorMod = require("../modules/error");
@@ -70,7 +69,7 @@ class TrinketCommand extends SlashCommand {
         .addField("Trinket", `${trinket[1]}`)
         .setThumbnail(`attachment://bag.png`)
         .setFooter(
-          `If you think anything has an error, message ${ownerTag} with a screenshot and indicate what the error is.`
+          `If you think anything has an error, message ${process.env.OWNER_TAG} with a screenshot and indicate what the error is.`
         )
         .setColor("RANDOM");
       if (ctx.member) {

@@ -1,5 +1,5 @@
 import { DiceRoll } from 'rpg-dice-roller';
-const table = require('../dnd/charts/domt/cards.json');
+let table = require('../dnd/charts/domt/cards.json');
 
 export function lookup(card: string) {
     return table[card];

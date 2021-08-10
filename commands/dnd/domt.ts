@@ -1,11 +1,8 @@
-const imageDir = `${process.cwd()}/images/domt/`;
 import { MessageEmbed } from "discord.js";
 import { SlashCommand, CommandOptionType, SlashCreator, CommandContext, ComponentType, ButtonStyle } from "slash-create";
 import { readFileSync } from 'fs';
 import { errorMessage } from '../modules/error';
 import {draw, lookup} from '../modules/domt';
-
-// const { hostGuildID } = require('../../config.json');
 
 class DoMTCommand extends SlashCommand {
   constructor(creator: SlashCreator) {
@@ -117,6 +114,8 @@ class DoMTCommand extends SlashCommand {
   async run(ctx: CommandContext) {
     try {
       await ctx.defer();
+
+      let imageDir = `${process.cwd()}/images/domt/`;
 
       let embed = new MessageEmbed().setColor('RANDOM');
       if (ctx.member) {

@@ -3,7 +3,6 @@ import { DiceRoll } from 'rpg-dice-roller';
 import { SlashCommand, CommandOptionType, SlashCreator, CommandContext } from "slash-create";
 import { readFileSync } from "fs";
 import { errorMessage } from '../modules/error'
-// const { hostGuildID } = require('../../config.json');
 
 class MinCommand extends SlashCommand {
   constructor(creator: SlashCreator) {

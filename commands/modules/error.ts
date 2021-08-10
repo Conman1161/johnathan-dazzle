@@ -3,11 +3,6 @@ import {MessageAttachment, MessageEmbed} from "discord.js";
 // Return an embed with information on what the error is and how to fix it
 
 export function errorMessage(error: SyntaxError | number) {
-  let attachment = new MessageAttachment(
-    "./images/error.png",
-    "error.png"
-  );
-
   let embed = new MessageEmbed()
     .setTitle("**Oh no, you encountered an error!**")
     .setThumbnail("attachment://error.png")

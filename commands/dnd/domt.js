@@ -1,12 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const imageDir = `${process.cwd()}/images/domt/`;
 const discord_js_1 = require("discord.js");
 const slash_create_1 = require("slash-create");
 const fs_1 = require("fs");
 const error_1 = require("../modules/error");
 const domt_1 = require("../modules/domt");
-// const { hostGuildID } = require('../../config.json');
 class DoMTCommand extends slash_create_1.SlashCommand {
     constructor(creator) {
         super(creator, {
@@ -116,6 +114,7 @@ class DoMTCommand extends slash_create_1.SlashCommand {
     async run(ctx) {
         try {
             await ctx.defer();
+            let imageDir = `${process.cwd()}/images/domt/`;
             let embed = new discord_js_1.MessageEmbed().setColor('RANDOM');
             if (ctx.member) {
                 embed.setAuthor(`${ctx.member.displayName}'s Card`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`);

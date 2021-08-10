@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.draw = exports.lookup = void 0;
 const rpg_dice_roller_1 = require("rpg-dice-roller");
-const table = require('../dnd/charts/domt/cards.json');
+let table = require('../dnd/charts/domt/cards.json');
 function lookup(card) {
     return table[card];
 }

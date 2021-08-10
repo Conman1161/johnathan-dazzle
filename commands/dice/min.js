@@ -5,7 +5,6 @@ const rpg_dice_roller_1 = require("rpg-dice-roller");
 const slash_create_1 = require("slash-create");
 const fs_1 = require("fs");
 const error_1 = require("../modules/error");
-// const { hostGuildID } = require('../../config.json');
 class MinCommand extends slash_create_1.SlashCommand {
     constructor(creator) {
         super(creator, {

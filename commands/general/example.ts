@@ -2,7 +2,6 @@ import { MessageEmbed } from "discord.js";
 import { readFileSync } from "fs";
 import { SlashCommand, CommandOptionType, SlashCreator, CommandContext, ComponentType, ButtonStyle } from "slash-create";
 import { errorMessage } from '../modules/error'
-// const { hostGuildID } = require('../../config.json');
 
 class ExampleCommand extends SlashCommand {
    constructor(creator: SlashCreator) {

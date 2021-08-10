@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const discord_js_1 = require("discord.js");
 const slash_create_1 = require("slash-create");
-const config_json_1 = require("../../config.json");
 const fs_1 = require("fs");
 const trinketMod = require("../modules/trinket");
 const errorMod = require("../modules/error");
@@ -69,7 +68,7 @@ class TrinketCommand extends slash_create_1.SlashCommand {
                 .addField("Chart Number", `**${trinket[0]}**`)
                 .addField("Trinket", `${trinket[1]}`)
                 .setThumbnail(`attachment://bag.png`)
-                .setFooter(`If you think anything has an error, message ${config_json_1.ownerTag} with a screenshot and indicate what the error is.`)
+                .setFooter(`If you think anything has an error, message ${process.env.OWNER_TAG} with a screenshot and indicate what the error is.`)
                 .setColor("RANDOM");
             if (ctx.member) {
                 embed.setAuthor(`${ctx.member.displayName}'s Trinket`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`);

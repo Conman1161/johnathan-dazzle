@@ -3,8 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getMod = exports.rollDicePool = exports.rollHeroic = exports.rollClassic = exports.rollcth = exports.rollStats20 = exports.rollStandardMin = exports.rollStandard = void 0;
 const discord_js_1 = require("discord.js");
 const rpg_dice_roller_1 = require("rpg-dice-roller");
-const intStrings = ["One", "Two", "Three", "Four", "Five", "Six"];
-const cocNames = ['Strength', 'Constitution', 'Size', 'Dexterity', 'Appearance', 'Intelligence', 'Power', 'Education'];
+let intStrings = ["One", "Two", "Three", "Four", "Five", "Six"];
+let cocNames = ['Strength', 'Constitution', 'Size', 'Dexterity', 'Appearance', 'Intelligence', 'Power', 'Education'];
 //4d6kh3
 function rollStandard() {
     let diceRoll = new rpg_dice_roller_1.DiceRoll('{4d6kh3,4d6kh3,4d6kh3,4d6kh3,4d6kh3,4d6kh3}');
