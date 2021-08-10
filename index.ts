@@ -3,8 +3,6 @@ import { GatewayServer, SlashCreator } from "slash-create";
 import { metric } from '@pm2/io'
 import dotenv from 'dotenv';
 
-import { appID, token, presenceText } from './config.json';
-
 dotenv.config();
 const Bot = new Client({
   intents: ['GUILD_PRESENCES', 'GUILD_MEMBERS', 'DIRECT_MESSAGES'],
