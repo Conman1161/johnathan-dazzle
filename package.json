@@ -20,7 +20,7 @@
     "owoifyx": "^1.0.1",
     "request": "^2.88.2",
     "rpg-dice-roller": "^5.0.0",
-    "slash-create": "^4.0.0",
+    "slash-create": "^4.0.1",
     "underscore": "^1.13.1",
     "ws": "^8.1.0"
   },
