@@ -13,20 +13,20 @@
   "license": "ISC",
   "dependencies": {
     "@pm2/io": "^5.0.0",
-    "discord.js": "^13.0.1",
+    "discord.js": "^13.1.0",
     "discord.js-commando": "github:discordjs/Commando",
     "dotenv": "^10.0.0",
     "fs-extra": "^10.0.0",
     "owoifyx": "^1.0.1",
     "request": "^2.88.2",
     "rpg-dice-roller": "^5.0.0",
-    "slash-create": "^3.4.3",
+    "slash-create": "^4.0.1",
     "underscore": "^1.13.1",
-    "ws": "^8.0.0"
+    "ws": "^8.2.0"
   },
   "devDependencies": {
-    "@types/node": "^16.4.6",
-    "ts-node": "^10.2.0",
+    "@types/node": "^16.6.2",
+    "ts-node": "^10.2.1",
     "typescript": "^4.3.5"
   }
 }
