@@ -31,7 +31,7 @@ Creator.registerCommandsIn(`${__dirname}/commands/dnd`);
 Creator.registerCommandsIn(`${__dirname}/commands/general`);
 Creator.syncCommands();
 Creator.withServer(new slash_create_1.GatewayServer((handler) => {
-    Bot.ws.on('INTERACTION_CREATE', handler);
+    Bot.ws.on('INTERACTION_CREATE', (data) => { handler(data); });
 }));
 Creator.on('debug', (m) => console.log('slash-create debug:', m));
 Creator.on('warn', (m) => console.log('slash-create warn:', m));

@@ -32,7 +32,7 @@ Creator.syncCommands();
 Creator.withServer(
   new GatewayServer(
     (handler: Function) => {
-      Bot.ws.on('INTERACTION_CREATE', handler)
+      Bot.ws.on('INTERACTION_CREATE', (data) => {handler(data)})
     }
   )
 );
