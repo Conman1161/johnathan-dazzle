@@ -17,7 +17,7 @@
     "discord.js-commando": "github:discordjs/Commando",
     "dotenv": "^10.0.0",
     "fs-extra": "^10.0.0",
-    "owoifyx": "^1.0.1",
+    "owoifyx": "^1.0.3",
     "request": "^2.88.2",
     "rpg-dice-roller": "^5.0.0",
     "slash-create": "^4.0.1",
