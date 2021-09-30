@@ -1,6 +1,6 @@
 {
   "name": "johnathan-dazzle",
-  "version": "2.5.0",
+  "version": "2.5.1",
   "description": "A Discord bot for rolling dice",
   "main": "index.js",
   "scripts": {
