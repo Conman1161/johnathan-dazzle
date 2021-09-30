@@ -37,6 +37,12 @@ class SupportCommand extends SlashCommand {
           style: ButtonStyle.LINK,
           label: 'Support Discord Server',
           url: 'https://discord.gg/ZUJAMnh'
+        },
+        {
+          type: ComponentType.BUTTON,
+          style: ButtonStyle.LINK,
+          label: 'Message Conman for Support',
+          url: 'discord://-/users/103639985294442496'
         }]
       }]
     });

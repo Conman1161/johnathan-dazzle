@@ -57,6 +57,12 @@ class BotInfoCommand extends slash_create_1.SlashCommand {
                             style: slash_create_1.ButtonStyle.LINK,
                             label: 'Github Repository',
                             url: 'https://github.com/Conman1161/johnathan-dazzle'
+                        },
+                        {
+                            type: slash_create_1.ComponentType.BUTTON,
+                            style: slash_create_1.ButtonStyle.LINK,
+                            label: 'Message Conman for Support',
+                            url: 'discord://-/users/103639985294442496'
                         }]
                 }]
         });

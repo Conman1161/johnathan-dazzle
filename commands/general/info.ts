@@ -77,6 +77,12 @@ class BotInfoCommand extends SlashCommand {
           style: ButtonStyle.LINK,
           label: 'Github Repository',
           url: 'https://github.com/Conman1161/johnathan-dazzle'
+        },
+        {
+          type: ComponentType.BUTTON,
+          style: ButtonStyle.LINK,
+          label: 'Message Conman for Support',
+          url: 'discord://-/users/103639985294442496'
         }]
       }]
     });
