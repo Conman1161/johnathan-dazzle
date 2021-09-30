@@ -16,7 +16,7 @@ class ToolsCommands extends SlashCommand {
       await ctx.defer(ctx.user.id === process.env.OWNER);
       if (ctx.user.id === process.env.OWNER) {
         let embed = new MessageEmbed()
-        .setAuthor(`process.env.OWNER Control Panel`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`)
+        .setAuthor(`${process.env.OWNER} Control Panel`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`)
         .addField(`Panel`,`What do you want to do?`);
 
         await ctx.send({
