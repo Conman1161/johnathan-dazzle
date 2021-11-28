@@ -81,7 +81,7 @@ class RollCommand extends slash_create_1.SlashCommand {
                         },
                         {
                             name: `__Dice Total__`,
-                            value: dice.total.toString()
+                            value: `You rolled **${dice.total.toString()}**`
                         }
                     ]);
                     await btnCtx.editParent({
