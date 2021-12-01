@@ -37,7 +37,7 @@ class BotInfoCommand extends slash_create_1.SlashCommand {
             embeds: [embed.toJSON()],
             file: {
                 name: `${catboy ? 'Background.png' : 'icon.png'}`,
-                file: fs_1.readFileSync(catboy ? `./images/catboy/Background.png` : `./images/icon.png`)
+                file: (0, fs_1.readFileSync)(catboy ? `./images/catboy/Background.png` : `./images/icon.png`)
             },
             components: [{
                     type: slash_create_1.ComponentType.ACTION_ROW,

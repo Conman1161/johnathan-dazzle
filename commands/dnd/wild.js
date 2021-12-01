@@ -65,7 +65,7 @@ class WildCommand extends slash_create_1.SlashCommand {
     async run(ctx) {
         try {
             await ctx.defer();
-            let embedInfo = wildModule_1.getEmbedInfo(Object.keys(ctx.options)[0] === 'roll' ? ctx.options.roll.chart : ctx.options.lookup.chart, Object.keys(ctx.options)[0] === 'lookup' ? ctx.options.lookup.effect_number : null);
+            let embedInfo = (0, wildModule_1.getEmbedInfo)(Object.keys(ctx.options)[0] === 'roll' ? ctx.options.roll.chart : ctx.options.lookup.chart, Object.keys(ctx.options)[0] === 'lookup' ? ctx.options.lookup.effect_number : null);
             let embed = new discord_js_1.MessageEmbed()
                 .addField("Chart Name", `**${embedInfo.name}**`)
                 .addField("Die Roll", `You rolled **${embedInfo.effectNumber}**`)
@@ -83,7 +83,7 @@ class WildCommand extends slash_create_1.SlashCommand {
                 embeds: [embed.toJSON()],
                 file: {
                     name: `wild.png`,
-                    file: fs_1.readFileSync(`./images/wild.png`)
+                    file: (0, fs_1.readFileSync)(`./images/wild.png`)
                 },
                 components: [{
                         type: slash_create_1.ComponentType.ACTION_ROW,
@@ -98,7 +98,7 @@ class WildCommand extends slash_create_1.SlashCommand {
             });
             ctx.registerComponent('reroll', async (btnCtx) => {
                 if (ctx.user.id === btnCtx.user.id) {
-                    embedInfo = wildModule_1.getEmbedInfo(Object.keys(ctx.options)[0] === 'roll' ? ctx.options.roll.chart : ctx.options.lookup.chart, Object.keys(ctx.options)[0] === 'lookup' ? ctx.options.lookup.effect_number : null);
+                    embedInfo = (0, wildModule_1.getEmbedInfo)(Object.keys(ctx.options)[0] === 'roll' ? ctx.options.roll.chart : ctx.options.lookup.chart, Object.keys(ctx.options)[0] === 'lookup' ? ctx.options.lookup.effect_number : null);
                     embed.spliceFields(0, 3, [
                         {
                             name: `Chart Name`,
@@ -135,10 +135,10 @@ class WildCommand extends slash_create_1.SlashCommand {
         }
         catch (err) {
             await ctx.send({
-                embeds: [error_1.errorMessage(err).toJSON()],
+                embeds: [(0, error_1.errorMessage)(err).toJSON()],
                 file: {
                     name: `error.png`,
-                    file: fs_1.readFileSync(`./images/error.png`)
+                    file: (0, fs_1.readFileSync)(`./images/error.png`)
                 }
             });
         }

@@ -43,7 +43,7 @@ class RollCommand extends slash_create_1.SlashCommand {
                 embeds: [embed.toJSON()],
                 file: {
                     name: `d20${dice.total <= 20 && dice.total >= 1 ? `-${dice.total}.png` : `.png`}`,
-                    file: fs_1.readFileSync(`${attachPath}${dice.total < 21 && dice.total > 0 ? `d20-${dice.total}.png` : `d20.png`}`)
+                    file: (0, fs_1.readFileSync)(`${attachPath}${dice.total < 21 && dice.total > 0 ? `d20-${dice.total}.png` : `d20.png`}`)
                 },
                 components: [{
                         type: slash_create_1.ComponentType.ACTION_ROW,
@@ -217,10 +217,10 @@ class RollCommand extends slash_create_1.SlashCommand {
         }
         catch (err) {
             ctx.send({
-                embeds: [error_1.errorMessage(err).toJSON()],
+                embeds: [(0, error_1.errorMessage)(err).toJSON()],
                 file: {
                     name: 'error.png',
-                    file: fs_1.readFileSync(`./images/error.png`)
+                    file: (0, fs_1.readFileSync)(`./images/error.png`)
                 }
             });
         }

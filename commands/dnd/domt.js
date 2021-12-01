@@ -126,13 +126,13 @@ class DoMTCommand extends slash_create_1.SlashCommand {
             // sub-command switch statement
             switch (Object.keys(ctx.options)[0]) {
                 case 'draw':
-                    card = domt_1.draw(ctx.options.draw.deck);
+                    card = (0, domt_1.draw)(ctx.options.draw.deck);
                     embed.addField('Card: ', card);
                     embed.setImage(`attachment://${card.replace(' ', '')}.png`);
                     break;
                 case 'lookup':
                     card = ctx.options.lookup.card;
-                    let effect = domt_1.lookup(ctx.options.lookup.card);
+                    let effect = (0, domt_1.lookup)(ctx.options.lookup.card);
                     embed.addField('Card: ', ctx.options.lookup.card);
                     embed.addField('Effect: ', effect);
                     embed.setImage(`attachment://${ctx.options.lookup.card.replace(' ', '')}.png`);
@@ -142,7 +142,7 @@ class DoMTCommand extends slash_create_1.SlashCommand {
                 embeds: [embed.toJSON()],
                 file: {
                     name: `${card.replace(' ', '')}.png`,
-                    file: fs_1.readFileSync(`${imageDir}${card.replace(' ', '')}.png`)
+                    file: (0, fs_1.readFileSync)(`${imageDir}${card.replace(' ', '')}.png`)
                 },
                 components: [{
                         type: slash_create_1.ComponentType.ACTION_ROW,
@@ -157,7 +157,7 @@ class DoMTCommand extends slash_create_1.SlashCommand {
             });
             ctx.registerComponent('effect', async (btnCtx) => {
                 if (ctx.user.id === btnCtx.user.id) {
-                    embed.addField('Effect: ', domt_1.lookup(card));
+                    embed.addField('Effect: ', (0, domt_1.lookup)(card));
                     btnCtx.editParent({
                         embeds: [embed.toJSON()],
                         components: [{
@@ -180,10 +180,10 @@ class DoMTCommand extends slash_create_1.SlashCommand {
         }
         catch (err) {
             await ctx.send({
-                embeds: [error_1.errorMessage(err).toJSON()],
+                embeds: [(0, error_1.errorMessage)(err).toJSON()],
                 file: {
                     name: `error.png`,
-                    file: fs_1.readFileSync(`./images/error.png`)
+                    file: (0, fs_1.readFileSync)(`./images/error.png`)
                 }
             });
         }

@@ -80,7 +80,7 @@ class TrinketCommand extends slash_create_1.SlashCommand {
                 embeds: [embed.toJSON()],
                 file: {
                     name: `bag.png`,
-                    file: fs_1.readFileSync(`./images/bag.png`)
+                    file: (0, fs_1.readFileSync)(`./images/bag.png`)
                 },
                 components: [{
                         type: slash_create_1.ComponentType.ACTION_ROW,
@@ -130,7 +130,7 @@ class TrinketCommand extends slash_create_1.SlashCommand {
                 embeds: [errorMod.errorMessage(err, ctx)],
                 file: {
                     name: `error.png`,
-                    file: fs_1.readFileSync(`./images/error.png`)
+                    file: (0, fs_1.readFileSync)(`./images/error.png`)
                 }
             });
         }
