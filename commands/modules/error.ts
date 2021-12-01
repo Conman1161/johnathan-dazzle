@@ -1,4 +1,4 @@
-import {MessageAttachment, MessageEmbed} from "discord.js";
+import {MessageEmbed} from "discord.js";
 
 // Return an embed with information on what the error is and how to fix it
 
