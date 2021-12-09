@@ -2,7 +2,7 @@ import { MessageEmbed } from "discord.js";
 import { SlashCommand, CommandOptionType, SlashCreator, CommandContext, ComponentType, ButtonStyle } from "slash-create";
 import { readFileSync } from "fs";
 import { errorMessage } from '../modules/error';
-import { rollStandardMin, rollStats20, rollcth, rollClassic, rollHeroic, rollDicePool, rollStandard } from '../modules/statsModule';
+import { rollStandardMin, rollStats20, rollcth, rollClassic, rollHeroic, rollDicePool, rollStandard } from '../modules/stats';
 
 class RollStatsCommand extends SlashCommand {
   constructor(creator: SlashCreator) {

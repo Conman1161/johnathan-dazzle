@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const discord_js_1 = require("discord.js");
 const slash_create_1 = require("slash-create");
-const io_1 = require("@pm2/io");
+const io_1 = __importDefault(require("@pm2/io"));
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const Bot = new discord_js_1.Client({
@@ -18,7 +18,7 @@ const Bot = new discord_js_1.Client({
             }]
     }
 });
-let guildCount = io_1.metric({
+let guildCount = io_1.default.metric({
     name: 'Guild count: '
 });
 const Creator = new slash_create_1.SlashCreator({
@@ -29,6 +29,7 @@ const Creator = new slash_create_1.SlashCreator({
 Creator.registerCommandsIn(`${__dirname}/commands/dice`);
 Creator.registerCommandsIn(`${__dirname}/commands/dnd`);
 Creator.registerCommandsIn(`${__dirname}/commands/general`);
+Creator.registerCommandsIn(`${__dirname}/commands/characters`);
 Creator.syncCommands();
 Creator.withServer(new slash_create_1.GatewayServer((handler) => {
     Bot.ws.on('INTERACTION_CREATE', (data) => { handler(data); });

@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const slash_create_1 = require("slash-create");
 const fs_1 = require("fs");
 const error_1 = require("../modules/error");
-const statsModule_1 = require("../modules/statsModule");
+const stats_1 = require("../modules/stats");
 class RollStatsCommand extends slash_create_1.SlashCommand {
     constructor(creator) {
         super(creator, {
@@ -56,26 +56,26 @@ class RollStatsCommand extends slash_create_1.SlashCommand {
             let embed;
             switch (ctx.options.style) {
                 case "70":
-                    embed = (0, statsModule_1.rollStandardMin)(); // [x]
+                    embed = (0, stats_1.rollStandardMin)(); // [x]
                     break;
                 case "d20":
-                    embed = (0, statsModule_1.rollStats20)(); // [x]
+                    embed = (0, stats_1.rollStats20)(); // [x]
                     break;
                 case "cth":
-                    embed = (0, statsModule_1.rollcth)(); // [x]
+                    embed = (0, stats_1.rollcth)(); // [x]
                     break;
                 case "classic":
-                    embed = (0, statsModule_1.rollClassic)(); // [x]
+                    embed = (0, stats_1.rollClassic)(); // [x]
                     break;
                 case "heroic":
-                    embed = (0, statsModule_1.rollHeroic)(); // [x]
+                    embed = (0, stats_1.rollHeroic)(); // [x]
                     break;
                 case "pool":
-                    embed = (0, statsModule_1.rollDicePool)(); // [x]
+                    embed = (0, stats_1.rollDicePool)(); // [x]
                     break;
                 case "standard":
                 default:
-                    embed = (0, statsModule_1.rollStandard)(); // [x]
+                    embed = (0, stats_1.rollStandard)(); // [x]
                     break;
             }
             embed.setColor("RANDOM")
@@ -107,26 +107,26 @@ class RollStatsCommand extends slash_create_1.SlashCommand {
                     // Reroll a stat block according to ctx, then edit embed accordingly
                     switch (ctx.options.style) {
                         case "70":
-                            embed = (0, statsModule_1.rollStandardMin)();
+                            embed = (0, stats_1.rollStandardMin)();
                             break;
                         case "d20":
-                            embed = (0, statsModule_1.rollStats20)();
+                            embed = (0, stats_1.rollStats20)();
                             break;
                         case "cth":
-                            embed = (0, statsModule_1.rollcth)();
+                            embed = (0, stats_1.rollcth)();
                             break;
                         case "classic":
-                            embed = (0, statsModule_1.rollClassic)();
+                            embed = (0, stats_1.rollClassic)();
                             break;
                         case "heroic":
-                            embed = (0, statsModule_1.rollHeroic)();
+                            embed = (0, stats_1.rollHeroic)();
                             break;
                         case "pool":
-                            embed = (0, statsModule_1.rollDicePool)();
+                            embed = (0, stats_1.rollDicePool)();
                             break;
                         case "standard":
                         default:
-                            embed = (0, statsModule_1.rollStandard)();
+                            embed = (0, stats_1.rollStandard)();
                             break;
                     }
                     embed.setColor("RANDOM")

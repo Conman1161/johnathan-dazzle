@@ -1,7 +1,7 @@
 import { MessageEmbed } from "discord.js";
 import { SlashCommand, CommandOptionType, SlashCreator, CommandContext, ComponentType, ButtonStyle } from "slash-create";
 import { readFileSync } from "fs";
-import { getEmbedInfo } from "../modules/wildModule";
+import { getEmbedInfo } from "../modules/wild";
 import { errorMessage } from '../modules/error';
 
 class WildCommand extends SlashCommand {

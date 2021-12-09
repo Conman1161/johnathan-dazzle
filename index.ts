@@ -1,6 +1,6 @@
-import { Guild, PresenceData, Client } from "discord.js";
+import { Guild, Client } from "discord.js";
 import { GatewayServer, SlashCreator } from "slash-create";
-import { metric } from '@pm2/io'
+import io from '@pm2/io'
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -15,7 +15,7 @@ const Bot = new Client({
   }
 });
 
-let guildCount = metric({
+let guildCount = io.metric({
   name: 'Guild count: '
 });
 
@@ -27,6 +27,7 @@ const Creator = new SlashCreator({
 Creator.registerCommandsIn(`${__dirname}/commands/dice`);
 Creator.registerCommandsIn(`${__dirname}/commands/dnd`);
 Creator.registerCommandsIn(`${__dirname}/commands/general`);
+Creator.registerCommandsIn(`${__dirname}/commands/characters`);
 Creator.syncCommands();
 
 Creator.withServer(

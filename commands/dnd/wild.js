@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const discord_js_1 = require("discord.js");
 const slash_create_1 = require("slash-create");
 const fs_1 = require("fs");
-const wildModule_1 = require("../modules/wildModule");
+const wild_1 = require("../modules/wild");
 const error_1 = require("../modules/error");
 class WildCommand extends slash_create_1.SlashCommand {
     constructor(creator) {
@@ -65,7 +65,7 @@ class WildCommand extends slash_create_1.SlashCommand {
     async run(ctx) {
         try {
             await ctx.defer();
-            let embedInfo = (0, wildModule_1.getEmbedInfo)(Object.keys(ctx.options)[0] === 'roll' ? ctx.options.roll.chart : ctx.options.lookup.chart, Object.keys(ctx.options)[0] === 'lookup' ? ctx.options.lookup.effect_number : null);
+            let embedInfo = (0, wild_1.getEmbedInfo)(Object.keys(ctx.options)[0] === 'roll' ? ctx.options.roll.chart : ctx.options.lookup.chart, Object.keys(ctx.options)[0] === 'lookup' ? ctx.options.lookup.effect_number : null);
             let embed = new discord_js_1.MessageEmbed()
                 .addField("Chart Name", `**${embedInfo.name}**`)
                 .addField("Die Roll", `You rolled **${embedInfo.effectNumber}**`)
@@ -98,7 +98,7 @@ class WildCommand extends slash_create_1.SlashCommand {
             });
             ctx.registerComponent('reroll', async (btnCtx) => {
                 if (ctx.user.id === btnCtx.user.id) {
-                    embedInfo = (0, wildModule_1.getEmbedInfo)(Object.keys(ctx.options)[0] === 'roll' ? ctx.options.roll.chart : ctx.options.lookup.chart, Object.keys(ctx.options)[0] === 'lookup' ? ctx.options.lookup.effect_number : null);
+                    embedInfo = (0, wild_1.getEmbedInfo)(Object.keys(ctx.options)[0] === 'roll' ? ctx.options.roll.chart : ctx.options.lookup.chart, Object.keys(ctx.options)[0] === 'lookup' ? ctx.options.lookup.effect_number : null);
                     embed.spliceFields(0, 3, [
                         {
                             name: `Chart Name`,
