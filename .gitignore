@@ -122,3 +122,6 @@ config.json
 #vscode
 /vscode
 /.vscode
+
+#slash-up
+slash-up.config.js
