@@ -1,6 +1,5 @@
 import { Guild, PresenceData, Client } from "discord.js";
 import { GatewayServer, SlashCreator } from "slash-create";
-import { metric } from '@pm2/io'
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -15,18 +14,15 @@ const Bot = new Client({
   }
 });
 
-let guildCount = metric({
-  name: 'Guild count: '
-});
-
 const Creator = new SlashCreator({
   applicationID: process.env.APP_ID!,
   token: process.env.TOKEN
 });
+Creator.registerCommandsIn(`${__dirname}/commands/`);
 // Creator.registerCommandsIn(`${__dirname}/commands/characters`);
-Creator.registerCommandsIn(`${__dirname}/commands/dice`);
-Creator.registerCommandsIn(`${__dirname}/commands/dnd`);
-Creator.registerCommandsIn(`${__dirname}/commands/general`);
+// Creator.registerCommandsIn(`${__dirname}/commands/dice`);
+// Creator.registerCommandsIn(`${__dirname}/commands/dnd`);
+// Creator.registerCommandsIn(`${__dirname}/commands/general`);
 Creator.syncCommands();
 
 Creator.withServer(
@@ -49,18 +45,15 @@ Bot.on("ready", function () {
   Bot.guilds.cache.forEach((server: Guild) => {
     console.log(`- ${server.name} : ${server.id}`);
   });
-  guildCount.set(Bot.guilds.cache.size);
   //Bot.guilds.find("id", '').leave();
 });
 
 Bot.on("guildCreate", (guild: Guild) => {
   console.log(`Joined a new guild: ${guild.name}. New guild count: ${Bot.guilds.cache.size}`);
-  guildCount.set(Bot.guilds.cache.size);
 });
 
 Bot.on("guildDelete", (guild: Guild) => {
   console.log(`Left a guild: ${guild.name}. New guild count: ${Bot.guilds.cache.size}`);
-  guildCount.set(Bot.guilds.cache.size);
 });
 
 Bot.login(process.env.TOKEN);

@@ -5,7 +5,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const discord_js_1 = require("discord.js");
 const slash_create_1 = require("slash-create");
-const io_1 = require("@pm2/io");
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const Bot = new discord_js_1.Client({
@@ -18,17 +17,15 @@ const Bot = new discord_js_1.Client({
             }]
     }
 });
-let guildCount = io_1.metric({
-    name: 'Guild count: '
-});
 const Creator = new slash_create_1.SlashCreator({
     applicationID: process.env.APP_ID,
     token: process.env.TOKEN
 });
+Creator.registerCommandsIn(`${__dirname}/commands/`);
 // Creator.registerCommandsIn(`${__dirname}/commands/characters`);
-Creator.registerCommandsIn(`${__dirname}/commands/dice`);
-Creator.registerCommandsIn(`${__dirname}/commands/dnd`);
-Creator.registerCommandsIn(`${__dirname}/commands/general`);
+// Creator.registerCommandsIn(`${__dirname}/commands/dice`);
+// Creator.registerCommandsIn(`${__dirname}/commands/dnd`);
+// Creator.registerCommandsIn(`${__dirname}/commands/general`);
 Creator.syncCommands();
 Creator.withServer(new slash_create_1.GatewayServer((handler) => {
     Bot.ws.on('INTERACTION_CREATE', (data) => { handler(data); });
@@ -43,15 +40,12 @@ Bot.on("ready", function () {
     Bot.guilds.cache.forEach((server) => {
         console.log(`- ${server.name} : ${server.id}`);
     });
-    guildCount.set(Bot.guilds.cache.size);
     //Bot.guilds.find("id", '').leave();
 });
 Bot.on("guildCreate", (guild) => {
     console.log(`Joined a new guild: ${guild.name}. New guild count: ${Bot.guilds.cache.size}`);
-    guildCount.set(Bot.guilds.cache.size);
 });
 Bot.on("guildDelete", (guild) => {
     console.log(`Left a guild: ${guild.name}. New guild count: ${Bot.guilds.cache.size}`);
-    guildCount.set(Bot.guilds.cache.size);
 });
 Bot.login(process.env.TOKEN);
