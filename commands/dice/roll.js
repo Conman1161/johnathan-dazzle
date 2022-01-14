@@ -38,12 +38,12 @@ class RollCommand extends slash_create_1.SlashCommand {
             else {
                 embed.setAuthor(`${ctx.user.username}'s Die Roll`, `https://cdn.discordapp.com/avatars/${ctx.user.id}/${ctx.user.avatar}.png`);
             }
-            embed.addField(`__Dice total__:`, `You rolled **${dice.total}**`);
+            embed.addField(`__Dice total__:`, `**${dice.total}**`);
             await ctx.send({
                 embeds: [embed.toJSON()],
                 file: {
                     name: `d20${dice.total <= 20 && dice.total >= 1 ? `-${dice.total}.png` : `.png`}`,
-                    file: fs_1.readFileSync(`${attachPath}${dice.total < 21 && dice.total > 0 ? `d20-${dice.total}.png` : `d20.png`}`)
+                    file: (0, fs_1.readFileSync)(`${attachPath}${dice.total < 21 && dice.total > 0 ? `d20-${dice.total}.png` : `d20.png`}`)
                 },
                 components: [{
                         type: slash_create_1.ComponentType.ACTION_ROW,
@@ -81,7 +81,7 @@ class RollCommand extends slash_create_1.SlashCommand {
                         },
                         {
                             name: `__Dice Total__`,
-                            value: `You rolled **${dice.total.toString()}**`
+                            value: `**${dice.total.toString()}**`
                         }
                     ]);
                     await btnCtx.editParent({
@@ -217,10 +217,10 @@ class RollCommand extends slash_create_1.SlashCommand {
         }
         catch (err) {
             ctx.send({
-                embeds: [error_1.errorMessage(err).toJSON()],
+                embeds: [(0, error_1.errorMessage)(err).toJSON()],
                 file: {
                     name: 'error.png',
-                    file: fs_1.readFileSync(`./images/error.png`)
+                    file: (0, fs_1.readFileSync)(`./images/error.png`)
                 }
             });
         }

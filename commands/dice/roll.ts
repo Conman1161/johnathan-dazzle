@@ -44,7 +44,7 @@ class RollCommand extends SlashCommand {
 
       embed.addField(
         `__Dice total__:`,
-        `You rolled **${dice.total}**`
+        `**${dice.total}**`
       );
 
       await ctx.send({
@@ -90,7 +90,7 @@ class RollCommand extends SlashCommand {
             },
             {
               name: `__Dice Total__`,
-              value: `You rolled **${dice.total.toString()}**`
+              value: `**${dice.total.toString()}**`
             }]
           );
           await btnCtx.editParent({
