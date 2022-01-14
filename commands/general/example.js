@@ -31,7 +31,7 @@ class ExampleCommand extends slash_create_1.SlashCommand {
                 embeds: [embed.toJSON()],
                 file: {
                     name: `fileName.png`,
-                    file: fs_1.readFileSync(`filePath`)
+                    file: (0, fs_1.readFileSync)(`filePath`)
                 },
                 components: [{
                         type: slash_create_1.ComponentType.ACTION_ROW,
@@ -61,10 +61,10 @@ class ExampleCommand extends slash_create_1.SlashCommand {
         }
         catch (err) {
             await ctx.send({
-                embeds: [error_1.errorMessage(err).toJSON()],
+                embeds: [(0, error_1.errorMessage)(err).toJSON()],
                 file: {
                     name: `error.png`,
-                    file: fs_1.readFileSync(`./images/error.png`)
+                    file: (0, fs_1.readFileSync)(`./images/error.png`)
                 },
                 components: [{
                         type: slash_create_1.ComponentType.ACTION_ROW,

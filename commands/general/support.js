@@ -24,7 +24,7 @@ class SupportCommand extends slash_create_1.SlashCommand {
             embeds: [embed.toJSON()],
             file: {
                 name: 'support.png',
-                file: fs_1.readFileSync(`./images/support.png`)
+                file: (0, fs_1.readFileSync)(`./images/support.png`)
             },
             components: [{
                     type: slash_create_1.ComponentType.ACTION_ROW,

@@ -23,7 +23,7 @@ class ModifierKeyCommand extends slash_create_1.SlashCommand {
             embeds: [embed.toJSON()],
             file: {
                 name: `lookup.png`,
-                file: fs_1.readFileSync(`./images/lookup.png`)
+                file: (0, fs_1.readFileSync)(`./images/lookup.png`)
             }
         });
     }

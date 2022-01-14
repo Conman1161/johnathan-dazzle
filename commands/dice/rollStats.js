@@ -56,26 +56,26 @@ class RollStatsCommand extends slash_create_1.SlashCommand {
             let embed;
             switch (ctx.options.style) {
                 case "70":
-                    embed = statsModule_1.rollStandardMin(); // [x]
+                    embed = (0, statsModule_1.rollStandardMin)(); // [x]
                     break;
                 case "d20":
-                    embed = statsModule_1.rollStats20(); // [x]
+                    embed = (0, statsModule_1.rollStats20)(); // [x]
                     break;
                 case "cth":
-                    embed = statsModule_1.rollcth(); // [x]
+                    embed = (0, statsModule_1.rollcth)(); // [x]
                     break;
                 case "classic":
-                    embed = statsModule_1.rollClassic(); // [x]
+                    embed = (0, statsModule_1.rollClassic)(); // [x]
                     break;
                 case "heroic":
-                    embed = statsModule_1.rollHeroic(); // [x]
+                    embed = (0, statsModule_1.rollHeroic)(); // [x]
                     break;
                 case "pool":
-                    embed = statsModule_1.rollDicePool(); // [x]
+                    embed = (0, statsModule_1.rollDicePool)(); // [x]
                     break;
                 case "standard":
                 default:
-                    embed = statsModule_1.rollStandard(); // [x]
+                    embed = (0, statsModule_1.rollStandard)(); // [x]
                     break;
             }
             embed.setColor("RANDOM")
@@ -90,7 +90,7 @@ class RollStatsCommand extends slash_create_1.SlashCommand {
                 embeds: [embed.toJSON()],
                 file: {
                     name: `4d6.png`,
-                    file: fs_1.readFileSync(`./images/4d6.png`)
+                    file: (0, fs_1.readFileSync)(`./images/4d6.png`)
                 },
                 components: [{
                         type: slash_create_1.ComponentType.ACTION_ROW,
@@ -107,26 +107,26 @@ class RollStatsCommand extends slash_create_1.SlashCommand {
                     // Reroll a stat block according to ctx, then edit embed accordingly
                     switch (ctx.options.style) {
                         case "70":
-                            embed = statsModule_1.rollStandardMin();
+                            embed = (0, statsModule_1.rollStandardMin)();
                             break;
                         case "d20":
-                            embed = statsModule_1.rollStats20();
+                            embed = (0, statsModule_1.rollStats20)();
                             break;
                         case "cth":
-                            embed = statsModule_1.rollcth();
+                            embed = (0, statsModule_1.rollcth)();
                             break;
                         case "classic":
-                            embed = statsModule_1.rollClassic();
+                            embed = (0, statsModule_1.rollClassic)();
                             break;
                         case "heroic":
-                            embed = statsModule_1.rollHeroic();
+                            embed = (0, statsModule_1.rollHeroic)();
                             break;
                         case "pool":
-                            embed = statsModule_1.rollDicePool();
+                            embed = (0, statsModule_1.rollDicePool)();
                             break;
                         case "standard":
                         default:
-                            embed = statsModule_1.rollStandard();
+                            embed = (0, statsModule_1.rollStandard)();
                             break;
                     }
                     embed.setColor("RANDOM")
@@ -158,10 +158,10 @@ class RollStatsCommand extends slash_create_1.SlashCommand {
         }
         catch (err) {
             await ctx.send({
-                embeds: [error_1.errorMessage(err).toJSON()],
+                embeds: [(0, error_1.errorMessage)(err).toJSON()],
                 file: {
                     name: `error.png`,
-                    file: fs_1.readFileSync(`./images/error.png`)
+                    file: (0, fs_1.readFileSync)(`./images/error.png`)
                 }
             });
         }
