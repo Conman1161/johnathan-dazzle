@@ -41,6 +41,30 @@ class RollStatsCommand extends slash_create_1.SlashCommand {
                         {
                             name: '4d6kh3 (Default)',
                             value: 'standard'
+                        },
+                        // {
+                        //   name: 'Bingo Card',
+                        //   value: 'bingo'
+                        // },
+                        {
+                            name: 'Power Roll',
+                            value: 'power'
+                        },
+                        {
+                            name: 'Dark Sun',
+                            value: 'dark-sun'
+                        },
+                        {
+                            name: 'Dark Sun Plus',
+                            value: 'dark-sun-plus'
+                        },
+                        {
+                            name: 'Down the Line',
+                            value: 'dtl'
+                        },
+                        {
+                            name: 'Munchkin',
+                            value: 'munchkin'
                         }
                     ].sort((a, b) => (a.name > b.name) ? 1 : -1),
                     required: false
@@ -56,26 +80,44 @@ class RollStatsCommand extends slash_create_1.SlashCommand {
             let embed;
             switch (ctx.options.style) {
                 case "70":
-                    embed = (0, statsModule_1.rollStandardMin)(); // [x]
+                    embed = (0, statsModule_1.rollStandardMin)();
                     break;
                 case "d20":
-                    embed = (0, statsModule_1.rollStats20)(); // [x]
+                    embed = (0, statsModule_1.rollStats20)();
                     break;
+                // case "bingo":
+                //   embed = rollBingo();
+                //   break;
                 case "cth":
-                    embed = (0, statsModule_1.rollcth)(); // [x]
+                    embed = (0, statsModule_1.rollcth)();
                     break;
                 case "classic":
-                    embed = (0, statsModule_1.rollClassic)(); // [x]
+                    embed = (0, statsModule_1.rollClassic)();
+                    break;
+                case "dark-sun":
+                    embed = (0, statsModule_1.rollDarkSun)();
+                    break;
+                case "dark-sun-plus":
+                    embed = (0, statsModule_1.rollDarkSunPlus)();
+                    break;
+                case "dtl":
+                    embed = (0, statsModule_1.rollDownTheLine)();
                     break;
                 case "heroic":
-                    embed = (0, statsModule_1.rollHeroic)(); // [x]
+                    embed = (0, statsModule_1.rollHeroic)();
+                    break;
+                case "munchkin":
+                    embed = (0, statsModule_1.rollMunchkin)();
                     break;
                 case "pool":
-                    embed = (0, statsModule_1.rollDicePool)(); // [x]
+                    embed = (0, statsModule_1.rollDicePool)();
+                    break;
+                case "power":
+                    embed = (0, statsModule_1.rollPower)();
                     break;
                 case "standard":
                 default:
-                    embed = (0, statsModule_1.rollStandard)(); // [x]
+                    embed = (0, statsModule_1.rollStandard)();
                     break;
             }
             embed.setColor("RANDOM")
@@ -112,17 +154,35 @@ class RollStatsCommand extends slash_create_1.SlashCommand {
                         case "d20":
                             embed = (0, statsModule_1.rollStats20)();
                             break;
+                        // case "bingo":
+                        //   embed = rollBingo();
+                        //   break;
                         case "cth":
                             embed = (0, statsModule_1.rollcth)();
                             break;
                         case "classic":
                             embed = (0, statsModule_1.rollClassic)();
                             break;
+                        case "dark-sun":
+                            embed = (0, statsModule_1.rollDarkSun)();
+                            break;
+                        case "dark-sun-plus":
+                            embed = (0, statsModule_1.rollDarkSunPlus)();
+                            break;
+                        case "dtl":
+                            embed = (0, statsModule_1.rollDownTheLine)();
+                            break;
                         case "heroic":
                             embed = (0, statsModule_1.rollHeroic)();
                             break;
+                        case "munchkin":
+                            embed = (0, statsModule_1.rollMunchkin)();
+                            break;
                         case "pool":
                             embed = (0, statsModule_1.rollDicePool)();
+                            break;
+                        case "power":
+                            embed = (0, statsModule_1.rollPower)();
                             break;
                         case "standard":
                         default:

@@ -2,7 +2,7 @@ import { MessageEmbed } from "discord.js";
 import { SlashCommand, CommandOptionType, SlashCreator, CommandContext, ComponentType, ButtonStyle } from "slash-create";
 import { readFileSync } from "fs";
 import { errorMessage } from '../modules/error';
-import { rollStandardMin, rollStats20, rollcth, rollClassic, rollHeroic, rollDicePool, rollStandard } from '../modules/statsModule';
+import { rollStandardMin, rollStats20, rollcth, rollClassic, rollHeroic, rollDicePool, rollStandard, rollBingo, rollPower, rollDarkSun, rollDarkSunPlus, rollDownTheLine, rollMunchkin } from '../modules/statsModule';
 
 class RollStatsCommand extends SlashCommand {
   constructor(creator: SlashCreator) {
@@ -42,6 +42,30 @@ class RollStatsCommand extends SlashCommand {
           {
             name: '4d6kh3 (Default)',
             value: 'standard'
+          },
+          // {
+          //   name: 'Bingo Card',
+          //   value: 'bingo'
+          // },
+          {
+            name: 'Power Roll',
+            value: 'power'
+          },
+          {
+            name: 'Dark Sun',
+            value: 'dark-sun'
+          },
+          {
+            name: 'Dark Sun Plus',
+            value: 'dark-sun-plus'
+          },
+          {
+            name: 'Down the Line',
+            value: 'dtl'
+          },
+          {
+            name: 'Munchkin',
+            value: 'munchkin'
           }
         ].sort((a, b) => (a.name > b.name) ? 1 : -1),
         required: false
@@ -58,26 +82,44 @@ class RollStatsCommand extends SlashCommand {
       let embed: MessageEmbed;
       switch (ctx.options.style) {
         case "70":
-          embed = rollStandardMin(); // [x]
+          embed = rollStandardMin(); 
           break;
         case "d20":
-          embed = rollStats20(); // [x]
+          embed = rollStats20(); 
           break;
+        // case "bingo":
+        //   embed = rollBingo();
+        //   break;
         case "cth":
-          embed = rollcth(); // [x]
+          embed = rollcth(); 
           break;
         case "classic":
-          embed = rollClassic(); // [x]
+          embed = rollClassic(); 
+          break;
+        case "dark-sun":
+          embed = rollDarkSun();
+          break;
+        case "dark-sun-plus":
+          embed = rollDarkSunPlus();
+          break;
+        case "dtl":
+          embed = rollDownTheLine();
           break;
         case "heroic":
-          embed = rollHeroic(); // [x]
+          embed = rollHeroic(); 
+          break;
+        case "munchkin":
+          embed = rollMunchkin();
           break;
         case "pool":
-          embed = rollDicePool(); // [x]
+          embed = rollDicePool(); 
+          break;
+        case "power":
+          embed = rollPower();
           break;
         case "standard":
         default:
-          embed = rollStandard(); // [x]
+          embed = rollStandard(); 
           break;
       }
 
@@ -116,17 +158,35 @@ class RollStatsCommand extends SlashCommand {
             case "d20":
               embed = rollStats20(); 
               break;
+            // case "bingo":
+            //   embed = rollBingo();
+            //   break;
             case "cth":
               embed = rollcth(); 
               break;
             case "classic":
               embed = rollClassic(); 
               break;
+            case "dark-sun":
+              embed = rollDarkSun();
+              break;
+            case "dark-sun-plus":
+              embed = rollDarkSunPlus();
+              break;
+            case "dtl":
+              embed = rollDownTheLine();
+              break;
             case "heroic":
               embed = rollHeroic(); 
               break;
+            case "munchkin":
+              embed = rollMunchkin();
+              break;
             case "pool":
               embed = rollDicePool(); 
+              break;
+            case "power":
+              embed = rollPower();
               break;
             case "standard":
             default:
