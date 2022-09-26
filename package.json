@@ -13,7 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "@pm2/io": "^5.0.0",
-    "discord.js": "^14.4.0",
+    "discord.js": "^14.5.0",
     "discord.js-commando": "github:discordjs/Commando",
     "dotenv": "^16.0.2",
     "fs-extra": "^10.1.0",
